@@ -2,8 +2,9 @@ This template is a modification of the Solace template by Solace Software. This 
 
 This modified template is provided as is and you choose to use it at your own risk.  
 
-I recommend that you fully test this before you deploy it as part of your solutions.
+We recommend that you fully test this before you deploy it as part of your solutions.
 
-I plan to continue to modify the template to more fully integrate with List & Label.
+We plan to continue to modify the template to more fully integrate with List & Label.
 
-4th Oct 2016;  Michael Summons
+4th Oct 2016; Michael Summons
+9th Jan 2017; David Swindon
