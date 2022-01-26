@@ -1,6 +1,0 @@
-#!================================================================================
-#! CODE TEMPLATES
-#!================================================================================
-#CODE(IssuePageBreak,'Issue a Page Break')
-#DISPLAY('This will send a page break instruction to List and Label')
-  LLResult = LL.Print(LLhJob)                      !Send a page break to List & Label
