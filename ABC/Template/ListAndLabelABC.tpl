@@ -1,5 +1,5 @@
 #! This template extends a Report or Process template with the functionality to print
-#! via List & Label Modified by David Swindon 03/01/2017 (dd/mm/ccyy)
+#! via combit List & Label Modified by David Swindon 26/10/2017 (dd/mm/ccyy)
 #TEMPLATE(ListAndLabel,'List & Label Templates'),FAMILY('ABC')
 #HELP('LL.HLP')
 #!*****************************************************************************
@@ -14,12 +14,12 @@
   #DISPLAY('This Template configures the List && Label includes')
   #DISPLAY('and prototypes.')
   #DISPLAY('')
-  #DISPLAY('Version 22.00')
-  #DISPLAY('Release date:- 3rd January 2017')
-  #DISPLAY('(c) Copyright  Software.  2000 - 2017')
+  #DISPLAY('Version 23.00')
+  #DISPLAY('Release date:- 26th October 2017')
+  #DISPLAY('(c) Copyright  Software.  2000 - 2018')
   #DISPLAY('')
   #DISPLAY('Which version of List && Label are you using?')
-  #PROMPT('Version:',DROP('Version 22|Version 21|Version 20|Version 19|Version 18|Version 17|Version 16|Version 15|Version 14|Version 13|Version 12|Version 11|Version 10|Version 9|Version 8|Version 7|Version 6')),%LLVersion
+  #PROMPT('Version:',DROP('Version 23|Version 22|Version 21|Version 20|Version 19|Version 18|Version 17|Version 16|Version 15|Version 14|Version 13|Version 12|Version 11|Version 10|Version 9|Version 8|Version 7|Version 6')),%LLVersion
   #ENDBOXED
   #BOXED('')
   #DISPLAY('Leave this checkbox unchecked if:-')
@@ -28,7 +28,7 @@
   #DISPLAY('')
   #PROMPT ('L&&L Data External (defined in another DLL)',Check),%LLExternal,at(10)
   #ENDBOXED
-  #BOXED('Version 9/10/11/12/13/14/15/16/17/18/19/20/21/22 License'),WHERE(%LLVersion = 'Version 9' or %LLVersion = 'Version 10' or %LLVersion = 'Version 11' or %LLVersion = 'Version 12' or %LLVersion = 'Version 13' or %LLVersion = 'Version 14' or %LLVersion = 'Version 15' or %LLVersion = 'Version 16' or %LLVersion = 'Version 17' or %LLVersion = 'Version 18' or %LLVersion = 'Version 19' or %LLVersion = 'Version 20' or %LLVersion = 'Version 21' or %LLVersion = 'Version 22')
+  #BOXED('All Versions from 9 up to 23 License'),WHERE(%LLVersion = 'Version 9' or %LLVersion = 'Version 10' or %LLVersion = 'Version 11' or %LLVersion = 'Version 12' or %LLVersion = 'Version 13' or %LLVersion = 'Version 14' or %LLVersion = 'Version 15' or %LLVersion = 'Version 16' or %LLVersion = 'Version 17' or %LLVersion = 'Version 18' or %LLVersion = 'Version 19' or %LLVersion = 'Version 20' or %LLVersion = 'Version 21' or %LLVersion = 'Version 22' or %LLVersion = 'Version 23')
    #DISPLAY
    #DISPLAY('This can be found in the file PersonalLicense.txt in your combit directory'),at(,,160,17)
    #DISPLAY('** Remember to update this if you use a new version of List & Label')
@@ -113,7 +113,7 @@
    #PROMPT('Delay Table Header (LlSetOption)',CHECK),%DefDelayTableHead,Default(%False),at(10)
    #PROMPT('Supervisor Option (LlSetOption)',CHECK),%DefSupervisor,Default(%False),at(10)
   #ENDBOXED
-  #BOXED('Updates'),Where(%LLVersion='Version 9' or %LLVersion = 'Version 10' or %LLVersion = 'Version 11' or %LLVersion = 'Version 12' or %LLVersion = 'Version 13' or %LLVersion = 'Version 14' or %LLVersion = 'Version 15' or %LLVersion = 'Version 16' or %LLVersion = 'Version 17' or %LLVersion = 'Version 18' or %LLVersion = 'Version 19' or %LLVersion = 'Version 20' or %LLVersion = 'Version 21' or %LLVersion = 'Version 22')
+  #BOXED('Updates'),Where(%LLVersion='Version 9' or %LLVersion = 'Version 10' or %LLVersion = 'Version 11' or %LLVersion = 'Version 12' or %LLVersion = 'Version 13' or %LLVersion = 'Version 14' or %LLVersion = 'Version 15' or %LLVersion = 'Version 16' or %LLVersion = 'Version 17' or %LLVersion = 'Version 18' or %LLVersion = 'Version 19' or %LLVersion = 'Version 20' or %LLVersion = 'Version 21' or %LLVersion = 'Version 22' or %LLVersion = 'Version 23')
    #DISPLAY('By default, L&&L warns when a layout is opened with a new major release of L&&L which can be annoying.  It is recommended that this facility is switched on'),at(,,168,25)
    #PROMPT('Do not warn of previous version',check),%LLWarnVersion,Default(%True),at(10)
   #ENDBOXED
@@ -2074,8 +2074,7 @@
 
   #END
 
-  
-  #!***************************************** Version 22 Ship List ****************
+    #!***************************************** Version 22 Ship List ****************
   #IF(%LLVersion = 'Version 22')
      combit List & Label files:-
      ---------------------------
@@ -2097,62 +2096,148 @@
    #OF('English')
      CMLL2201.LNG       !English language file
      CMLS2201.LNG
-     CMLL2201.LTPL (contains label formats; has to be in the same path of CMLL21.DLL)
+     CMLL2201.LTPL (contains label formats; has to be in the same path of CMLL22.DLL)
      CMLL2201.CHM (Designer help; has to be in the same path of CMLL22.DLL)
    #OF('German')
      CMLL2200.LNG       !German language file
      CMLS2200.LNG
-     CMLL2200.LTPL (contains label formats; has to be in the same path of CMLL21.DLL)
+     CMLL2200.LTPL (contains label formats; has to be in the same path of CMLL22.DLL)
      CMLL2200.CHM (Designer help; has to be in the same path of CMLL22.DLL)
    #OF('Chinese')
      CMLL2209.LNG       !Chinese language file
      CMLS2209.LNG
-     CMLL2201.LTPL (contains label formats; has to be in the same path of CMLL20.DLL)
+     CMLL2201.LTPL (contains label formats; has to be in the same path of CMLL22.DLL)
      CMLL2201.CHM (Designer help; has to be in the same path of CMLL22.DLL)
    #OF('Dutch')
      CMLL220D.LNG       !Dutch language file
      CMLS220D.LNG
-     CMLL2201.LTPL (contains label formats; has to be in the same path of CMLL21.DLL)
+     CMLL2201.LTPL (contains label formats; has to be in the same path of CMLL22.DLL)
      CMLL2201.CHM (Designer help; has to be in the same path of CMLL22.DLL)   
    #OF('French')
      CMLL2212.LNG       !French language file
      CMLS2212.LNG
-     CMLL2201.LTPL (contains label formats; has to be in the same path of CMLL20.DLL)
+     CMLL2201.LTPL (contains label formats; has to be in the same path of CMLL22.DLL)
      CMLL2201.CHM (Designer help; has to be in the same path of CMLL22.DLL)
    #OF('Italian')
      CMLL2218.LNG       !Italian language file
      CMLS2218.LNG
-     CMLL2201.LTPL (contains label formats; has to be in the same path of CMLL21.DLL)
+     CMLL2201.LTPL (contains label formats; has to be in the same path of CMLL22.DLL)
+     CMLL2201.CHM (Designer help; has to be in the same path of CMLL22.DLL)
+   #OF('Japanese')
+     CMLL2219.LNG       !Japanese language file
+     CMLS2219.LNG
+     CMLL2201.LTPL (contains label formats; has to be in the same path of CMLL22.DLL)
      CMLL2201.CHM (Designer help; has to be in the same path of CMLL22.DLL)
    #OF('Polish')
      CMLL221E.LNG       !Polish language file
      CMLS221E.LNG
-     CMLL2201.LTPL (contains label formats; has to be in the same path of CMLL21.DLL)
+     CMLL2201.LTPL (contains label formats; has to be in the same path of CMLL22.DLL)
      CMLL2201.CHM (Designer help; has to be in the same path of CMLL22.DLL)
    #OF('Portuguese')
      CMLL221F.LNG       !Portuguese language file
      CMLS221F.LNG
-     CMLL2201.LTPL (contains label formats; has to be in the same path of CMLL21.DLL)
+     CMLL2201.LTPL (contains label formats; has to be in the same path of CMLL22.DLL)
      CMLL2201.CHM (Designer help; has to be in the same path of CMLL22.DLL)
    #OF('Russian')
      CMLL2221.LNG       !Russian language file
      CMLS2221.LNG
-     CMLL2201.LTPL (contains label formats; has to be in the same path of CMLL21.DLL)
+     CMLL2201.LTPL (contains label formats; has to be in the same path of CMLL22.DLL)
      CMLL2201.CHM (Designer help; has to be in the same path of CMLL22.DLL)
    #OF('Slovak')
      CMLL2222.LNG       !Slovak language file
      CMLS2222.LNG
-     CMLL2201.LTPL (contains label formats; has to be in the same path of CMLL21.DLL)
+     CMLL2201.LTPL (contains label formats; has to be in the same path of CMLL22.DLL)
      CMLL2201.CHM (Designer help; has to be in the same path of CMLL22.DLL)
    #OF('Spanish')
      CMLL2225.LNG       !Spanish language file
      CMLS2225.LNG
-     CMLL2201.LTPL (contains label formats; has to be in the same path of CMLL21.DLL)
+     CMLL2201.LTPL (contains label formats; has to be in the same path of CMLL22.DLL)
      CMLL2201.CHM (Designer help; has to be in the same path of CMLL22.DLL)
    #ENDCASE
 
    If you are using the procedure SolaceLLPreview then you will also need:-
      CMLL22O.OCX  This must be registered on your end user's system
+
+  #END
+  
+  #!***************************************** Version 23 Ship List ****************
+  #IF(%LLVersion = 'Version 23')
+     combit List & Label files:-
+     ---------------------------
+     CMLL23.DLL
+     CMLL23XL.DLL
+     CMLS23.DLL
+     CMBR23.DLL
+     CMPR23.DLL
+     CMUT23.DLL
+     CMCT23.DLL
+     CMDW23.DLL
+     CMMX23.DLL
+     CMLL23EX.LLX     Export Modules (HTML, PDF, RTF, XML, MHTML,...)
+     CMLL23OC.LLX     OLE-Object
+     CMLL23HT.LLX     HTML-Object
+     CMLL23PW.LLX     Project Wizard
+     CMLL23BC.LLX     PDF 417 / Maxicode Barcode - (Professional Version only)
+   #CASE(%Language)
+   #OF('English')
+     CMLL2301.LNG       !English language file
+     CMLS2301.LNG
+     CMLL2301.LTPL (contains label formats; has to be in the same path of CMLL23.DLL)
+     CMLL2301.CHM (Designer help; has to be in the same path of CMLL23.DLL)
+   #OF('German')
+     CMLL2300.LNG       !German language file
+     CMLS2300.LNG
+     CMLL2300.LTPL (contains label formats; has to be in the same path of CMLL23.DLL)
+     CMLL2300.CHM (Designer help; has to be in the same path of CMLL23.DLL)
+   #OF('Chinese')
+     CMLL2309.LNG       !Chinese language file
+     CMLS2309.LNG
+     CMLL2001.LTPL (contains label formats; has to be in the same path of CMLL23.DLL)
+     CMLL2001.CHM (Designer help; has to be in the same path of CMLL23.DLL)
+   #OF('Dutch')
+     CMLL230D.LNG       !Dutch language file
+     CMLS230D.LNG
+     CMLL2301.LTPL (contains label formats; has to be in the same path of CMLL23.DLL)
+     CMLL2301.CHM (Designer help; has to be in the same path of CMLL23.DLL)   
+   #OF('French')
+     CMLL2312.LNG       !French language file
+     CMLS2412.LNG
+     CMLL2001.LTPL (contains label formats; has to be in the same path of CMLL23.DLL)
+     CMLL2001.CHM (Designer help; has to be in the same path of CMLL23.DLL)
+   #OF('Italian')
+     CMLL2318.LNG       !Italian language file
+     CMLS2318.LNG
+     CMLL2301.LTPL (contains label formats; has to be in the same path of CMLL23.DLL)
+     CMLL2301.CHM (Designer help; has to be in the same path of CMLL23.DLL)
+   #OF('Japanese')
+     CMLL2319.LNG       !Japanese language file
+     CMLS2319.LNG
+     CMLL2301.LTPL (contains label formats; has to be in the same path of CMLL23.DLL)
+     CMLL2301.CHM (Designer help; has to be in the same path of CMLL23.DLL)
+   #OF('Portuguese')
+     CMLL231F.LNG       !Portuguese language file
+     CMLS231F.LNG
+     CMLL2301.LTPL (contains label formats; has to be in the same path of CMLL23.DLL)
+     CMLL2301.CHM (Designer help; has to be in the same path of CMLL23.DLL)
+   #OF('Russian')
+     CMLL2321.LNG       !Russian language file
+     CMLS2321.LNG
+     CMLL2301.LTPL (contains label formats; has to be in the same path of CMLL23.DLL)
+     CMLL2301.CHM (Designer help; has to be in the same path of CMLL23.DLL)
+   #OF('Slovak')
+     CMLL2322.LNG       !Slovak language file
+     CMLS2322.LNG
+     CMLL2301.LTPL (contains label formats; has to be in the same path of CMLL23.DLL)
+     CMLL2301.CHM (Designer help; has to be in the same path of CMLL23.DLL)
+   #OF('Spanish')
+     CMLL2325.LNG       !Spanish language file
+     CMLS2325.LNG
+     CMLL2301.LTPL (contains label formats; has to be in the same path of CMLL23.DLL)
+     CMLL2301.CHM (Designer help; has to be in the same path of CMLL23.DLL)
+   #ENDCASE
+
+   If you are using the procedure SolaceLLPreview then you will also need:-
+     CMLL23O.OCX  This must be registered on your end user's system
 
   #END
   
@@ -2217,6 +2302,9 @@
    #ENDIF
    #IF(%LLVersion = 'Version 22')              #!Version 22
    INCLUDE('CMLL22.clw','Equates')
+   #ENDIF
+   #IF(%LLVersion = 'Version 23')              #!Version 23
+   INCLUDE('CMLL23.clw','Equates')
    #ENDIF
    ENDCOMPILE***
  #IF(%LLCreateDir=%True)
@@ -2309,6 +2397,9 @@ END
    #ENDIF    
    #IF(%LLVersion = 'Version 22')               #!Version 22
    INCLUDE('CMLL22.clw','Prototypes')
+   #ENDIF    
+   #IF(%LLVersion = 'Version 23')               #!Version 23
+   INCLUDE('CMLL23.clw','Prototypes')
    #ENDIF    
    ENDCOMPILE***
  #IF(%LLCreateDir=%True)
@@ -2458,6 +2549,9 @@ LL_GlobalPath   CString(255),Thread
      #ENDIF
      #IF(%LLVersion = 'Version 22')          #!Version 22
        #PROJECT('CMLL22.LIB')
+     #ENDIF
+     #IF(%LLVersion = 'Version 23')          #!Version 23
+       #PROJECT('CMLL23.LIB')
      #ENDIF
    #ENDIF
  #ENDIF
@@ -2619,7 +2713,7 @@ RETURN ReturnValue
 
 
 #!*****************************************************************************
-#!                  Report Entension
+#!                  Report Extension
 #!*****************************************************************************
 #EXTENSION(LL_Report, 'List and Label Report Extension'),PROCEDURE,Req(LL_GlobalIncludes),hlp('List & Label Report Extension')
  #SHEET,HSCROLL,ADJUST
@@ -3184,7 +3278,7 @@ LL_RecordPrinted        Long
   END
 
   LL_Result = llPrintEnd(LL_hJob,0)
-  LL_SavePath = Path()
+  LL_SavePath = LongPath()
   IF LL_Action = 2 and LL_RecordPrinted > 0 and LL_Abort = false              !Preview
     #EMBED(%LLBeforePreviewDisplay,'LL Before Preview Call')
     #IF(%NotUseLLPreviewer = %True)
@@ -3390,7 +3484,7 @@ LL_RecordPrinted        Long
   END
 
   LL_Result = llPrintEnd(LL_hJob,0)
-  LL_SavePath = Path()
+  LL_SavePath = LongPath()
   IF LL_Action = 2 and LL_RecordPrinted > 0 and LL_Abort = false              !Preview
     #EMBED(%LLBeforePreviewDisplay,'LL Before Preview Call')
     #IF(%NotUseLLPreviewer = %True)
@@ -3583,7 +3677,7 @@ LL_RecordPrinted        Long
 #AT(%LocalDataClassData)
 #DECLARE(%SupressChild,Long)
 #INSERT(%LLDATA)
-SavePath        String(180)
+SavePath        String(255)
 #ENDAT
 #!  Legacy  #AT(%DataSectionAfterWindow)
 #AT(%DataSection)
@@ -3707,7 +3801,7 @@ LLJobClose(LL_hJob)
 #!****************************************************** LLRoutines ***********************
 #GROUP(%LLRoutines,%Conditional)
 #DECLARE(%FinalButtonStyle,Long)
-#DECLARE(%WhichLanguage,Long)
+#DECLARE(%Whichlanguage,Long)
 #DECLARE(%UseFilePath,String)
 LL_StandardInit         ROUTINE
     #IF(%DebugMode = %TRUE)
@@ -3730,9 +3824,9 @@ LL_StandardInit         ROUTINE
         LL_Path = clip(LL_Path) & '\'
       end
     end
-#INSERT(%SetLanguage)
-    LL_hJob             = LLJobOpen(%WhichLanguage)
-   #IF(%LLVersion='Version 9' or %LLVersion='Version 10' or %LLVersion = 'Version 11' or %LLVersion = 'Version 12' or %LLVersion = 'Version 13' or %LLVersion = 'Version 14' or %LLVersion = 'Version 15' or %LLVersion = 'Version 16' or %LLVersion = 'Version 17' or %LLVersion = 'Version 18' or %LLVersion = 'Version 19' or %LLVersion = 'Version 20' or %LLVersion = 'Version 21' or %LLVersion = 'Version 22')
+#INSERT(%Setlanguage)
+    LL_hJob             = LLJobOpen(%Whichlanguage)
+   #IF(%LLVersion='Version 9' or %LLVersion='Version 10' or %LLVersion = 'Version 11' or %LLVersion = 'Version 12' or %LLVersion = 'Version 13' or %LLVersion = 'Version 14' or %LLVersion = 'Version 15' or %LLVersion = 'Version 16' or %LLVersion = 'Version 17' or %LLVersion = 'Version 18' or %LLVersion = 'Version 19' or %LLVersion = 'Version 20' or %LLVersion = 'Version 21' or %LLVersion = 'Version 22' or %LLVersion = 'Version 23')
     LL_Result = LLSetOptionString(LL_hJob,LL_OPTIONSTR_LICENSINGINFO,LLLicense)
    #ENDIF
     if LL_hJob < 0 then
@@ -3801,13 +3895,13 @@ LL_DefineLayout         ROUTINE
 
    #ENDIF
     #EMBED(%LLBeforeDesign,'L&L - Before calling List & Label Designer ')
-    SavePath = Path()
+    SavePath = LongPath()
     Display
   #IF(%DesignNew = %True)
     LL_Result = LLDesignerProhibitAction(LL_hJob,524)      !Remove 'New' from files menu
   #ENDIF
   #IF(%DesignOpen = %True)
-    LL_Result = LLDesignerProhibitAction(LL_hJob,519)      !Remove 'OPen' from files menu
+    LL_Result = LLDesignerProhibitAction(LL_hJob,519)      !Remove 'Open' from files menu
   #ENDIF
   #IF(%DesignSaveAs = %True)
     LL_Result = LLDesignerProhibitAction(LL_hJob,515)      !Remove 'Save As' from files menu
@@ -4041,7 +4135,7 @@ LL_InitReport         ROUTINE
    #END
     LL_PrintText = '%PrintText'
 #EMBED(%LLBeforeOpening,'LL Before Opening With Box Start')
- #IF(%LLVersion='Version 9' or %LLVersion='Version 10' or %LLVersion = 'Version 11' or %LLVersion = 'Version 12' or %LLVersion = 'Version 13' or %LLVersion = 'Version 14' or %LLVersion = 'Version 15' or %LLVersion = 'Version 16' or %LLVersion = 'Version 17' or %LLVersion = 'Version 18' or %LLVersion = 'Version 19' or %LLVersion = 'Version 20' or %LLVersion = 'Version 21' or %LLVersion = 'Version 22')
+ #IF(%LLVersion='Version 9' or %LLVersion='Version 10' or %LLVersion = 'Version 11' or %LLVersion = 'Version 12' or %LLVersion = 'Version 13' or %LLVersion = 'Version 14' or %LLVersion = 'Version 15' or %LLVersion = 'Version 16' or %LLVersion = 'Version 17' or %LLVersion = 'Version 18' or %LLVersion = 'Version 19' or %LLVersion = 'Version 20' or %LLVersion = 'Version 21' or %LLVersion = 'Version 22' or %LLVersion = 'Version 23')
   #IF(%AllowFaxing=%True)
     #IF(%FaxRecipNumber<> '')
     if clip(%FaxRecipNumber) <> '' then
@@ -4426,7 +4520,7 @@ SetLLExportOptions    Routine
         LL_Option = True
         LL_Result = LLXSetParameter(LL_hJob, LL_LLX_Extensiontype_Export,LL_Exporttype,LL_ExportSetting,LL_Option)
 
-        LL_ExportSetting = 'Export.Mail.TO'
+        LL_ExportSetting = 'Export.Mail.To'
         LL_Option = LLFullMailTo
         LL_Result = LLXSetParameter(LL_hJob, LL_LLX_Extensiontype_Export,LL_Exporttype,LL_ExportSetting,LL_Option)
 
@@ -4856,8 +4950,8 @@ End
     LL_Result = LLSetOption(LL_hJob,LL_Option_DelayTableHeader,%DelayTableHead)
     LL_Result = LLSetOption(LL_hJob,LL_Option_Supervisor,%Supervisor)
     LL_Result = LLSetOption(LL_hJob,LL_Option_CompressStorage,%LLCompressPreview)
-    LL_Result = LLSetOption(LL_hJob,83,16)       !Sketch_Color_Depth
-   #IF(%LLVersion='Version 9' or %LLVersion='Version 10' or %LLVersion = 'Version 11' or %LLVersion = 'Version 12' or %LLVersion = 'Version 13' or %LLVersion = 'Version 14' or %LLVersion = 'Version 15' or %LLVersion = 'Version 16' or %LLVersion = 'Version 17' or %LLVersion = 'Version 18' or %LLVersion = 'Version 19' or %LLVersion = 'Version 20' or %LLVersion = 'Version 21' or %LLVersion = 'Version 22')
+    LL_Result = LLSetOption(LL_hJob,LL_OPTION_SKETCH_COLORDEPTH,32)       !Sketch_Color_Depth
+   #IF(%LLVersion='Version 9' or %LLVersion='Version 10' or %LLVersion = 'Version 11' or %LLVersion = 'Version 12' or %LLVersion = 'Version 13' or %LLVersion = 'Version 14' or %LLVersion = 'Version 15' or %LLVersion = 'Version 16' or %LLVersion = 'Version 17' or %LLVersion = 'Version 18' or %LLVersion = 'Version 19' or %LLVersion = 'Version 20' or %LLVersion = 'Version 21' or %LLVersion = 'Version 22' or %LLVersion = 'Version 23')
     LL_Result = LLSetOption(LL_hJob,LL_OPTION_NOFILEVERSIONUPGRADEWARNING,%LLWarnVersion)
    #ENDIF
     LL_Result = LLSetOption(LL_hJob,LL_OPTION_INCREMENTAL_PREVIEW,0)
@@ -5070,7 +5164,7 @@ LLWindow WINDOW,AT(,,1,1),FONT('MS Sans Serif',8,,FONT:regular),CENTER,GRAY,MAXI
     #PROMPT('Optional Condition',@S255),%LLPageBreakCondition
     #ENDBUTTON
     #DISPLAY('')
-    #DISPLAY('Enter any expressions which will will force a page break when expression returns true.'),At(,,180,20)
+    #DISPLAY('Enter any expressions which will force a page break when expression returns true.'),At(,,180,20)
     #BUTTON('Expressions'),MULTI(%LLBreakExpressions,%LLBreakExpression),INLINE,at(,,,60)
     #PROMPT('Expression:',@S255),%LLBreakExpression,REQ
     #ENDBUTTON
@@ -5208,7 +5302,7 @@ LLWindow WINDOW,AT(,,1,1),FONT('MS Sans Serif',8,,FONT:regular),CENTER,GRAY,MAXI
    #DISPLAY('If a report has been emailed, the files that are created may be automatically deleted from the directory after they have been added to the email.  You may select a variable which, when set to true will automatically delete the files.  If no variable is selected, the files will not be deleted'),at(,,170,48)
    #PROMPT('Variable to delete files',Field),%LLAutoDeleteExportedFiles
    #ENDTAB
-   #TAB('Faxing'),Where(%LLVersion='Version 9' or %LLVersion='Version 10' or %LLVersion = 'Version 11' or %LLVersion = 'Version 12' or %LLVersion = 'Version 13' or %LLVersion = 'Version 14' or %LLVersion = 'Version 15' or %LLVersion = 'Version 16' or %LLVersion = 'Version 17' or %LLVersion = 'Version 18' or %LLVersion = 'Version 19' or %LLVersion = 'Version 20' or %LLVersion = 'Version 21' or %LLVersion = 'Version 22')
+   #TAB('Faxing'),Where(%LLVersion='Version 9' or %LLVersion='Version 10' or %LLVersion = 'Version 11' or %LLVersion = 'Version 12' or %LLVersion = 'Version 13' or %LLVersion = 'Version 14' or %LLVersion = 'Version 15' or %LLVersion = 'Version 16' or %LLVersion = 'Version 17' or %LLVersion = 'Version 18' or %LLVersion = 'Version 19' or %LLVersion = 'Version 20' or %LLVersion = 'Version 21' or %LLVersion = 'Version 22' or %LLVersion = 'Version 23')
      #DISPLAY('Please note that fax support is available when faxing is loaded on the end user machine'),at(,,180,20)
      #DISPLAY('')
      #DISPLAY('Only one fax recipient can be specified per report')

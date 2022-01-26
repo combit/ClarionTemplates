@@ -1,0 +1,107 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{DC163D2C-2CF9-4049-B9E2-6D8CD4C3A850}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">Win32</Platform>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>ll</AssemblyName>
+    <OutputName>ll</OutputName>
+    <ApplicationIcon>Brute.ico</ApplicationIcon>
+    <DefineConstants>_ABCDllMode_=&gt;0%3b_ABCLinkMode_=&gt;1%3b</DefineConstants>
+    <Model>Lib</Model>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <vid>full</vid>
+    <check_stack>True</check_stack>
+    <check_index>True</check_index>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+    <vid>off</vid>
+    <check_stack>False</check_stack>
+    <check_index>False</check_index>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="ll.clw">
+      <defines>GENERATED=&gt;on</defines>
+      <Generated>true</Generated>
+    </Compile>
+    <Compile Include="ll001.clw">
+      <defines>GENERATED=&gt;on</defines>
+      <Generated>true</Generated>
+    </Compile>
+    <Compile Include="ll002.clw">
+      <defines>GENERATED=&gt;on</defines>
+      <Generated>true</Generated>
+    </Compile>
+    <Compile Include="ll003.clw">
+      <defines>GENERATED=&gt;on</defines>
+      <Generated>true</Generated>
+    </Compile>
+    <Compile Include="ll004.clw">
+      <defines>GENERATED=&gt;on</defines>
+      <Generated>true</Generated>
+    </Compile>
+    <Compile Include="ll005.clw">
+      <defines>GENERATED=&gt;on</defines>
+      <Generated>true</Generated>
+    </Compile>
+    <Compile Include="ll006.clw">
+      <defines>GENERATED=&gt;on</defines>
+      <Generated>true</Generated>
+    </Compile>
+    <Compile Include="ll007.clw">
+      <defines>GENERATED=&gt;on</defines>
+      <Generated>true</Generated>
+    </Compile>
+    <Compile Include="ll008.clw">
+      <defines>GENERATED=&gt;on</defines>
+      <Generated>true</Generated>
+    </Compile>
+    <Compile Include="ll009.clw">
+      <defines>GENERATED=&gt;on</defines>
+      <Generated>true</Generated>
+    </Compile>
+    <Compile Include="ll010.clw">
+      <defines>GENERATED=&gt;on</defines>
+      <Generated>true</Generated>
+    </Compile>
+    <Compile Include="ll011.clw">
+      <defines>GENERATED=&gt;on</defines>
+      <Generated>true</Generated>
+    </Compile>
+    <Compile Include="ll012.clw">
+      <defines>GENERATED=&gt;on</defines>
+      <Generated>true</Generated>
+    </Compile>
+    <Compile Include="ll013.clw">
+      <defines>GENERATED=&gt;on</defines>
+      <Generated>true</Generated>
+    </Compile>
+    <Compile Include="ll014.clw">
+      <defines>GENERATED=&gt;on</defines>
+      <Generated>true</Generated>
+    </Compile>
+    <Compile Include="ll015.clw">
+      <defines>GENERATED=&gt;on</defines>
+      <Generated>true</Generated>
+    </Compile>
+    <Compile Include="LL_BC.CLW">
+      <Generated>true</Generated>
+    </Compile>
+    <Compile Include="ll_BC0.CLW">
+      <Generated>true</Generated>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <FileDriver Include="TOPSPEED" />
+    <Library Include="CMLL23.LIB" />
+    <Library Include="ll.EXE.manifest" />
+    <Library Include="QkLoad.ico" />
+    <Library Include="QkQBE.ico" />
+  </ItemGroup>
+  <Import Project="$(ClarionBinPath)\SoftVelocity.Build.Clarion.targets" />
+</Project>

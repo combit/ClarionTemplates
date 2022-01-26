@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Dictionary Name="ListLabel_C10" Version="1" StructureChecked="1" DctxFormat="4">
+	<DictionaryVersion Version="1" Description="Initial version"/>
+	<Table Guid="{bbb5fae0-3233-462f-941b-1038b9cd3b69}" Ident="154" Name="LL_RepLay" Description="Report Layout Manager" Prefix="LLL_" Driver="TOPSPEED" Path="LL_RepLay" Create="true" Reclaim="true" Thread="true" Bindable="true">
+		<Audit CreateUser="Administrator" CreateDate="26 OCT 2017" CreateTime=" 6:09:05AM" CreateVersionNumber="1" ModifiedUser="Administrator" ModifiedDate="26 OCT 2017" ModifiedTime=" 6:09:05AM" ModifiedVersionNumber="1"/>
+		<Option Property="Version" PropertyType="1" PropertyValue="5"/>
+		<Field Guid="{0a13e2b1-e837-4e88-a174-fab52ffeac97}" Ident="1832" Name="Ref" DataType="LONG" Size="4" ScreenPicture="@n-14" ScreenPrompt="Ref:" ReportHeading="Ref" Justification="RIGHT" Offset="1" NoPopulate="true" ReportControl=" STRING(@n-14),USE(LLL_:Ref),RIGHT(1)">
+			<WindowControl>
+				<Line Text=" PROMPT(&apos;Ref:&apos;),USE(?LLL_:Ref:Prompt)"/>
+				<Line Text=" ENTRY(@n-14),USE(LLL_:Ref),RIGHT(1)"/>
+			</WindowControl>
+			<Audit CreateUser="Administrator" CreateDate="26 OCT 2017" CreateTime=" 6:09:05AM" CreateVersionNumber="1" ModifiedUser="Administrator" ModifiedDate="26 OCT 2017" ModifiedTime=" 6:09:05AM" ModifiedVersionNumber="1"/>
+			<Validity Check="NOCHECKS"/>
+		</Field>
+		<Field Guid="{de6620e0-b29f-4379-a45e-e4807bc6be28}" Ident="1833" Name="Description" DataType="CSTRING" Size="61" ScreenPicture="@s60" ScreenPrompt="Name:" ReportHeading="Name" Case="CAPS" ReportControl=" STRING(@s60),USE(LLL_:Description)">
+			<WindowControl>
+				<Line Text=" PROMPT(&apos;Name:&apos;),USE(?LLL_:Description:Prompt)"/>
+				<Line Text=" ENTRY(@s60),USE(LLL_:Description),REQ,CAP"/>
+			</WindowControl>
+			<Audit CreateUser="Administrator" CreateDate="26 OCT 2017" CreateTime=" 6:09:05AM" CreateVersionNumber="1" ModifiedUser="Administrator" ModifiedDate="26 OCT 2017" ModifiedTime=" 6:09:05AM" ModifiedVersionNumber="1"/>
+			<Validity Check="NONZERO"/>
+		</Field>
+		<Field Guid="{c98a6ae6-ad93-4d0b-a1c1-f604c595622e}" Ident="1834" Name="AreaRef" Description="Type of report - ref stored in RepArea" DataType="LONG" Size="4" ScreenPicture="@n-14" ScreenPrompt="Area Ref:" ReportHeading="Area Ref" Justification="RIGHT" Offset="1" NoPopulate="true" Message="Type of report - ref stored in RepArea" Tooltip="Type of report - ref stored in RepArea" ReportControl=" STRING(@n-14),USE(LLL_:AreaRef),RIGHT(1)">
+			<WindowControl>
+				<Line Text=" PROMPT(&apos;Area Ref:&apos;),USE(?LLL_:AreaRef:Prompt)"/>
+				<Line Text=" ENTRY(@n-14),USE(LLL_:AreaRef),RIGHT(1),MSG(&apos;Type of report - ref stored in RepArea&apos;),TIP(&apos;Type of report - ref stored in RepArea&apos;)"/>
+			</WindowControl>
+			<Audit CreateUser="Administrator" CreateDate="26 OCT 2017" CreateTime=" 6:09:05AM" CreateVersionNumber="1" ModifiedUser="Administrator" ModifiedDate="26 OCT 2017" ModifiedTime=" 6:09:05AM" ModifiedVersionNumber="1"/>
+			<Validity Check="NOCHECKS"/>
+		</Field>
+		<Field Guid="{8a6b91cd-f1f2-4bad-891e-07618d7c270e}" Ident="1836" Name="FileName" DataType="CSTRING" Size="81" ScreenPicture="@s80" ScreenPrompt="File Name:" ReportHeading="File Name" ReportControl=" STRING(@s80),USE(LLL_:FileName)">
+			<WindowControl>
+				<Line Text=" PROMPT(&apos;File Name:&apos;),USE(?LLL_:FileName:Prompt)"/>
+				<Line Text=" ENTRY(@s80),USE(LLL_:FileName)"/>
+			</WindowControl>
+			<Audit CreateUser="Administrator" CreateDate="26 OCT 2017" CreateTime=" 6:09:05AM" CreateVersionNumber="1" ModifiedUser="Administrator" ModifiedDate="26 OCT 2017" ModifiedTime=" 6:09:05AM" ModifiedVersionNumber="1"/>
+			<Validity Check="NOCHECKS"/>
+		</Field>
+		<Field Guid="{2c6b606a-cf3c-4510-b0ad-9ec7131bc471}" Ident="1838" Name="FactoryDefault" DataType="BYTE" Size="1" ScreenPicture="@n3" ScreenPrompt="Factory Default:" ReportHeading="Factory Default" ReportControl=" STRING(@n3),USE(LLL_:FactoryDefault)">
+			<WindowControl>
+				<Line Text=" PROMPT(&apos;Factory Default:&apos;),USE(?LLL_:FactoryDefault:Prompt)"/>
+				<Line Text=" ENTRY(@n3),USE(LLL_:FactoryDefault)"/>
+			</WindowControl>
+			<Audit CreateUser="Administrator" CreateDate="26 OCT 2017" CreateTime=" 6:09:05AM" CreateVersionNumber="1" ModifiedUser="Administrator" ModifiedDate="26 OCT 2017" ModifiedTime=" 6:09:05AM" ModifiedVersionNumber="1"/>
+			<Validity Check="NOCHECKS"/>
+		</Field>
+		<Field Guid="{e8f38d07-946c-4ff0-a62c-ffdbeef1768d}" Ident="1840" Name="Type" Description="Card or List" DataType="CSTRING" Size="6" ScreenPicture="@s5" ScreenPrompt="Type:" ReportHeading="Type" ReportControl=" STRING(@s5),USE(LLL_:Type)">
+			<WindowControl>
+				<Line Text=" PROMPT(&apos;Type:&apos;),USE(?LLL_:Type:Prompt)"/>
+				<Line Text=" LIST,USE(LLL_:Type),DROP(5),FROM(&apos;Card|List&apos;)"/>
+			</WindowControl>
+			<Audit CreateUser="Administrator" CreateDate="26 OCT 2017" CreateTime=" 6:09:05AM" CreateVersionNumber="1" ModifiedUser="Administrator" ModifiedDate="26 OCT 2017" ModifiedTime=" 6:09:05AM" ModifiedVersionNumber="1"/>
+			<Validity Check="INLIST" Choices="Card|List"/>
+		</Field>
+		<Field Guid="{3987c6fc-4e0f-4a57-adc9-8d1bbca0852b}" Ident="1991" Name="Pages" DataType="BYTE" Size="1" ScreenPicture="@n3" ScreenPrompt="Pages:" ReportHeading="Pages" ReportControl=" STRING(@n3),USE(LLL_:Pages)">
+			<WindowControl>
+				<Line Text=" PROMPT(&apos;Pages:&apos;),USE(?LLL_:Pages:Prompt)"/>
+				<Line Text=" ENTRY(@n3),USE(LLL_:Pages)"/>
+			</WindowControl>
+			<Audit CreateUser="Administrator" CreateDate="26 OCT 2017" CreateTime=" 6:09:05AM" CreateVersionNumber="1" ModifiedUser="Administrator" ModifiedDate="26 OCT 2017" ModifiedTime=" 6:09:05AM" ModifiedVersionNumber="1"/>
+			<Validity Check="NOCHECKS"/>
+		</Field>
+		<Key Guid="{45319b36-f0dc-496b-b740-f74d768ce11f}" Ident="484" Order="1" Name="RefKey" KeyType="KEY" Unique="true" Primary="true" AutoNumber="true" Exclude="true">
+			<Audit CreateUser="Administrator" CreateDate="26 OCT 2017" CreateTime=" 6:09:05AM" CreateVersionNumber="1" ModifiedUser="Administrator" ModifiedDate="26 OCT 2017" ModifiedTime=" 6:09:05AM" ModifiedVersionNumber="1"/>
+			<Component Guid="{3a59fc8a-7d9e-426a-892d-26081ab1eded}" FieldId="{0a13e2b1-e837-4e88-a174-fab52ffeac97}" Order="1" Ascend="true">
+				<Audit CreateUser="Administrator" CreateDate="26 OCT 2017" CreateTime=" 6:09:05AM" CreateVersionNumber="1" ModifiedUser="Administrator" ModifiedDate="26 OCT 2017" ModifiedTime=" 6:09:05AM" ModifiedVersionNumber="1"/>
+			</Component>
+		</Key>
+		<Key Guid="{86546d94-e9e4-4ecc-8a7c-0d23a4a2f38b}" Ident="485" Order="2" Name="AreaRefKey" KeyType="KEY" Exclude="true">
+			<Audit CreateUser="Administrator" CreateDate="26 OCT 2017" CreateTime=" 6:09:05AM" CreateVersionNumber="1" ModifiedUser="Administrator" ModifiedDate="26 OCT 2017" ModifiedTime=" 6:09:05AM" ModifiedVersionNumber="1"/>
+			<Component Guid="{adae9ab7-33a3-4e3f-9851-be9b5e082d41}" FieldId="{c98a6ae6-ad93-4d0b-a1c1-f604c595622e}" Order="1" Ascend="true">
+				<Audit CreateUser="Administrator" CreateDate="26 OCT 2017" CreateTime=" 6:09:05AM" CreateVersionNumber="1" ModifiedUser="Administrator" ModifiedDate="26 OCT 2017" ModifiedTime=" 6:09:05AM" ModifiedVersionNumber="1"/>
+			</Component>
+			<Component Guid="{8b93f53d-c59a-46d7-b063-f425c99a82ac}" FieldId="{de6620e0-b29f-4379-a45e-e4807bc6be28}" Order="2" Ascend="true">
+				<Audit CreateUser="Administrator" CreateDate="26 OCT 2017" CreateTime=" 6:09:05AM" CreateVersionNumber="1" ModifiedUser="Administrator" ModifiedDate="26 OCT 2017" ModifiedTime=" 6:09:05AM" ModifiedVersionNumber="1"/>
+			</Component>
+		</Key>
+		<Key Guid="{d316f753-b32f-4681-b459-3f8ab56744bb}" Ident="486" Order="3" Name="DescKey" KeyType="KEY" Exclude="true">
+			<Audit CreateUser="Administrator" CreateDate="26 OCT 2017" CreateTime=" 6:09:05AM" CreateVersionNumber="1" ModifiedUser="Administrator" ModifiedDate="26 OCT 2017" ModifiedTime=" 6:09:05AM" ModifiedVersionNumber="1"/>
+			<Component Guid="{ade20de0-7d31-47da-b98d-b537f2f12715}" FieldId="{de6620e0-b29f-4379-a45e-e4807bc6be28}" Order="1" Ascend="true">
+				<Audit CreateUser="Administrator" CreateDate="26 OCT 2017" CreateTime=" 6:09:05AM" CreateVersionNumber="1" ModifiedUser="Administrator" ModifiedDate="26 OCT 2017" ModifiedTime=" 6:09:05AM" ModifiedVersionNumber="1"/>
+			</Component>
+		</Key>
+	</Table>
+	<Table Guid="{a59aa609-b2dd-4ca0-ad89-2d22d518e1cc}" Ident="156" Name="LL_RepArea" Prefix="LLA_" Driver="TOPSPEED" Path="LL_Reparea" Create="true" Thread="true">
+		<Audit CreateUser="Administrator" CreateDate="14 NOV 1999" CreateTime=" 6:54:16PM" CreateVersionNumber="1" ModifiedUser="Administrator" ModifiedDate="26 OCT 2017" ModifiedTime=" 6:09:06AM" ModifiedVersionNumber="1"/>
+		<Field Guid="{5407c506-e846-4dc6-b2ca-d81e626aacd6}" Ident="1871" Name="Ref" DataType="LONG" Size="4" ScreenPicture="@n6" ScreenPrompt="&amp;Ref:" ReportHeading="Ref" Justification="RIGHT" Offset="1" NoPopulate="true" ReportControl=" CHECK(&apos;&amp;Ref&apos;),USE(LLA_:Ref),RIGHT">
+			<WindowControl>
+				<Line Text=" PROMPT(&apos;&amp;Ref:&apos;),USE(?LLA_:Ref:Prompt)"/>
+				<Line Text=" STRING(@n6),USE(LLA_:Ref),RIGHT(1)"/>
+			</WindowControl>
+			<Audit CreateUser="Administrator" CreateDate="26 OCT 2017" CreateTime=" 6:09:06AM" CreateVersionNumber="1" ModifiedUser="Administrator" ModifiedDate="26 OCT 2017" ModifiedTime=" 6:09:06AM" ModifiedVersionNumber="1"/>
+			<Validity Check="NOCHECKS"/>
+			<Option Property="NO_LL=" PropertyType="4"/>
+		</Field>
+		<Field Guid="{d40afec8-2591-42b0-af36-352c894773fe}" Ident="1872" Name="ReportType" DataType="CSTRING" Size="51" ScreenPicture="@s50" ScreenPrompt="&amp;Report Type:" ReportHeading="Report Type" Case="CAPS" ReportControl=" STRING(@s50),USE(LLA_:ReportType)">
+			<WindowControl>
+				<Line Text=" PROMPT(&apos;&amp;Report Type:&apos;),USE(?LLA_:ReportType:Prompt)"/>
+				<Line Text=" ENTRY(@s50),USE(LLA_:ReportType),REQ,CAP"/>
+			</WindowControl>
+			<Audit CreateUser="Administrator" CreateDate="26 OCT 2017" CreateTime=" 6:09:06AM" CreateVersionNumber="1" ModifiedUser="Administrator" ModifiedDate="26 OCT 2017" ModifiedTime=" 6:09:06AM" ModifiedVersionNumber="1"/>
+			<Validity Check="NONZERO"/>
+		</Field>
+		<Field Guid="{4c68f586-4be7-4163-b0aa-c8b83301680a}" Ident="1874" Name="TemplateType" DataType="CSTRING" Size="2" ScreenPicture="@s1" ScreenPrompt="Template Type:" ReportHeading="Template Type" ReportControl=" STRING(@s1),USE(LLA_:TemplateType)">
+			<WindowControl>
+				<Line Text=" PROMPT(&apos;Template Type:&apos;),USE(?LLA_:TemplateType:Prompt)"/>
+				<Line Text=" ENTRY(@s1),USE(LLA_:TemplateType)"/>
+			</WindowControl>
+			<Audit CreateUser="Administrator" CreateDate="26 OCT 2017" CreateTime=" 6:09:06AM" CreateVersionNumber="1" ModifiedUser="Administrator" ModifiedDate="26 OCT 2017" ModifiedTime=" 6:09:06AM" ModifiedVersionNumber="1"/>
+			<Validity Check="NOCHECKS"/>
+		</Field>
+		<Key Guid="{84125df2-181d-4586-a754-b058c81131e9}" Ident="488" Order="1" Name="RefKey" KeyType="KEY" Unique="true" Primary="true" AutoNumber="true" Exclude="true">
+			<Audit CreateUser="Administrator" CreateDate="26 OCT 2017" CreateTime=" 6:09:06AM" CreateVersionNumber="1" ModifiedUser="Administrator" ModifiedDate="26 OCT 2017" ModifiedTime=" 6:09:06AM" ModifiedVersionNumber="1"/>
+			<Component Guid="{9ba09f6c-350e-4dbb-819f-c424d10c91e1}" FieldId="{5407c506-e846-4dc6-b2ca-d81e626aacd6}" Order="1" Ascend="true">
+				<Audit CreateUser="Administrator" CreateDate="26 OCT 2017" CreateTime=" 6:09:06AM" CreateVersionNumber="1" ModifiedUser="Administrator" ModifiedDate="26 OCT 2017" ModifiedTime=" 6:09:06AM" ModifiedVersionNumber="1"/>
+			</Component>
+		</Key>
+		<Key Guid="{af9ac48b-a93a-41e4-ae10-a1b17f3d1060}" Ident="489" Order="2" Name="ReportTypeKey" KeyType="KEY" Unique="true" Exclude="true">
+			<Audit CreateUser="Administrator" CreateDate="26 OCT 2017" CreateTime=" 6:09:06AM" CreateVersionNumber="1" ModifiedUser="Administrator" ModifiedDate="26 OCT 2017" ModifiedTime=" 6:09:06AM" ModifiedVersionNumber="1"/>
+			<Component Guid="{e7d826a1-9059-45ea-86dc-4edd713847b9}" FieldId="{d40afec8-2591-42b0-af36-352c894773fe}" Order="1" Ascend="true">
+				<Audit CreateUser="Administrator" CreateDate="26 OCT 2017" CreateTime=" 6:09:06AM" CreateVersionNumber="1" ModifiedUser="Administrator" ModifiedDate="26 OCT 2017" ModifiedTime=" 6:09:06AM" ModifiedVersionNumber="1"/>
+			</Component>
+		</Key>
+	</Table>
+</Dictionary>
+
