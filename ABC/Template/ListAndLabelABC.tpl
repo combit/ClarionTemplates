@@ -1,5 +1,5 @@
 #! This template extends a Report or Process template with the functionality to print
-#! via List & Label Modified by Michael Summons 15/10/2011
+#! via List & Label Modified by Michael Summons 28/10/2012
 #TEMPLATE(ListAndLabel,'List & Label Templates'),FAMILY('ABC')
 #HELP('LL.HLP')
 #!*****************************************************************************
@@ -14,12 +14,12 @@
   #DISPLAY('This Template configures the List && Label includes')
   #DISPLAY('and prototypes.')
   #DISPLAY('')
-  #DISPLAY('Version 17.01')
-  #DISPLAY('Release date:- 15th October 2011')
-  #DISPLAY('(c) Copyright  Software.  2000 - 2011')
+  #DISPLAY('Version 18.01')
+  #DISPLAY('Release date:- 28th October 2012')
+  #DISPLAY('(c) Copyright  Software.  2000 - 2012')
   #DISPLAY('')
   #DISPLAY('Which version of List && Label are you using?')
-  #PROMPT('Version:',DROP('Version 17|Version 16|Version 15|Version 14|Version 13|Version 12|Version 11|Version 10|Version 9|Version 8|Version 7|Version 6')),%LLVersion
+  #PROMPT('Version:',DROP('Version 18|Version 17|Version 16|Version 15|Version 14|Version 13|Version 12|Version 11|Version 10|Version 9|Version 8|Version 7|Version 6')),%LLVersion
   #ENDBOXED
   #BOXED('')
   #DISPLAY('Leave this checkbox unchecked if:-')
@@ -28,7 +28,7 @@
   #DISPLAY('')
   #PROMPT ('L&&L Data External (defined in another DLL)',Check),%LLExternal,at(10)
   #ENDBOXED
-  #BOXED('Version 9/10/11/12/13/14/15/16/17 License'),WHERE(%LLVersion = 'Version 9' or %LLVersion = 'Version 10' or %LLVersion = 'Version 11' or %LLVersion = 'Version 12' or %LLVersion = 'Version 13' or %LLVersion = 'Version 14' or %LLVersion = 'Version 15' or %LLVersion = 'Version 16' or %LLVersion = 'Version 17')
+  #BOXED('Version 9/10/11/12/13/14/15/16/17/18 License'),WHERE(%LLVersion = 'Version 9' or %LLVersion = 'Version 10' or %LLVersion = 'Version 11' or %LLVersion = 'Version 12' or %LLVersion = 'Version 13' or %LLVersion = 'Version 14' or %LLVersion = 'Version 15' or %LLVersion = 'Version 16' or %LLVersion = 'Version 17' or %LLVersion = 'Version 18')
    #DISPLAY
    #DISPLAY('This can be found in the file PERSLIC.TXT in your Combit directory'),at(,,160,17)
    #DISPLAY('** Remember to update this is you use a new version of List & Label')
@@ -116,7 +116,7 @@
    #PROMPT('Delay Table Header (LlSetOption)',CHECK),%DefDelayTableHead,Default(%False),at(10)
    #PROMPT('Supervisor Option (LlSetOption)',CHECK),%DefSupervisor,Default(%False),at(10)
   #ENDBOXED
-  #BOXED('Updates'),Where(%LLVersion='Version 9' or %LLVersion = 'Version 10' or %LLVersion = 'Version 11' or %LLVersion = 'Version 12' or %LLVersion = 'Version 13' or %LLVersion = 'Version 14' or %LLVersion = 'Version 15' or %LLVersion = 'Version 16' or %LLVersion = 'Version 17')
+  #BOXED('Updates'),Where(%LLVersion='Version 9' or %LLVersion = 'Version 10' or %LLVersion = 'Version 11' or %LLVersion = 'Version 12' or %LLVersion = 'Version 13' or %LLVersion = 'Version 14' or %LLVersion = 'Version 15' or %LLVersion = 'Version 16' or %LLVersion = 'Version 17' or %LLVersion = 'Version 18')
    #DISPLAY('By default, L&&L warns when a layout is opened with a new major release of L&&L which can be annoying.  It is recommended that this facility is switched on'),at(,,168,25)
    #PROMPT('Do not warn of previous version',check),%LLWarnVersion,Default(%True),at(10)
   #ENDBOXED
@@ -1996,6 +1996,194 @@
   #END
 
 
+
+  #!***************************************** Version 18 Ship List ****************
+  #IF(%LLVersion = 'Version 18')
+     Combit List & Label files:-
+     ---------------------------
+    #IF(%LLUseUnicode=%False)
+     CMLL18.DLLL
+     CMLL18XL.DLL
+     CMLS18.DLLL
+     CMBR18.DLLL
+     CMPR18.DLLL
+     CMUT18.DLLL
+     CMCT18.DLLL
+     CMDW18.DLLL
+     CMMX01.DLL
+    #ELSE
+     CULL18.DLLL
+     CMLL18XL.DLL
+     CULS18.DLLL
+     CUBR18.DLLL
+     CUPR18.DLLL
+     CUUT18.DLLL
+     CUCT18.DLLL
+     CUDW18.DLLL
+     CMLS18.DLLL
+     CMMX01.DLL
+     CMPR18.DLLL
+     CMUT18.DLLL
+     CMCT18.DLLL
+     CMBR18.DLLL
+     CMDW18.DLLL
+    #ENDIF
+     CMLL18EX.LLX     Export Modules (HTML, PDF, RTF, XML, MHTML,...)
+     CMLL18OB.LLX     Charting-Object
+     CMLL18OC.LLX     OLE-Object
+     CMLL18HT.LLX     HTML-Object
+     CMLL18PW.LLX     Project Wizard
+     CMLL18BC.LLX     PDF 417 / Maxicode Barcode - (Professional Version only)
+     CMMX01.CPL       combit mail settings control panel applet
+     CMLL18SX.DLL     shell extension for preview files
+
+   #CASE(%Language)
+   #OF('English')
+     #IF(%LLUseUnicode=%True)
+     CULL1801.LNG       !English Language file
+     #ELSE
+     CMLL1801.LNG       !English Language file
+     CMMX0101.LNG
+     #ENDIF
+     CMLL1801.INF (contains label formats; has to be in the same path of CMLL18.DLLL)
+     CMLL1801.CHM (Designer help; has to be in the same path of CMLL18.DLL)
+   #OF('German')
+     #IF(%LLUseUnicode=%True)
+     CULL1800.LNG       !German Language file
+     #ELSE
+     CMLL1800.LNG       !German Language file
+     #ENDIF
+     CMLL1800.INF (contains label formats; has to be in the same path of CMLL18.DLL)
+     CMLL1800.CHM (Designer help; has to be in the same path of CMLL18.DLL)
+   #OF('Greek')
+     #IF(%LLUseUnicode=%True)
+     CULL1819.LNG       !Greek Language file
+     CMLS1819.LNG
+     #ELSE
+     CMLL1819.LNG       !Greek Language file
+     CMLS1819.LNG
+     #ENDIF
+     CMLL1819.INF (contains label formats; has to be in the same path of CMLL18.DLL)
+     CMLL1819.CHM (Designer help; has to be in the same path of CMLL18.DLL)
+   #OF('French')
+     #IF(%LLUseUnicode=%True)
+     CULL1818.LNG       !French Language file
+     CMLS1818.LNG
+     #ELSE
+     CMLL1818.LNG       !French Language file
+     CMLS1818.LNG
+     #ENDIF
+     CMLL1818.INF (contains label formats; has to be in the same path of CMLL18.DLL)
+     CMLL1818.CHM (Designer help; has to be in the same path of CMLL18.DLL)
+   #OF('Catalan')
+     #IF(%LLUseUnicode=%True)
+     CULL1808.LNG       !Catalan Language file
+     CMLS1808.LNG
+     #ELSE
+     CMLL1808.LNG       !Catalan Language file
+     CMLS1808.LNG
+     #ENDIF
+     CMLL1808.INF (contains label formats; has to be in the same path of CMLL18.DLL)
+     CMLL1808.CHM (Designer help; has to be in the same path of CMLL18.DLL)
+   #OF('Danish')
+     #IF(%LLUseUnicode=%True)
+     CULL1816.LNG       !Danish Language file
+     CMLS1816.LNG
+     #ELSE
+     CMLL1816.LNG       !Danish Language file
+     CMLS1816.LNG
+     #ENDIF
+     CMLL1816.INF (contains label formats; has to be in the same path of CMLL18.DLL)
+     CMLL1816.CHM (Designer help; has to be in the same path of CMLL18.DLL)
+   #OF('Dutch')
+     #IF(%LLUseUnicode=%True)
+     CULL1816.LNG       !Dutch Language file
+     CMLS1816.LNG
+     #ELSE
+     CMLL1816.LNG       !Dutch Language file
+     CMLS1816.LNG
+     #ENDIF
+     CMLL1816.INF (contains label formats; has to be in the same path of CMLL18.DLL)
+     CMLL1816.CHM (Designer help; has to be in the same path of CMLL18.DLL)
+   #OF('Hungarian')
+     #IF(%LLUseUnicode=%True)
+     CULL1821.LNG       !Hungarian Language file
+     CMLS1821.LNG
+     #ELSE
+     CMLL1821.LNG       !Hungarian Language file
+     CMLS1821.LNG
+     #ENDIF
+     CMLL1821.INF (contains label formats; has to be in the same path of CMLL18.DLL)
+     CMLL1821.CHM (Designer help; has to be in the same path of CMLL18.DLL)
+   #OF('Italian')
+     #IF(%LLUseUnicode=%True)
+     CULL1824.LNG       !Italian Language file
+     CMLS1824.LNG
+     #ELSE
+     CMLL1824.LNG       !Italian Language file
+     CMLS1824.LNG
+     #ENDIF
+     CMLL1824.INF (contains label formats; has to be in the same path of CMLL18.DLL)
+     CMLL1824.CHM (Designer help; has to be in the same path of CMLL18.DLL)
+   #OF('Norwegian')
+     #IF(%LLUseUnicode=%True)
+     CULL1829.LNG       !Norwegian Language file
+     CMLS1829.LNG
+     #ELSE
+     CMLL1829.LNG       !Norwegian Language file
+     CMLS1829.LNG
+     #ENDIF
+     CMLL1829.INF (contains label formats; has to be in the same path of CMLL18.DLL)
+     CMLL1829.CHM (Designer help; has to be in the same path of CMLL18.DLL)
+   #OF('Portuguese')
+     #IF(%LLUseUnicode=%True)
+     CULL1831.LNG       !Portugese Language file
+     CMLS1831.LNG
+     #ELSE
+     CMLL1831.LNG       !Portugese Language file
+     CMLS1831.LNG
+     #ENDIF
+     CMLL1831.INF (contains label formats; has to be in the same path of CMLL18.DLL)
+     CMLL1831.CHM (Designer help; has to be in the same path of CMLL18.DLL)
+   #OF('Russian')
+     #IF(%LLUseUnicode=%True)
+     CULL1833.LNG       !Russian Language file
+     CMLS1833.LNG
+     #ELSE
+     CMLL1833.LNG       !Russian Language file
+     CMLS1833.LNG
+     #ENDIF
+     CMLL1833.INF (contains label formats; has to be in the same path of CMLL18.DLL)
+     CMLL1833.CHM (Designer help; has to be in the same path of CMLL18.DLL)
+   #OF('Spanish')
+     #IF(%LLUseUnicode=%True)
+     CULL1837.LNG       !Spanish Language file
+     CMLS1837.LNG
+     #ELSE
+     CMLL1837.LNG       !Spanish Language file
+     CMLS1837.LNG
+     #ENDIF
+     CMLL1837.INF (contains label formats; has to be in the same path of CMLL18.DLL)
+     CMLL1837.CHM (Designer help; has to be in the same path of CMLL18.DLL)
+   #OF('Swedish')
+     #IF(%LLUseUnicode=%True)
+     CULL1838.LNG       !Swedish Language file
+     CMLS1838.LNG
+     #ELSE
+     CMLL1838.LNG       !Swedish Language file
+     CMLS1838.LNG
+     #ENDIF
+     CMLL1838.INF (contains label formats; has to be in the same path of CMLL18.DLL)
+     CMLL1838.CHM (Designer help; has to be in the same path of CMLL18.DLL)
+   #ENDCASE
+
+   If you are using the procedure SolaceLLPreview then you will also need:-
+     CMLL18O.OCX  This must be registered on your end user's system
+
+  #END
+
+  
+
  #ENDIF
 #ENDAT
 
@@ -2043,7 +2231,10 @@
    #IF(%LLVersion = 'Version 17')              #!Version 17
    INCLUDE('CMLL17.clw','Equates')
    #ENDIF
- ENDCOMPILE***
+   #IF(%LLVersion = 'Version 18')              #!Version 18
+   INCLUDE('CMLL18.clw','Equates')
+   #ENDIF
+   ENDCOMPILE***
  #IF(%LLCreateDir=%True)
 LL_SECURITY_ATTRIBUTES GROUP
 nLength ULONG
@@ -2132,7 +2323,14 @@ END
    INCLUDE('CMLL17.clw','Prototypes')
    #ENDIF
    #ENDIF
- ENDCOMPILE***
+   #IF(%LLVersion = 'Version 18')               #!Version 18
+   #IF(%LLUseUnicode=%True)
+   INCLUDE('CULL18.clw','Prototypes')
+   #ELSE
+   INCLUDE('CMLL18.clw','Prototypes')
+   #ENDIF
+   #ENDIF
+   ENDCOMPILE***
  #IF(%LLCreateDir=%True)
  MODULE('WINDOWS.DLL')
     LL_CreateDirectoryA(*CSTRING, *LL_SECURITY_ATTRIBUTES), SIGNED, PASCAL, RAW,NAME('CreateDirectoryA')
@@ -2278,7 +2476,14 @@ LL_GlobalPath   CString(255),Thread
        #PROJECT('CMLL17.LIB')
       #ENDIF
      #ENDIF
-   #ENDIF
+     #IF(%LLVersion = 'Version 18')           #!Version 18
+      #IF(%LLUseUnicode=%True)
+       #PROJECT('CULL18.LIB')
+      #ELSE
+       #PROJECT('CMLL18.LIB')
+      #ENDIF
+     #ENDIF
+	 #ENDIF
  #ENDIF
 #ENDAT
 
@@ -3551,7 +3756,7 @@ LL_StandardInit         ROUTINE
     end
 #INSERT(%SetLanguage)
     LL_hJob             = LLJobOpen(%WhichLanguage)
-   #IF(%LLVersion='Version 9' or %LLVersion='Version 10' or %LLVersion = 'Version 11' or %LLVersion = 'Version 12' or %LLVersion = 'Version 13' or %LLVersion = 'Version 14' or %LLVersion = 'Version 15' or %LLVersion = 'Version 16' or %LLVersion = 'Version 17')
+   #IF(%LLVersion='Version 9' or %LLVersion='Version 10' or %LLVersion = 'Version 11' or %LLVersion = 'Version 12' or %LLVersion = 'Version 13' or %LLVersion = 'Version 14' or %LLVersion = 'Version 15' or %LLVersion = 'Version 16' or %LLVersion = 'Version 17' or %LLVersion = 'Version 18')
     LL_Result = LLSetOptionString(LL_hJob,LL_OPTIONSTR_LICENSINGINFO,LLLicense)
    #ENDIF
     if LL_hJob < 0 then
@@ -3860,7 +4065,7 @@ LL_InitReport         ROUTINE
    #END
     LL_PrintText = '%PrintText'
 #EMBED(%LLBeforeOpening,'LL Before Opening With Box Start')
- #IF(%LLVersion='Version 9' or %LLVersion='Version 10' or %LLVersion = 'Version 11' or %LLVersion = 'Version 12' or %LLVersion = 'Version 13' or %LLVersion = 'Version 14' or %LLVersion = 'Version 15' or %LLVersion = 'Version 16' or %LLVersion = 'Version 17')
+ #IF(%LLVersion='Version 9' or %LLVersion='Version 10' or %LLVersion = 'Version 11' or %LLVersion = 'Version 12' or %LLVersion = 'Version 13' or %LLVersion = 'Version 14' or %LLVersion = 'Version 15' or %LLVersion = 'Version 16' or %LLVersion = 'Version 17' or %LLVersion = 'Version 18')
   #IF(%AllowFaxing=%True)
     #IF(%FaxRecipNumber<> '')
     if clip(%FaxRecipNumber) <> '' then
@@ -4676,7 +4881,7 @@ End
     LL_Result = LLSetOption(LL_hJob,LL_Option_Supervisor,%Supervisor)
     LL_Result = LLSetOption(LL_hJob,LL_Option_CompressStorage,%LLCompressPreview)
     LL_Result = LLSetOption(LL_hJob,83,16)       !Sketch_Color_Depth
-   #IF(%LLVersion='Version 9' or %LLVersion='Version 10' or %LLVersion = 'Version 11' or %LLVersion = 'Version 12' or %LLVersion = 'Version 13' or %LLVersion = 'Version 14' or %LLVersion = 'Version 15' or %LLVersion = 'Version 16' or %LLVersion = 'Version 17')
+   #IF(%LLVersion='Version 9' or %LLVersion='Version 10' or %LLVersion = 'Version 11' or %LLVersion = 'Version 12' or %LLVersion = 'Version 13' or %LLVersion = 'Version 14' or %LLVersion = 'Version 15' or %LLVersion = 'Version 16' or %LLVersion = 'Version 17' or %LLVersion = 'Version 18')
     LL_Result = LLSetOption(LL_hJob,LL_OPTION_NOFILEVERSIONUPGRADEWARNING,%LLWarnVersion)
    #ENDIF
     LL_Result = LLSetOption(LL_hJob,LL_OPTION_INCREMENTAL_PREVIEW,0)
@@ -5027,7 +5232,7 @@ LLWindow WINDOW,AT(,,1,1),FONT('MS Sans Serif',8,,FONT:regular),CENTER,GRAY,MAXI
    #DISPLAY('If a report has been emailed, the files that are created may be automatically deleted from the directory after they have been added to the email.  You may select a variable which, when set to true will automatically delete the files.  If no variable is selected, the files will not be deleted'),at(,,170,48)
    #PROMPT('Variable to delete files',Field),%LLAutoDeleteExportedFiles
    #ENDTAB
-   #TAB('Faxing'),Where(%LLVersion='Version 9' or %LLVersion='Version 10' or %LLVersion = 'Version 11' or %LLVersion = 'Version 12' or %LLVersion = 'Version 13' or %LLVersion = 'Version 14' or %LLVersion = 'Version 15' or %LLVersion = 'Version 16' or %LLVersion = 'Version 17')
+   #TAB('Faxing'),Where(%LLVersion='Version 9' or %LLVersion='Version 10' or %LLVersion = 'Version 11' or %LLVersion = 'Version 12' or %LLVersion = 'Version 13' or %LLVersion = 'Version 14' or %LLVersion = 'Version 15' or %LLVersion = 'Version 16' or %LLVersion = 'Version 17' or %LLVersion = 'Version 18')
      #DISPLAY('Please note that fax support is available when faxing is loaded on the end user machine'),at(,,180,20)
      #DISPLAY('')
      #DISPLAY('Only one fax recipient can be specified per report')
