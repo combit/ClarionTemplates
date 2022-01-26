@@ -1,5 +1,5 @@
 #! This template extends a Report or Process template with the functionality to print
-#! via List & Label Modified by Michael Summons 4/11/2014
+#! via List & Label Modified by Michael Summons 4/10/2016
 #TEMPLATE(ListAndLabel,'List & Label Templates'),FAMILY('ABC')
 #HELP('LL.HLP')
 #!*****************************************************************************
@@ -14,12 +14,12 @@
   #DISPLAY('This Template configures the List && Label includes')
   #DISPLAY('and prototypes.')
   #DISPLAY('')
-  #DISPLAY('Version 20.11')
-  #DISPLAY('Release date:- 4th November 2014')
-  #DISPLAY('(c) Copyright  Software.  2000 - 2014')
+  #DISPLAY('Version 21.01')
+  #DISPLAY('Release date:- 4th October 2016')
+  #DISPLAY('(c) Copyright  Software.  2000 - 2016')
   #DISPLAY('')
   #DISPLAY('Which version of List && Label are you using?')
-  #PROMPT('Version:',DROP('Version 20|Version 19|Version 18|Version 17|Version 16|Version 15|Version 14|Version 13|Version 12|Version 11|Version 10|Version 9|Version 8|Version 7|Version 6')),%LLVersion
+  #PROMPT('Version:',DROP('Version 21|Version 20|Version 19|Version 18|Version 17|Version 16|Version 15|Version 14|Version 13|Version 12|Version 11|Version 10|Version 9|Version 8|Version 7|Version 6')),%LLVersion
   #ENDBOXED
   #BOXED('')
   #DISPLAY('Leave this checkbox unchecked if:-')
@@ -28,18 +28,15 @@
   #DISPLAY('')
   #PROMPT ('L&&L Data External (defined in another DLL)',Check),%LLExternal,at(10)
   #ENDBOXED
-  #BOXED('Version 9/10/11/12/13/14/15/16/17/18/19/20 License'),WHERE(%LLVersion = 'Version 9' or %LLVersion = 'Version 10' or %LLVersion = 'Version 11' or %LLVersion = 'Version 12' or %LLVersion = 'Version 13' or %LLVersion = 'Version 14' or %LLVersion = 'Version 15' or %LLVersion = 'Version 16' or %LLVersion = 'Version 17' or %LLVersion = 'Version 18' or %LLVersion = 'Version 19' or %LLVersion = 'Version 20')
+  #BOXED('Version 9/10/11/12/13/14/15/16/17/18/19/20/21 License'),WHERE(%LLVersion = 'Version 9' or %LLVersion = 'Version 10' or %LLVersion = 'Version 11' or %LLVersion = 'Version 12' or %LLVersion = 'Version 13' or %LLVersion = 'Version 14' or %LLVersion = 'Version 15' or %LLVersion = 'Version 16' or %LLVersion = 'Version 17' or %LLVersion = 'Version 18' or %LLVersion = 'Version 19' or %LLVersion = 'Version 20' or %LLVersion = 'Version 21')
    #DISPLAY
-   #DISPLAY('This can be found in the file PERSLIC.TXT in your combit directory'),at(,,160,17)
+   #DISPLAY('This can be found in the file PersonalLicense.txt in your combit directory'),at(,,160,17)
    #DISPLAY('** Remember to update this is you use a new version of List & Label')
    #Prompt('Personal license key',@S6),%LLPerLicense,REQ
-   #Prompt('License Type',Option),%LLLicenseType,REQ
-   #Prompt('Professional',RADIO)
-   #Prompt('Standard',RADIO)
   #ENDBOXED
   #PROMPT('This is a NON-MDI application',Check),%LLNonMDI,at(10)
  #ENDTAB
- #TAB('Unicode'),Where(%LLLicenseType='Professional')
+ #TAB('Unicode')
   #DISPLAY
   #DISPLAY('Please note that if you need to use Unicode, this will not run on Win 9x machines.  This is a restriction by Windows and not List && Label'),at(10,,175,30)
   #PROMPT('Use Unicode',CHECK),%LLUseUnicode,at(10)
@@ -116,7 +113,7 @@
    #PROMPT('Delay Table Header (LlSetOption)',CHECK),%DefDelayTableHead,Default(%False),at(10)
    #PROMPT('Supervisor Option (LlSetOption)',CHECK),%DefSupervisor,Default(%False),at(10)
   #ENDBOXED
-  #BOXED('Updates'),Where(%LLVersion='Version 9' or %LLVersion = 'Version 10' or %LLVersion = 'Version 11' or %LLVersion = 'Version 12' or %LLVersion = 'Version 13' or %LLVersion = 'Version 14' or %LLVersion = 'Version 15' or %LLVersion = 'Version 16' or %LLVersion = 'Version 17' or %LLVersion = 'Version 18' or %LLVersion = 'Version 19' or %LLVersion = 'Version 20')
+  #BOXED('Updates'),Where(%LLVersion='Version 9' or %LLVersion = 'Version 10' or %LLVersion = 'Version 11' or %LLVersion = 'Version 12' or %LLVersion = 'Version 13' or %LLVersion = 'Version 14' or %LLVersion = 'Version 15' or %LLVersion = 'Version 16' or %LLVersion = 'Version 17' or %LLVersion = 'Version 18' or %LLVersion = 'Version 19' or %LLVersion = 'Version 20' or %LLVersion = 'Version 21')
    #DISPLAY('By default, L&&L warns when a layout is opened with a new major release of L&&L which can be annoying.  It is recommended that this facility is switched on'),at(,,168,25)
    #PROMPT('Do not warn of previous version',check),%LLWarnVersion,Default(%True),at(10)
   #ENDBOXED
@@ -257,7 +254,6 @@
   #ENDIF
 
 
-
   #!***************************************** Version 8 Ship List ****************
   #IF(%LLVersion='Version 8')
      combit List & Label files:-
@@ -337,7 +333,6 @@
      CM32L8S.DLL
      CM32L8V.OCX  This must be registered on your end user's system
  #ENDIF
-
 
 
   #!***************************************** Version 9 Ship List ****************
@@ -506,7 +501,6 @@
    If you are using the procedure SolaceLLPreview then you will also need:-
      CM32L9S.DLL
      CM32L9V.OCX  This must be registered on your end user's system
-
 
 
   #!***************************************** Version 10 Ship List ****************
@@ -685,7 +679,6 @@
      CMLL10O.OCX  This must be registered on your end user's system
 
   #END
-
 
 
   #!***************************************** Version 11 Ship List ****************
@@ -874,9 +867,6 @@
   #END
 
 
-
-
-
   #!***************************************** Version 12 Ship List ****************
   #IF(%LLVersion = 'Version 12')
      combit List & Label files:-
@@ -1063,7 +1053,6 @@
   #END
 
 
-
   #!***************************************** Version 13 Ship List ****************
   #IF(%LLVersion = 'Version 13')
      combit List & Label files:-
@@ -1096,7 +1085,6 @@
      CMDW13.DLL
     #ENDIF
      CMLL13EX.LLX     Export Modules (HTML, PDF, RTF, XML, MHTML,...)
-     CMLL13OB.LLX     Charting-Object
      CMLL13OC.LLX     OLE-Object
      CMLL13HT.LLX     HTML-Object
      CMLL13PW.LLX     Project Wizard
@@ -1282,7 +1270,6 @@
      CMDW14.DLL
     #ENDIF
      CMLL14EX.LLX     Export Modules (HTML, PDF, RTF, XML, MHTML,...)
-     CMLL14OB.LLX     Charting-Object
      CMLL14OC.LLX     OLE-Object
      CMLL14HT.LLX     HTML-Object
      CMLL14PW.LLX     Project Wizard
@@ -1435,6 +1422,7 @@
 
   #END
 
+
   #!***************************************** Version 15 Ship List ****************
   #IF(%LLVersion = 'Version 15')
      combit List & Label files:-
@@ -1528,7 +1516,6 @@
      CMLL15O.OCX  This must be registered on your end user's system
 
   #END
-
 
 
   #!***************************************** Version 16 Ship List ****************
@@ -1626,7 +1613,7 @@
   #END
 
 
-    #!***************************************** Version 17 Ship List ****************
+  #!***************************************** Version 17 Ship List ****************
   #IF(%LLVersion = 'Version 17')
      combit List & Label files:-
      ---------------------------
@@ -1720,6 +1707,7 @@
 
   #END
 
+
   #!***************************************** Version 18 Ship List ****************
   #IF(%LLVersion = 'Version 18')
      combit List & Label files:-
@@ -1737,75 +1725,75 @@
      CMLL18OC.LLX     OLE-Object
      CMLL18HT.LLX     HTML-Object
      CMLL18PW.LLX     Project Wizard
-     CMLL18BC.LLX     PDF 418 / Maxicode Barcode - (Professional Version only)
+     CMLL18BC.LLX     PDF 417 / Maxicode Barcode - (Professional Version only)
    #CASE(%Language)
    #OF('English')
      CMLL1801.LNG       !English Language file
-     CMLL1801.INF (contains label formats; has to be in the same path of CMLL18.DLL)
+     CMLL1801.LTPL (contains label formats; has to be in the same path of CMLL18.DLL)
      CMLL1801.CHM (Designer help; has to be in the same path of CMLL18.DLL)
    #OF('German')
      CMLL1800.LNG       !German Language file
-     CMLL1800.INF (contains label formats; has to be in the same path of CMLL18.DLL)
+     CMLL1800.LTPL (contains label formats; has to be in the same path of CMLL18.DLL)
      CMLL1800.CHM (Designer help; has to be in the same path of CMLL18.DLL)
    #OF('Greek')
      CMLL1813.LNG       !Greek Language file
      CMLS1813.LNG
-     CMLL1801.INF (contains label formats; has to be in the same path of CMLL18.DLL)
+     CMLL1801.LTPL (contains label formats; has to be in the same path of CMLL18.DLL)
      CMLL1801.CHM (Designer help; has to be in the same path of CMLL18.DLL)
    #OF('French')
      CMLL1812.LNG       !French Language file
      CMLS1812.LNG
-     CMLL1801.INF (contains label formats; has to be in the same path of CMLL18.DLL)
+     CMLL1801.LTPL (contains label formats; has to be in the same path of CMLL18.DLL)
      CMLL1801.CHM (Designer help; has to be in the same path of CMLL18.DLL)
    #OF('Catalan')
      CMLL1808.LNG       !Catalan Language file
      CMLS1808.LNG
-     CMLL1801.INF (contains label formats; has to be in the same path of CMLL18.DLL)
+     CMLL1801.LTPL (contains label formats; has to be in the same path of CMLL18.DLL)
      CMLL1801.CHM (Designer help; has to be in the same path of CMLL18.DLL)
    #OF('Danish')
      CMLL180C.LNG       !Danish Language file
      CMLS180C.LNG
-     CMLL1801.INF (contains label formats; has to be in the same path of CMLL18.DLL)
+     CMLL1801.LTPL (contains label formats; has to be in the same path of CMLL18.DLL)
      CMLL1801.CHM (Designer help; has to be in the same path of CMLL18.DLL)
    #OF('Dutch')
      CMLL180D.LNG       !Dutch Language file
      CMLS180D.LNG
-     CMLL1801.INF (contains label formats; has to be in the same path of CMLL18.DLL)
+     CMLL1801.LTPL (contains label formats; has to be in the same path of CMLL18.DLL)
      CMLL1801.CHM (Designer help; has to be in the same path of CMLL18.DLL)
    #OF('Hungarian')
      CMLL1815.LNG       !Hungarian Language file
      CMLS1815.LNG
-     CMLL1801.INF (contains label formats; has to be in the same path of CMLL18.DLL)
+     CMLL1801.LTPL (contains label formats; has to be in the same path of CMLL18.DLL)
      CMLL1801.CHM (Designer help; has to be in the same path of CMLL18.DLL)
    #OF('Italian')
      CMLL1818.LNG       !Italian Language file
      CMLS1818.LNG
-     CMLL1801.INF (contains label formats; has to be in the same path of CMLL18.DLL)
+     CMLL1801.LTPL (contains label formats; has to be in the same path of CMLL18.DLL)
      CMLL1801.CHM (Designer help; has to be in the same path of CMLL18.DLL)
    #OF('Norwegian')
      CMLL181D.LNG       !Norwegian Language file
      CMLS181D.LNG
-     CMLL1801.INF (contains label formats; has to be in the same path of CMLL18.DLL)
+     CMLL1801.LTPL (contains label formats; has to be in the same path of CMLL18.DLL)
      CMLL1801.CHM (Designer help; has to be in the same path of CMLL18.DLL)
    #OF('Portuguese')
      CMLL181F.LNG       !Portugese Language file
      CMLS181F.LNG
-     CMLL1801.INF (contains label formats; has to be in the same path of CMLL18.DLL)
+     CMLL1801.LTPL (contains label formats; has to be in the same path of CMLL18.DLL)
      CMLL1801.CHM (Designer help; has to be in the same path of CMLL18.DLL)
    #OF('Russian')
      CMLL1821.LNG       !Russian Language file
      CMLS1821.LNG
-     CMLL1801.INF (contains label formats; has to be in the same path of CMLL18.DLL)
+     CMLL1801.LTPL (contains label formats; has to be in the same path of CMLL18.DLL)
      CMLL1801.CHM (Designer help; has to be in the same path of CMLL18.DLL)
    #OF('Spanish')
      CULL1825.LNG       !Spanish Language file
      CMLS1825.LNG
-     CMLL1801.INF (contains label formats; has to be in the same path of CMLL18.DLL)
+     CMLL1801.LTPL (contains label formats; has to be in the same path of CMLL18.DLL)
      CMLL1801.CHM (Designer help; has to be in the same path of CMLL18.DLL)
    #OF('Swedish')
      CMLL1826.LNG       !Swedish Language file
      CMLS1826.LNG
-     CMLL1801.INF (contains label formats; has to be in the same path of CMLL18.DLL)
+     CMLL1801.LTPL (contains label formats; has to be in the same path of CMLL18.DLL)
      CMLL1801.CHM (Designer help; has to be in the same path of CMLL18.DLL)
    #ENDCASE
 
@@ -1814,7 +1802,8 @@
 
   #END
 
-    #!***************************************** Version 19 Ship List ****************
+
+  #!***************************************** Version 19 Ship List ****************
   #IF(%LLVersion = 'Version 19')
      combit List & Label files:-
      ---------------------------
@@ -1831,75 +1820,75 @@
      CMLL19OC.LLX     OLE-Object
      CMLL19HT.LLX     HTML-Object
      CMLL19PW.LLX     Project Wizard
-     CMLL19BC.LLX     PDF 419 / Maxicode Barcode - (Professional Version only)
+     CMLL19BC.LLX     PDF 417 / Maxicode Barcode - (Professional Version only)
    #CASE(%Language)
    #OF('English')
      CMLL1901.LNG       !English Language file
-     CMLL1901.INF (contains label formats; has to be in the same path of CMLL19.DLL)
+     CMLL1901.LTPL (contains label formats; has to be in the same path of CMLL19.DLL)
      CMLL1901.CHM (Designer help; has to be in the same path of CMLL19.DLL)
    #OF('German')
      CMLL1900.LNG       !German Language file
-     CMLL1900.INF (contains label formats; has to be in the same path of CMLL19.DLL)
+     CMLL1900.LTPL (contains label formats; has to be in the same path of CMLL19.DLL)
      CMLL1900.CHM (Designer help; has to be in the same path of CMLL19.DLL)
    #OF('Greek')
      CMLL1913.LNG       !Greek Language file
      CMLS1913.LNG
-     CMLL1901.INF (contains label formats; has to be in the same path of CMLL19.DLL)
+     CMLL1901.LTPL (contains label formats; has to be in the same path of CMLL19.DLL)
      CMLL1901.CHM (Designer help; has to be in the same path of CMLL19.DLL)
    #OF('French')
      CMLL1912.LNG       !French Language file
      CMLS1912.LNG
-     CMLL1901.INF (contains label formats; has to be in the same path of CMLL19.DLL)
+     CMLL1901.LTPL (contains label formats; has to be in the same path of CMLL19.DLL)
      CMLL1901.CHM (Designer help; has to be in the same path of CMLL19.DLL)
    #OF('Catalan')
      CMLL1908.LNG       !Catalan Language file
      CMLS1908.LNG
-     CMLL1901.INF (contains label formats; has to be in the same path of CMLL19.DLL)
+     CMLL1901.LTPL (contains label formats; has to be in the same path of CMLL19.DLL)
      CMLL1901.CHM (Designer help; has to be in the same path of CMLL19.DLL)
    #OF('Danish')
      CMLL190C.LNG       !Danish Language file
      CMLS190C.LNG
-     CMLL1901.INF (contains label formats; has to be in the same path of CMLL19.DLL)
+     CMLL1901.LTPL (contains label formats; has to be in the same path of CMLL19.DLL)
      CMLL1901.CHM (Designer help; has to be in the same path of CMLL19.DLL)
    #OF('Dutch')
      CMLL190D.LNG       !Dutch Language file
      CMLS190D.LNG
-     CMLL1901.INF (contains label formats; has to be in the same path of CMLL19.DLL)
+     CMLL1901.LTPL (contains label formats; has to be in the same path of CMLL19.DLL)
      CMLL1901.CHM (Designer help; has to be in the same path of CMLL19.DLL)
    #OF('Hungarian')
      CMLL1915.LNG       !Hungarian Language file
      CMLS1915.LNG
-     CMLL1901.INF (contains label formats; has to be in the same path of CMLL19.DLL)
+     CMLL1901.LTPL (contains label formats; has to be in the same path of CMLL19.DLL)
      CMLL1901.CHM (Designer help; has to be in the same path of CMLL19.DLL)
    #OF('Italian')
      CMLL1918.LNG       !Italian Language file
      CMLS1918.LNG
-     CMLL1901.INF (contains label formats; has to be in the same path of CMLL19.DLL)
+     CMLL1901.LTPL (contains label formats; has to be in the same path of CMLL19.DLL)
      CMLL1901.CHM (Designer help; has to be in the same path of CMLL19.DLL)
    #OF('Norwegian')
      CMLL191D.LNG       !Norwegian Language file
      CMLS191D.LNG
-     CMLL1901.INF (contains label formats; has to be in the same path of CMLL19.DLL)
+     CMLL1901.LTPL (contains label formats; has to be in the same path of CMLL19.DLL)
      CMLL1901.CHM (Designer help; has to be in the same path of CMLL19.DLL)
    #OF('Portuguese')
      CMLL191F.LNG       !Portugese Language file
      CMLS191F.LNG
-     CMLL1901.INF (contains label formats; has to be in the same path of CMLL19.DLL)
+     CMLL1901.LTPL (contains label formats; has to be in the same path of CMLL19.DLL)
      CMLL1901.CHM (Designer help; has to be in the same path of CMLL19.DLL)
    #OF('Russian')
      CMLL1921.LNG       !Russian Language file
      CMLS1921.LNG
-     CMLL1901.INF (contains label formats; has to be in the same path of CMLL19.DLL)
+     CMLL1901.LTPL (contains label formats; has to be in the same path of CMLL19.DLL)
      CMLL1901.CHM (Designer help; has to be in the same path of CMLL19.DLL)
    #OF('Spanish')
      CULL1925.LNG       !Spanish Language file
      CMLS1925.LNG
-     CMLL1901.INF (contains label formats; has to be in the same path of CMLL19.DLL)
+     CMLL1901.LTPL (contains label formats; has to be in the same path of CMLL19.DLL)
      CMLL1901.CHM (Designer help; has to be in the same path of CMLL19.DLL)
    #OF('Swedish')
      CMLL1926.LNG       !Swedish Language file
      CMLS1926.LNG
-     CMLL1901.INF (contains label formats; has to be in the same path of CMLL19.DLL)
+     CMLL1901.LTPL (contains label formats; has to be in the same path of CMLL19.DLL)
      CMLL1901.CHM (Designer help; has to be in the same path of CMLL19.DLL)
    #ENDCASE
 
@@ -1909,7 +1898,7 @@
   #END
 
   
-    #!***************************************** Version 20 Ship List ****************
+  #!***************************************** Version 20 Ship List ****************
   #IF(%LLVersion = 'Version 20')
      combit List & Label files:-
      ---------------------------
@@ -1926,75 +1915,75 @@
      CMLL20OC.LLX     OLE-Object
      CMLL20HT.LLX     HTML-Object
      CMLL20PW.LLX     Project Wizard
-     CMLL20BC.LLX     PDF 420 / Maxicode Barcode - (Professional Version only)
+     CMLL20BC.LLX     PDF 417 / Maxicode Barcode - (Professional Version only)
    #CASE(%Language)
    #OF('English')
      CMLL2001.LNG       !English Language file
-     CMLL2001.INF (contains label formats; has to be in the same path of CMLL20.DLL)
+     CMLL2001.LTPL (contains label formats; has to be in the same path of CMLL20.DLL)
      CMLL2001.CHM (Designer help; has to be in the same path of CMLL20.DLL)
    #OF('German')
      CMLL2000.LNG       !German Language file
-     CMLL2000.INF (contains label formats; has to be in the same path of CMLL20.DLL)
+     CMLL2000.LTPL (contains label formats; has to be in the same path of CMLL20.DLL)
      CMLL2000.CHM (Designer help; has to be in the same path of CMLL20.DLL)
    #OF('Greek')
      CMLL2013.LNG       !Greek Language file
      CMLS2013.LNG
-     CMLL2001.INF (contains label formats; has to be in the same path of CMLL20.DLL)
+     CMLL2001.LTPL (contains label formats; has to be in the same path of CMLL20.DLL)
      CMLL2001.CHM (Designer help; has to be in the same path of CMLL20.DLL)
    #OF('French')
      CMLL2012.LNG       !French Language file
      CMLS2012.LNG
-     CMLL2001.INF (contains label formats; has to be in the same path of CMLL20.DLL)
+     CMLL2001.LTPL (contains label formats; has to be in the same path of CMLL20.DLL)
      CMLL2001.CHM (Designer help; has to be in the same path of CMLL20.DLL)
    #OF('Catalan')
      CMLL2008.LNG       !Catalan Language file
      CMLS2008.LNG
-     CMLL2001.INF (contains label formats; has to be in the same path of CMLL20.DLL)
+     CMLL2001.LTPL (contains label formats; has to be in the same path of CMLL20.DLL)
      CMLL2001.CHM (Designer help; has to be in the same path of CMLL20.DLL)
    #OF('Danish')
      CMLL200C.LNG       !Danish Language file
      CMLS200C.LNG
-     CMLL2001.INF (contains label formats; has to be in the same path of CMLL20.DLL)
+     CMLL2001.LTPL (contains label formats; has to be in the same path of CMLL20.DLL)
      CMLL2001.CHM (Designer help; has to be in the same path of CMLL20.DLL)
    #OF('Dutch')
      CMLL200D.LNG       !Dutch Language file
      CMLS200D.LNG
-     CMLL2001.INF (contains label formats; has to be in the same path of CMLL20.DLL)
+     CMLL2001.LTPL (contains label formats; has to be in the same path of CMLL20.DLL)
      CMLL2001.CHM (Designer help; has to be in the same path of CMLL20.DLL)
    #OF('Hungarian')
      CMLL2015.LNG       !Hungarian Language file
      CMLS2015.LNG
-     CMLL2001.INF (contains label formats; has to be in the same path of CMLL20.DLL)
+     CMLL2001.LTPL (contains label formats; has to be in the same path of CMLL20.DLL)
      CMLL2001.CHM (Designer help; has to be in the same path of CMLL20.DLL)
    #OF('Italian')
      CMLL2018.LNG       !Italian Language file
      CMLS2018.LNG
-     CMLL2001.INF (contains label formats; has to be in the same path of CMLL20.DLL)
+     CMLL2001.LTPL (contains label formats; has to be in the same path of CMLL20.DLL)
      CMLL2001.CHM (Designer help; has to be in the same path of CMLL20.DLL)
    #OF('Norwegian')
      CMLL201D.LNG       !Norwegian Language file
      CMLS201D.LNG
-     CMLL2001.INF (contains label formats; has to be in the same path of CMLL20.DLL)
+     CMLL2001.LTPL (contains label formats; has to be in the same path of CMLL20.DLL)
      CMLL2001.CHM (Designer help; has to be in the same path of CMLL20.DLL)
    #OF('Portuguese')
      CMLL201F.LNG       !Portugese Language file
      CMLS201F.LNG
-     CMLL2001.INF (contains label formats; has to be in the same path of CMLL20.DLL)
+     CMLL2001.LTPL (contains label formats; has to be in the same path of CMLL20.DLL)
      CMLL2001.CHM (Designer help; has to be in the same path of CMLL20.DLL)
    #OF('Russian')
      CMLL2021.LNG       !Russian Language file
      CMLS2021.LNG
-     CMLL2001.INF (contains label formats; has to be in the same path of CMLL20.DLL)
+     CMLL2001.LTPL (contains label formats; has to be in the same path of CMLL20.DLL)
      CMLL2001.CHM (Designer help; has to be in the same path of CMLL20.DLL)
    #OF('Spanish')
      CULL2025.LNG       !Spanish Language file
      CMLS2025.LNG
-     CMLL2001.INF (contains label formats; has to be in the same path of CMLL20.DLL)
+     CMLL2001.LTPL (contains label formats; has to be in the same path of CMLL20.DLL)
      CMLL2001.CHM (Designer help; has to be in the same path of CMLL20.DLL)
    #OF('Swedish')
      CMLL2026.LNG       !Swedish Language file
      CMLS2026.LNG
-     CMLL2001.INF (contains label formats; has to be in the same path of CMLL20.DLL)
+     CMLL2001.LTPL (contains label formats; has to be in the same path of CMLL20.DLL)
      CMLL2001.CHM (Designer help; has to be in the same path of CMLL20.DLL)
    #ENDCASE
 
@@ -2002,7 +1991,89 @@
      CMLL20O.OCX  This must be registered on your end user's system
 
   #END
- 
+
+  
+  #!***************************************** Version 21 Ship List ****************
+  #IF(%LLVersion = 'Version 21')
+     combit List & Label files:-
+     ---------------------------
+     CMLL21.DLL
+     CMLL21XL.DLL
+     CMLS21.DLL
+     CMBR21.DLL
+     CMPR21.DLL
+     CMUT21.DLL
+     CMCT21.DLL
+     CMDW21.DLL
+     CMMX01.DLL
+     CMLL21EX.LLX     Export Modules (HTML, PDF, RTF, XML, MHTML,...)
+     CMLL21OC.LLX     OLE-Object
+     CMLL21HT.LLX     HTML-Object
+     CMLL21PW.LLX     Project Wizard
+     CMLL21BC.LLX     PDF 417 / Maxicode Barcode - (Professional Version only)
+   #CASE(%Language)
+   #OF('English')
+     CMLL2101.LNG       !English Language file
+     CMLS2101.LNG
+     CMLL2101.LTPL (contains label formats; has to be in the same path of CMLL21.DLL)
+     CMLL2101.CHM (Designer help; has to be in the same path of CMLL21.DLL)
+   #OF('German')
+     CMLL2100.LNG       !German Language file
+     CMLS2100.LNG
+     CMLL2100.LTPL (contains label formats; has to be in the same path of CMLL21.DLL)
+     CMLL2100.CHM (Designer help; has to be in the same path of CMLL21.DLL)
+   #OF('Chinese')
+     CMLL2109.LNG       !Chinese Language file
+     CMLS2109.LNG
+     CMLL2001.LTPL (contains label formats; has to be in the same path of CMLL20.DLL)
+     CMLL2001.CHM (Designer help; has to be in the same path of CMLL20.DLL)
+   #OF('Dutch')
+     CMLL210D.LNG       !Dutch Language file
+     CMLS210D.LNG
+     CMLL2101.LTPL (contains label formats; has to be in the same path of CMLL21.DLL)
+     CMLL2101.CHM (Designer help; has to be in the same path of CMLL21.DLL)   
+   #OF('French')
+     CMLL2112.LNG       !French Language file
+     CMLS2112.LNG
+     CMLL2001.LTPL (contains label formats; has to be in the same path of CMLL20.DLL)
+     CMLL2001.CHM (Designer help; has to be in the same path of CMLL20.DLL)
+   #OF('Italian')
+     CMLL2118.LNG       !Italian Language file
+     CMLS2118.LNG
+     CMLL2101.LTPL (contains label formats; has to be in the same path of CMLL21.DLL)
+     CMLL2101.CHM (Designer help; has to be in the same path of CMLL21.DLL)
+   #OF('Polish')
+     CMLL211E.LNG       !Polish Language file
+     CMLS211E.LNG
+     CMLL2101.LTPL (contains label formats; has to be in the same path of CMLL21.DLL)
+     CMLL2101.CHM (Designer help; has to be in the same path of CMLL21.DLL)
+   #OF('Portuguese')
+     CMLL211F.LNG       !Portuguese Language file
+     CMLS211F.LNG
+     CMLL2101.LTPL (contains label formats; has to be in the same path of CMLL21.DLL)
+     CMLL2101.CHM (Designer help; has to be in the same path of CMLL21.DLL)
+   #OF('Russian')
+     CMLL2121.LNG       !Russian Language file
+     CMLS2121.LNG
+     CMLL2101.LTPL (contains label formats; has to be in the same path of CMLL21.DLL)
+     CMLL2101.CHM (Designer help; has to be in the same path of CMLL21.DLL)
+   #OF('Slovak')
+     CMLL2122.LNG       !Slovak Language file
+     CMLS2122.LNG
+     CMLL2101.LTPL (contains label formats; has to be in the same path of CMLL21.DLL)
+     CMLL2101.CHM (Designer help; has to be in the same path of CMLL21.DLL)
+   #OF('Spanish')
+     CMLL2125.LNG       !Spanish Language file
+     CMLS2125.LNG
+     CMLL2101.LTPL (contains label formats; has to be in the same path of CMLL21.DLL)
+     CMLL2101.CHM (Designer help; has to be in the same path of CMLL21.DLL)
+   #ENDCASE
+
+   If you are using the procedure SolaceLLPreview then you will also need:-
+     CMLL21O.OCX  This must be registered on your end user's system
+
+  #END
+  
  #ENDIF
 #ENDAT
 
@@ -2059,6 +2130,9 @@
    #IF(%LLVersion = 'Version 20')              #!Version 20
    INCLUDE('CMLL20.clw','Equates')
    #ENDIF   
+   #IF(%LLVersion = 'Version 21')              #!Version 21
+   INCLUDE('CMLL21.clw','Equates')
+   #ENDIF
    ENDCOMPILE***
  #IF(%LLCreateDir=%True)
 LL_SECURITY_ATTRIBUTES GROUP
@@ -2128,47 +2202,26 @@ END
    #ENDIF
    #ENDIF
    #IF(%LLVersion = 'Version 15')               #!Version 15
-   #IF(%LLUseUnicode=%True)
-   INCLUDE('CULL15.clw','Prototypes')
-   #ELSE
    INCLUDE('CMLL15.clw','Prototypes')
    #ENDIF
-   #ENDIF
    #IF(%LLVersion = 'Version 16')               #!Version 16
-   #IF(%LLUseUnicode=%True)
-   INCLUDE('CULL16.clw','Prototypes')
-   #ELSE
    INCLUDE('CMLL16.clw','Prototypes')
    #ENDIF
-   #ENDIF
    #IF(%LLVersion = 'Version 17')               #!Version 17
-   #IF(%LLUseUnicode=%True)
-   INCLUDE('CULL17.clw','Prototypes')
-   #ELSE
    INCLUDE('CMLL17.clw','Prototypes')
    #ENDIF
-   #ENDIF
    #IF(%LLVersion = 'Version 18')               #!Version 18
-   #IF(%LLUseUnicode=%True)
-   INCLUDE('CULL18.clw','Prototypes')
-   #ELSE
    INCLUDE('CMLL18.clw','Prototypes')
    #ENDIF
-   #ENDIF
    #IF(%LLVersion = 'Version 19')               #!Version 19
-   #IF(%LLUseUnicode=%True)
-   INCLUDE('CULL19.clw','Prototypes')
-   #ELSE
    INCLUDE('CMLL19.clw','Prototypes')
-   #ENDIF
    #ENDIF   
    #IF(%LLVersion = 'Version 20')               #!Version 20
-   #IF(%LLUseUnicode=%True)
-   INCLUDE('CULL20.clw','Prototypes')
-   #ELSE
    INCLUDE('CMLL20.clw','Prototypes')
-   #ENDIF
-   #ENDIF      
+   #ENDIF 
+   #IF(%LLVersion = 'Version 21')               #!Version 21
+   INCLUDE('CMLL21.clw','Prototypes')
+   #ENDIF    
    ENDCOMPILE***
  #IF(%LLCreateDir=%True)
  MODULE('WINDOWS.DLL')
@@ -2239,13 +2292,13 @@ LL_GlobalPath   CString(255),Thread
 #ENDAT
 #AT(%CustomGlobalDeclarations)
  #IF(%LLVersion = 'Version 6')               #!Version 6
-   #If(%Target32)                                #!Add to project if 32bit or 16 bit
+   #IF(%Target32)                                #!Add to project if 32bit or 16 bit
      #PROJECT('CM32L6.LIB')
    #ELSE
      #PROJECT('CMBTL6.LIB')                  
    #ENDIF
  #ELSE
-   #If(%Target32)
+   #IF(%Target32)
      #IF(%LLVersion = 'Version 7')           #!Version 7
        #PROJECT('CM32L7.LIB')
      #ENDIF
@@ -2259,84 +2312,63 @@ LL_GlobalPath   CString(255),Thread
        #PROJECT('CM32L9.LIB')
       #ENDIF
      #ENDIF
-     #IF(%LLVersion = 'Version 10')           #!Version 10
+     #IF(%LLVersion = 'Version 10')          #!Version 10
       #IF(%LLUseUnicode=%True)
        #PROJECT('CULL10.LIB')
       #ELSE
        #PROJECT('CMLL10.LIB')
       #ENDIF
      #ENDIF
-     #IF(%LLVersion = 'Version 11')           #!Version 11
+     #IF(%LLVersion = 'Version 11')          #!Version 11
       #IF(%LLUseUnicode=%True)
        #PROJECT('CULL11.LIB')
       #ELSE
        #PROJECT('CMLL11.LIB')
       #ENDIF
      #ENDIF
-     #IF(%LLVersion = 'Version 12')           #!Version 12
+     #IF(%LLVersion = 'Version 12')          #!Version 12
       #IF(%LLUseUnicode=%True)
        #PROJECT('CULL12.LIB')
       #ELSE
        #PROJECT('CMLL12.LIB')
       #ENDIF
      #ENDIF
-     #IF(%LLVersion = 'Version 13')           #!Version 13
+     #IF(%LLVersion = 'Version 13')          #!Version 13
       #IF(%LLUseUnicode=%True)
        #PROJECT('CULL13.LIB')
       #ELSE
        #PROJECT('CMLL13.LIB')
       #ENDIF
      #ENDIF
-     #IF(%LLVersion = 'Version 14')           #!Version 14
+     #IF(%LLVersion = 'Version 14')          #!Version 14
       #IF(%LLUseUnicode=%True)
        #PROJECT('CULL14.LIB')
       #ELSE
        #PROJECT('CMLL14.LIB')
       #ENDIF
      #ENDIF
-     #IF(%LLVersion = 'Version 15')           #!Version 15
-      #IF(%LLUseUnicode=%True)
-       #PROJECT('CULL15.LIB')
-      #ELSE
+     #IF(%LLVersion = 'Version 15')          #!Version 15
        #PROJECT('CMLL15.LIB')
-      #ENDIF
      #ENDIF
-     #IF(%LLVersion = 'Version 16')           #!Version 16
-      #IF(%LLUseUnicode=%True)
-       #PROJECT('CULL16.LIB')
-      #ELSE
+     #IF(%LLVersion = 'Version 16')          #!Version 16
        #PROJECT('CMLL16.LIB')
-      #ENDIF
      #ENDIF
-     #IF(%LLVersion = 'Version 17')           #!Version 17
-      #IF(%LLUseUnicode=%True)
-       #PROJECT('CULL17.LIB')
-      #ELSE
+     #IF(%LLVersion = 'Version 17')          #!Version 17
        #PROJECT('CMLL17.LIB')
-      #ENDIF
      #ENDIF
-     #IF(%LLVersion = 'Version 18')           #!Version 18
-      #IF(%LLUseUnicode=%True)
-       #PROJECT('CULL18.LIB')
-      #ELSE
+     #IF(%LLVersion = 'Version 18')          #!Version 18
        #PROJECT('CMLL18.LIB')
-      #ENDIF
      #ENDIF
-     #IF(%LLVersion = 'Version 19')           #!Version 19
-      #IF(%LLUseUnicode=%True)
-       #PROJECT('CULL19.LIB')
-      #ELSE
+     #IF(%LLVersion = 'Version 19')          #!Version 19
        #PROJECT('CMLL19.LIB')
-      #ENDIF
-     #ENDIF	 
-     #IF(%LLVersion = 'Version 20')           #!Version 20
-      #IF(%LLUseUnicode=%True)
-       #PROJECT('CULL20.LIB')
-      #ELSE
+     #ENDIF
+     #IF(%LLVersion = 'Version 20')          #!Version 20
        #PROJECT('CMLL20.LIB')
-      #ENDIF
-     #ENDIF		 
-	 #ENDIF
+     #ENDIF
+     #IF(%LLVersion = 'Version 21')          #!Version 21
+       #PROJECT('CMLL21.LIB')
+     #ENDIF
+   #ENDIF
  #ENDIF
 #ENDAT
 
@@ -3609,7 +3641,7 @@ LL_StandardInit         ROUTINE
     end
 #INSERT(%SetLanguage)
     LL_hJob             = LLJobOpen(%WhichLanguage)
-   #IF(%LLVersion='Version 9' or %LLVersion='Version 10' or %LLVersion = 'Version 11' or %LLVersion = 'Version 12' or %LLVersion = 'Version 13' or %LLVersion = 'Version 14' or %LLVersion = 'Version 15' or %LLVersion = 'Version 16' or %LLVersion = 'Version 17' or %LLVersion = 'Version 18' or %LLVersion = 'Version 19' or %LLVersion = 'Version 20')
+   #IF(%LLVersion='Version 9' or %LLVersion='Version 10' or %LLVersion = 'Version 11' or %LLVersion = 'Version 12' or %LLVersion = 'Version 13' or %LLVersion = 'Version 14' or %LLVersion = 'Version 15' or %LLVersion = 'Version 16' or %LLVersion = 'Version 17' or %LLVersion = 'Version 18' or %LLVersion = 'Version 19' or %LLVersion = 'Version 20' or %LLVersion = 'Version 21')
     LL_Result = LLSetOptionString(LL_hJob,LL_OPTIONSTR_LICENSINGINFO,LLLicense)
    #ENDIF
     if LL_hJob < 0 then
@@ -3918,7 +3950,7 @@ LL_InitReport         ROUTINE
    #END
     LL_PrintText = '%PrintText'
 #EMBED(%LLBeforeOpening,'LL Before Opening With Box Start')
- #IF(%LLVersion='Version 9' or %LLVersion='Version 10' or %LLVersion = 'Version 11' or %LLVersion = 'Version 12' or %LLVersion = 'Version 13' or %LLVersion = 'Version 14' or %LLVersion = 'Version 15' or %LLVersion = 'Version 16' or %LLVersion = 'Version 17' or %LLVersion = 'Version 18' or %LLVersion = 'Version 19' or %LLVersion = 'Version 20')
+ #IF(%LLVersion='Version 9' or %LLVersion='Version 10' or %LLVersion = 'Version 11' or %LLVersion = 'Version 12' or %LLVersion = 'Version 13' or %LLVersion = 'Version 14' or %LLVersion = 'Version 15' or %LLVersion = 'Version 16' or %LLVersion = 'Version 17' or %LLVersion = 'Version 18' or %LLVersion = 'Version 19' or %LLVersion = 'Version 20' or %LLVersion = 'Version 21')
   #IF(%AllowFaxing=%True)
     #IF(%FaxRecipNumber<> '')
     if clip(%FaxRecipNumber) <> '' then
@@ -4734,7 +4766,7 @@ End
     LL_Result = LLSetOption(LL_hJob,LL_Option_Supervisor,%Supervisor)
     LL_Result = LLSetOption(LL_hJob,LL_Option_CompressStorage,%LLCompressPreview)
     LL_Result = LLSetOption(LL_hJob,83,16)       !Sketch_Color_Depth
-   #IF(%LLVersion='Version 9' or %LLVersion='Version 10' or %LLVersion = 'Version 11' or %LLVersion = 'Version 12' or %LLVersion = 'Version 13' or %LLVersion = 'Version 14' or %LLVersion = 'Version 15' or %LLVersion = 'Version 16' or %LLVersion = 'Version 17' or %LLVersion = 'Version 18' or %LLVersion = 'Version 19' or %LLVersion = 'Version 20')
+   #IF(%LLVersion='Version 9' or %LLVersion='Version 10' or %LLVersion = 'Version 11' or %LLVersion = 'Version 12' or %LLVersion = 'Version 13' or %LLVersion = 'Version 14' or %LLVersion = 'Version 15' or %LLVersion = 'Version 16' or %LLVersion = 'Version 17' or %LLVersion = 'Version 18' or %LLVersion = 'Version 19' or %LLVersion = 'Version 20' or %LLVersion = 'Version 21')
     LL_Result = LLSetOption(LL_hJob,LL_OPTION_NOFILEVERSIONUPGRADEWARNING,%LLWarnVersion)
    #ENDIF
     LL_Result = LLSetOption(LL_hJob,LL_OPTION_INCREMENTAL_PREVIEW,0)
@@ -5085,7 +5117,7 @@ LLWindow WINDOW,AT(,,1,1),FONT('MS Sans Serif',8,,FONT:regular),CENTER,GRAY,MAXI
    #DISPLAY('If a report has been emailed, the files that are created may be automatically deleted from the directory after they have been added to the email.  You may select a variable which, when set to true will automatically delete the files.  If no variable is selected, the files will not be deleted'),at(,,170,48)
    #PROMPT('Variable to delete files',Field),%LLAutoDeleteExportedFiles
    #ENDTAB
-   #TAB('Faxing'),Where(%LLVersion='Version 9' or %LLVersion='Version 10' or %LLVersion = 'Version 11' or %LLVersion = 'Version 12' or %LLVersion = 'Version 13' or %LLVersion = 'Version 14' or %LLVersion = 'Version 15' or %LLVersion = 'Version 16' or %LLVersion = 'Version 17' or %LLVersion = 'Version 18' or %LLVersion = 'Version 19' or %LLVersion = 'Version 20')
+   #TAB('Faxing'),Where(%LLVersion='Version 9' or %LLVersion='Version 10' or %LLVersion = 'Version 11' or %LLVersion = 'Version 12' or %LLVersion = 'Version 13' or %LLVersion = 'Version 14' or %LLVersion = 'Version 15' or %LLVersion = 'Version 16' or %LLVersion = 'Version 17' or %LLVersion = 'Version 18' or %LLVersion = 'Version 19' or %LLVersion = 'Version 20' or %LLVersion = 'Version 21')
      #DISPLAY('Please note that fax support is available when faxing is loaded on the end user machine'),at(,,180,20)
      #DISPLAY('')
      #DISPLAY('Only one fax recipient can be specified per report')
@@ -5123,12 +5155,12 @@ LLWindow WINDOW,AT(,,1,1),FONT('MS Sans Serif',8,,FONT:regular),CENTER,GRAY,MAXI
        #DISPLAY('')
        #DISPLAY('LLEMailReport = True        !Set flag to send email')
        #DISPLAY('Free(LLEMailQueue)          !Remove any previous recipients')
-       #DISPLAY('LLQ_:LLMailTo = ''simon@solace-software.demon.co.uk''')
-       #DISPLAY('LLQ_:LLMailCC = ''me@home.com''')
+       #DISPLAY('LLQ_:LLMailTo = ''info@combit.net''')
+       #DISPLAY('LLQ_:LLMailCC = ''''')
        #DISPLAY('LLQ_:LLMailBCC = ''''')
        #DISPLAY('Add(LLEMailQueue)')
-       #DISPLAY('LLSubject = ''List and Label test''')
-       #DISPLAY('LLBody = ''This is List and Label export test''')
+       #DISPLAY('LLSubject = ''List and Label Test from Clarion''')
+       #DISPLAY('LLBody = ''This is a List and Label export test from Clarion''')
        #DISPLAY('')
        #DISPLAY('')
      #ENDBUTTON
