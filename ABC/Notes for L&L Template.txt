@@ -4,6 +4,6 @@ This modified template is provided as is and you choose to use it at your own ri
 
 I recommend that you fully test this before you deploy it as part of your solutions.
 
-I plan to continue to modify the template to more fully integrate with L&L and will provide a roadmap of what I plan to do over the next few weeks.
+I plan to continue to modify the template to more fully integrate with L&L.
 
-24th Feb 2011;  Michael Summons
+4th Feb 2014;  Michael Summons
