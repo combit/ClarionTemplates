@@ -1,0 +1,4741 @@
+[PROCEDURE]
+NAME CopyRptLayout
+PROTOTYPE '(Long)'
+NOEXPORT
+[COMMON]
+DESCRIPTION 'Update the RepLay File'
+FROM ABC Window
+CATEGORY 'Layout Manager'
+MODIFIED '2003/04/18' '12:09:43'
+[DATA]
+[SCREENCONTROLS]
+! ENTRY(@s80),USE(CurrentTab)
+[REPORTCONTROLS]
+! STRING(@s80),USE(CurrentTab)
+CurrentTab               STRING(80)
+!!> IDENT(4294967295),PICTURE(@s80)
+[SCREENCONTROLS]
+! PROMPT('Files Opened:'),USE(?FilesOpened:Prompt)
+! ENTRY(@n3),USE(FilesOpened)
+[REPORTCONTROLS]
+! STRING(@n3),USE(FilesOpened)
+FilesOpened              BYTE
+!!> IDENT(4294967294),PROMPT('Files Opened:'),HEADER('Files Opened'),PICTURE(@n3)
+[SCREENCONTROLS]
+! PROMPT('Action Message:'),USE(?ActionMessage:Prompt)
+! ENTRY(@s39),USE(ActionMessage)
+[REPORTCONTROLS]
+! STRING(@s39),USE(ActionMessage)
+ActionMessage            CSTRING(40)
+!!> IDENT(4294967293),PROMPT('Action Message:'),HEADER('Action Message'),PICTURE(@s39)
+[SCREENCONTROLS]
+! PROMPT('L : From Layout:'),USE(?L:FromLayout:Prompt)
+! ENTRY(@s50),USE(L:FromLayout)
+[REPORTCONTROLS]
+! STRING(@s50),USE(L:FromLayout)
+L:FromLayout             STRING(50)
+!!> IDENT(4294967292),PROMPT('L : From Layout:'),HEADER('L : From Layout'),PICTURE(@s50)
+[SCREENCONTROLS]
+! PROMPT('L : From File Name:'),USE(?L:FromFileName:Prompt)
+! ENTRY(@s20),USE(L:FromFileName)
+[REPORTCONTROLS]
+! STRING(@s20),USE(L:FromFileName)
+L:FromFileName           CSTRING(21)
+!!> IDENT(4294967291),PROMPT('L : From File Name:'),HEADER('L : From File Name'),PICTURE(@s20)
+[SCREENCONTROLS]
+! PROMPT('L : To File Name:'),USE(?L:ToFileName:Prompt)
+! ENTRY(@s20),USE(L:ToFileName)
+[REPORTCONTROLS]
+! STRING(@s20),USE(L:ToFileName)
+L:ToFileName             CSTRING(21)
+!!> IDENT(4294967290),PROMPT('L : To File Name:'),HEADER('L : To File Name'),PICTURE(@s20)
+[SCREENCONTROLS]
+! PROMPT('L : Old File Name:'),USE(?L:OldFileName:Prompt)
+! ENTRY(@s19),USE(L:OldFileName)
+[REPORTCONTROLS]
+! STRING(@s19),USE(L:OldFileName)
+L:OldFileName            CSTRING(20)
+!!> IDENT(4294967289),PROMPT('L : Old File Name:'),HEADER('L : Old File Name'),PICTURE(@s19)
+[SCREENCONTROLS]
+! PROMPT('New Description:'),USE(?NewDescription:Prompt)
+! ENTRY(@s60),USE(NewDescription)
+[REPORTCONTROLS]
+! STRING(@s60),USE(NewDescription)
+NewDescription           STRING(60)
+!!> IDENT(4294967288),PROMPT('New Description:'),HEADER('New Description'),PICTURE(@s60)
+[FILES]
+[PRIMARY]
+LL_RepLay
+[INSTANCE]
+2
+[PROMPTS]
+%ButtonAction DEPEND %Control DEFAULT TIMES 6
+WHEN  ('?Cancel') ('No Special Action')
+WHEN  ('?CurrentTab') ('No Special Action')
+WHEN  ('?Help') ('No Special Action')
+WHEN  ('?L:FromLayout') ('No Special Action')
+WHEN  ('?NewDescription') ('No Special Action')
+WHEN  ('?OK') ('No Special Action')
+
+%ButtonRunName DEPEND %Control DEFAULT TIMES 0
+
+%ButtonRunParameters DEPEND %Control DEFAULT TIMES 0
+
+%ButtonProcedure DEPEND %Control PROCEDURE TIMES 0
+
+%ButtonThread DEPEND %Control LONG TIMES 0
+
+%ButtonThreadStack DEPEND %Control DEFAULT TIMES 6
+WHEN  ('?Cancel') ('25000')
+WHEN  ('?CurrentTab') ('25000')
+WHEN  ('?Help') ('25000')
+WHEN  ('?L:FromLayout') ('25000')
+WHEN  ('?NewDescription') ('25000')
+WHEN  ('?OK') ('25000')
+
+%ButtonParameters DEPEND %Control DEFAULT TIMES 0
+
+%ButtonRequest DEPEND %Control DEFAULT TIMES 6
+WHEN  ('?Cancel') ('None')
+WHEN  ('?CurrentTab') ('None')
+WHEN  ('?Help') ('None')
+WHEN  ('?L:FromLayout') ('None')
+WHEN  ('?NewDescription') ('None')
+WHEN  ('?OK') ('None')
+
+%PreLookupKey DEPEND %Control KEY TIMES 0
+
+%PreLookupField DEPEND %Control COMPONENT TIMES 1
+WHEN  ('?NewDescription') ()
+
+%PreLookupProcedure DEPEND %Control PROCEDURE TIMES 1
+WHEN  ('?NewDescription') ()
+
+%PostLookupKey DEPEND %Control KEY TIMES 0
+
+%PostLookupField DEPEND %Control COMPONENT TIMES 1
+WHEN  ('?NewDescription') ()
+
+%PostLookupProcedure DEPEND %Control PROCEDURE TIMES 1
+WHEN  ('?NewDescription') ()
+
+%ForceWindowRefresh DEPEND %Control LONG TIMES 0
+
+%ClassItem UNIQUE DEFAULT  ('Default', |
+  'WindowToolbar')
+%DefaultBaseClassType DEPEND %ClassItem DEFAULT TIMES 2
+WHEN  ('Default') ('WindowManager')
+WHEN  ('WindowToolbar') ('ToolbarClass')
+
+%ActualDefaultBaseClassType DEPEND %ClassItem DEFAULT TIMES 2
+WHEN  ('Default') ('')
+WHEN  ('WindowToolbar') ('')
+
+%ClassLines DEPEND %ClassItem MULTI DEFAULT TIMES 0
+
+%Parameters DEFAULT  ('(P:Ref)')
+%ReturnValue FIELD  ()
+%WindowOperationMode DEFAULT  ('Use WINDOW setting')
+%INISaveWindow LONG  (1)
+%ThisObjectName DEPEND %ClassItem DEFAULT TIMES 2
+WHEN  ('Default') ('ThisWindow')
+WHEN  ('WindowToolbar') ('Toolbar')
+
+%UseDefaultABCBaseClass DEPEND %ClassItem LONG TIMES 2
+WHEN  ('Default') (1)
+WHEN  ('WindowToolbar') (1)
+
+%UseABCBaseClass DEPEND %ClassItem LONG TIMES 2
+WHEN  ('Default') (1)
+WHEN  ('WindowToolbar') (1)
+
+%ABCBaseClass DEPEND %ClassItem DEFAULT TIMES 2
+WHEN  ('Default') ('AsciiFileClass')
+WHEN  ('WindowToolbar') ('AsciiFileClass')
+
+%ExtBaseClass DEPEND %ClassItem DEFAULT TIMES 0
+
+%BaseClassIncludeFile DEPEND %ClassItem DEFAULT TIMES 0
+
+%DeriveFromBaseClass DEPEND %ClassItem LONG TIMES 2
+WHEN  ('Default') (0)
+WHEN  ('WindowToolbar') (0)
+
+%NewMethods DEPEND %ClassItem MULTI LONG TIMES 0
+
+%NewMethodName DEPEND %NewMethods DEFAULT TIMES 0
+
+%NewMethodPrototype DEPEND %NewMethods DEFAULT TIMES 0
+
+%NewClassPropertyItems DEPEND %ClassItem MULTI LONG TIMES 0
+
+%NewClassProperty DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataType DEPEND %NewClassPropertyItems DEFAULT TIMES 1
+WHEN  ('WindowToolbar')TIMES 0
+
+%NewClassOtherType DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataIsRef DEPEND %NewClassPropertyItems LONG TIMES 0
+
+%NewClassDataSize DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim1 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim2 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim3 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim4 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%ClassMethods DEPEND %ClassItem MULTI LONG TIMES 0
+
+%ClassMethodName DEPEND %ClassMethods DEFAULT TIMES 0
+
+%ClassMethodPrototype DEPEND %ClassMethods DEFAULT TIMES 0
+
+%ClassPropertyItems DEPEND %ClassItem MULTI LONG TIMES 0
+
+%ClassProperty DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataType DEPEND %ClassPropertyItems DEFAULT TIMES 1
+WHEN  ('WindowToolbar')TIMES 0
+
+%ClassOtherType DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataIsRef DEPEND %ClassPropertyItems LONG TIMES 0
+
+%ClassDataSize DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim1 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim2 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim3 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim4 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ButtonReturnValueAssignment DEPEND %Control FIELD TIMES 0
+
+%ButtonReturnValueReferenceAssign DEPEND %Control LONG TIMES 0
+
+%ButtonThreadParameters DEPEND %Control DEFAULT TIMES 0
+
+%ButtonThreadReturnValueAssignment DEPEND %Control FIELD TIMES 0
+
+%PostLookupDuringValidate DEPEND %Control LONG TIMES 4
+WHEN  ('?CurrentTab') (1)
+WHEN  ('?Help') (1)
+WHEN  ('?L:FromLayout') (1)
+WHEN  ('?NewDescription') (1)
+
+%LookupAssign DEPEND %Control MULTI LONG TIMES 0
+
+%MoreField DEPEND %LookupAssign DEFAULT TIMES 0
+
+%MoreTarget DEPEND %LookupAssign FIELD TIMES 0
+
+%CheckedAssigns DEPEND %Control MULTI LONG TIMES 0
+
+%CheckedAssignVariable DEPEND %CheckedAssigns FIELD TIMES 0
+
+%CheckedAssignValue DEPEND %CheckedAssigns DEFAULT TIMES 0
+
+%CheckedHides DEPEND %Control MULTI LONG TIMES 0
+
+%CheckedControl DEPEND %CheckedHides DEFAULT TIMES 0
+
+%CheckedControlAction DEPEND %CheckedHides DEFAULT TIMES 4
+WHEN  ('?CurrentTab')TIMES 0
+WHEN  ('?Help')TIMES 0
+WHEN  ('?L:FromLayout')TIMES 0
+WHEN  ('?NewDescription')TIMES 0
+
+%CheckedEnables DEPEND %Control MULTI LONG TIMES 0
+
+%CheckedControl1 DEPEND %CheckedEnables DEFAULT TIMES 0
+
+%CheckedControl1Action DEPEND %CheckedEnables DEFAULT TIMES 4
+WHEN  ('?CurrentTab')TIMES 0
+WHEN  ('?Help')TIMES 0
+WHEN  ('?L:FromLayout')TIMES 0
+WHEN  ('?NewDescription')TIMES 0
+
+%UncheckedAssigns DEPEND %Control MULTI LONG TIMES 0
+
+%UncheckedAssignVariable DEPEND %UncheckedAssigns FIELD TIMES 0
+
+%UncheckedAssignValue DEPEND %UncheckedAssigns DEFAULT TIMES 0
+
+%UnCheckedHides DEPEND %Control MULTI LONG TIMES 0
+
+%UnCheckedControl DEPEND %UnCheckedHides DEFAULT TIMES 0
+
+%UnCheckedControlAction DEPEND %UnCheckedHides DEFAULT TIMES 4
+WHEN  ('?CurrentTab')TIMES 0
+WHEN  ('?Help')TIMES 0
+WHEN  ('?L:FromLayout')TIMES 0
+WHEN  ('?NewDescription')TIMES 0
+
+%UnCheckedEnables DEPEND %Control MULTI LONG TIMES 0
+
+%UnCheckedControl1 DEPEND %UnCheckedEnables DEFAULT TIMES 0
+
+%UnCheckedControl1Action DEPEND %UnCheckedEnables DEFAULT TIMES 4
+WHEN  ('?CurrentTab')TIMES 0
+WHEN  ('?Help')TIMES 0
+WHEN  ('?L:FromLayout')TIMES 0
+WHEN  ('?NewDescription')TIMES 0
+
+%GlobalObject DEPEND %ClassItem DEFAULT TIMES 2
+WHEN  ('Default') ('NO')
+WHEN  ('WindowToolbar') ('NO')
+
+[EMBED]
+EMBED %WindowManagerMethodCodeSection
+[INSTANCES]
+WHEN 'Init'
+[INSTANCES]
+WHEN '(),BYTE'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 7501
+PROPERTY:END
+LLL_:Ref = P:Ref
+Access:LL_Replay.Tryfetch(LLL_:RefKey)       !Get original record to copy from
+L:FromLayout = LLL_:Description
+L:OldFileName = LLL_:FileName
+[END]
+[END]
+[END]
+EMBED %ControlEventHandling
+[INSTANCES]
+WHEN '?OK'
+[INSTANCES]
+WHEN 'Accepted'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 5000
+PROPERTY:END
+Access:LL_Replay.PrimeRecord(1)        !Prime a new record - do not clear down original so all fields get copied (except Ref)
+LLL_:FileName = 'LT' & LLL_:Ref
+LLL_:Description = NewDescription
+LLL_:FactoryDefault = false            !If this is a copy ift cannot be a factory default
+
+Case Clip(LLL_:Type)
+of 'List'
+  !****** Form File
+  L:FromFileName = Clip(L:OldFileName) & '.lst'
+  L:ToFileName = Clip(LLL_:FileName) & '.lst'
+  Copy(L:FromFileName,L:ToFileName)
+
+  !****** Printer Definition File
+  L:FromFileName = Clip(L:OldFileName) & '.lsp'
+  L:ToFileName = Clip(LLL_:FileName) & '.lsp'
+  Copy(L:FromFileName,L:ToFileName)
+
+  !****** Sketch for file open dialog
+  L:FromFileName = Clip(L:OldFileName) & '.lsv'
+  L:ToFileName = Clip(LLL_:FileName) & '.lsv'
+  Copy(L:FromFileName,L:ToFileName)
+of 'Card'
+  !****** Form File
+  L:FromFileName = Clip(L:OldFileName) & '.crd'
+  L:ToFileName = Clip(LLL_:FileName) & '.crd'
+  Copy(L:FromFileName,L:ToFileName)
+
+  !****** Printer Definition File
+  L:FromFileName = Clip(L:OldFileName) & '.crp'
+  L:ToFileName = Clip(LLL_:FileName) & '.crp'
+  Copy(L:FromFileName,L:ToFileName)
+
+  !****** Sketch for file open dialog
+  L:FromFileName = Clip(L:OldFileName) & '.crv'
+  L:ToFileName = Clip(LLL_:FileName) & '.crv'
+  Copy(L:FromFileName,L:ToFileName)
+
+of 'Label'
+  !****** Form File
+  L:FromFileName = Clip(L:OldFileName) & '.lbl'
+  L:ToFileName = Clip(LLL_:FileName) & '.lbl'
+  Copy(L:FromFileName,L:ToFileName)
+
+  !****** Printer Definition File
+  L:FromFileName = Clip(L:OldFileName) & '.lbp'
+  L:ToFileName = Clip(LLL_:FileName) & '.lbp'
+  Copy(L:FromFileName,L:ToFileName)
+
+  !****** Sketch for file open dialog
+  L:FromFileName = Clip(L:OldFileName) & '.lbv'
+  L:ToFileName = Clip(LLL_:FileName) & '.lbv'
+  Copy(L:FromFileName,L:ToFileName)
+end
+Access:LL_Replay.Insert()
+[GROUP]
+PRIORITY 5000
+INSTANCE 6
+[END]
+[END]
+[END]
+[END]
+[ADDITION]
+NAME ABC RecordValidation
+[INSTANCE]
+INSTANCE 1
+PROCPROP
+[PROMPTS]
+%ValidateOnAccept LONG  (1)
+%ValidateOnNonStopSelect LONG  (1)
+%ControlsExcluded MULTI LONG  ()
+%ControlToExclude DEPEND %ControlsExcluded DEFAULT TIMES 0
+
+%ValidateUsingColoration LONG  (0)
+%InvalidFieldColor LONG  (255)
+%InvalidPromptColor LONG  (255)
+%UseValidateMessage LONG  (0)
+%ValidationMessage DEFAULT  ('The values of Colored Fields are invalid, Please correct this information.')
+%MessageControl FIELD  ()
+[ADDITION]
+NAME ABC SaveButton
+[INSTANCE]
+INSTANCE 2
+PROCPROP
+[PROMPTS]
+%InsertAllowed LONG  (1)
+%InsertMessage DEFAULT  ('Copy Report Layout')
+%ChangeAllowed LONG  (0)
+%ChangeMessage DEFAULT  ('Record Will Be Changed')
+%DeleteAllowed LONG  (0)
+%DeleteMessage DEFAULT  ('Record Will Be Deleted')
+%MessageHeader LONG  (0)
+%ActionOnDelete DEFAULT  ('Standard Warning')
+%PrimingFields MULTI LONG  ()
+%PrimedField DEPEND %PrimingFields FIELD TIMES 0
+
+%PrimedValue DEPEND %PrimingFields DEFAULT TIMES 0
+
+%ActionOnCancel DEFAULT  ('Confirm Cancel')
+%MessageLocation DEFAULT  ('Title Bar')
+%MessageStatusSection DEFAULT  ('0')
+%HistoryKey DEFAULT  ('734')
+%AppendToTitle LONG  (0)
+%AppendToTitleID DEFAULT  ('')
+%AfterGoodInsert DEFAULT  ('Return to caller')
+%AskAfterAdd LONG  (0)
+%ViewMessage DEFAULT  ('View Record')
+[ADDITION]
+NAME ABC CancelButton
+[INSTANCE]
+INSTANCE 3
+[ADDITION]
+NAME ABC WindowResize
+[INSTANCE]
+INSTANCE 5
+[PROMPTS]
+%UseAppStrategy DEFAULT  ('1')
+%AppStrategy DEFAULT  ('Surface')
+%RestrictMinSize LONG  (1)
+%WindowMinWidth DEFAULT  ('0')
+%WindowMaxWidth DEFAULT  ('0')
+%ClassItem UNIQUE DEFAULT  ('Default')
+%DefaultBaseClassType DEPEND %ClassItem DEFAULT TIMES 1
+WHEN  ('Default') ('WindowResizeClass')
+
+%ActualDefaultBaseClassType DEPEND %ClassItem DEFAULT TIMES 1
+WHEN  ('Default') ('')
+
+%ClassLines DEPEND %ClassItem MULTI DEFAULT TIMES 0
+
+%WindowMinHeight DEFAULT  ('')
+%RestrictMaxSize LONG  (0)
+%WindowMaxHeight DEFAULT  ('')
+%OverrideControls MULTI LONG  ()
+%OverrideControl DEPEND %OverrideControls DEFAULT TIMES 0
+
+%HorizResize DEPEND %OverrideControls DEFAULT TIMES 0
+
+%VertResize DEPEND %OverrideControls DEFAULT TIMES 0
+
+%HorizPositional DEPEND %OverrideControls DEFAULT TIMES 0
+
+%VertPositional DEPEND %OverrideControls DEFAULT TIMES 0
+
+%AutoFindParents DEFAULT  ('Default')
+%DeferMoves DEFAULT  ('Default')
+%AutoTransparent DEFAULT  ('Default')
+%ThisObjectName DEPEND %ClassItem DEFAULT TIMES 1
+WHEN  ('Default') ('Resizer')
+
+%UseDefaultABCBaseClass DEPEND %ClassItem LONG TIMES 1
+WHEN  ('Default') (1)
+
+%UseABCBaseClass DEPEND %ClassItem LONG TIMES 1
+WHEN  ('Default') (1)
+
+%ABCBaseClass DEPEND %ClassItem DEFAULT TIMES 1
+WHEN  ('Default') ('AsciiFileClass')
+
+%ExtBaseClass DEPEND %ClassItem DEFAULT TIMES 0
+
+%BaseClassIncludeFile DEPEND %ClassItem DEFAULT TIMES 0
+
+%DeriveFromBaseClass DEPEND %ClassItem LONG TIMES 1
+WHEN  ('Default') (0)
+
+%NewMethods DEPEND %ClassItem MULTI LONG TIMES 0
+
+%NewMethodName DEPEND %NewMethods DEFAULT TIMES 0
+
+%NewMethodPrototype DEPEND %NewMethods DEFAULT TIMES 0
+
+%NewClassPropertyItems DEPEND %ClassItem MULTI LONG TIMES 0
+
+%NewClassProperty DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataType DEPEND %NewClassPropertyItems DEFAULT TIMES 1
+WHEN  ('Default')TIMES 0
+
+%NewClassOtherType DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataIsRef DEPEND %NewClassPropertyItems LONG TIMES 0
+
+%NewClassDataSize DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim1 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim2 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim3 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim4 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%ClassMethods DEPEND %ClassItem MULTI LONG TIMES 0
+
+%ClassMethodName DEPEND %ClassMethods DEFAULT TIMES 0
+
+%ClassMethodPrototype DEPEND %ClassMethods DEFAULT TIMES 0
+
+%ClassPropertyItems DEPEND %ClassItem MULTI LONG TIMES 0
+
+%ClassProperty DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataType DEPEND %ClassPropertyItems DEFAULT TIMES 1
+WHEN  ('Default')TIMES 0
+
+%ClassOtherType DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataIsRef DEPEND %ClassPropertyItems LONG TIMES 0
+
+%ClassDataSize DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim1 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim2 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim3 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim4 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%DisableResize DEPEND %OverrideControls LONG TIMES 0
+
+%GlobalObject DEPEND %ClassItem DEFAULT TIMES 1
+WHEN  ('Default') ('NO')
+
+[ADDITION]
+NAME ABC CloseCurrentWindow
+[INSTANCE]
+INSTANCE 6
+[WINDOW]
+QuickWindow WINDOW('Update the RepLay File'),AT(,,347,91),FONT('MS Sans Serif',8,,),CENTER,IMM,HLP('CopyRptLayout'), |
+         SYSTEM,GRAY,RESIZE,MDI
+       SHEET,AT(4,4,341,63),USE(?CurrentTab),WIZARD,#ORIG(CurrentTab)
+         TAB('General'),USE(?Tab:1)
+           PROMPT('Layout Will Be Based On:'),AT(8,18),USE(?Prompt2),#ORIG(?Prompt2)
+           STRING(@s50),AT(92,18,250,10),USE(L:FromLayout),FONT(,,COLOR:Navy,,CHARSET:ANSI),#ORIG(?String1)
+           PROMPT('Name of New Layout:'),AT(20,40),USE(?RPL:Description:Prompt),#ORIG(?RPL:Description:Prompt), |
+               #LINK(?NewDescription)
+           ENTRY(@s60),AT(92,40,244,12),USE(NewDescription),REQ,CAP,#ORIG(RPL:Description),#LINK(?RPL:Description:Prompt)
+         END
+       END
+       BUTTON('OK'),AT(204,72,45,14),USE(?OK),DEFAULT,#SEQ(2),#ORIG(?OK)
+       BUTTON('Cancel'),AT(252,72,45,14),USE(?Cancel),#SEQ(3),#ORIG(?Cancel)
+       BUTTON('Help'),AT(300,72,45,14),USE(?Help),STD(STD:Help)
+     END
+
+[PROCEDURE]
+NAME RptLayoutManager
+[COMMON]
+DESCRIPTION 'Browse the RepLay File'
+FROM ABC Window
+CATEGORY 'Layout Manager'
+MODIFIED '2003/04/18' '12:09:59'
+[DATA]
+[SCREENCONTROLS]
+! ENTRY(@s80),USE(CurrentTab)
+[REPORTCONTROLS]
+! STRING(@s80),USE(CurrentTab)
+CurrentTab               STRING(80)
+!!> IDENT(4294967287),PICTURE(@s80)
+[SCREENCONTROLS]
+! PROMPT('Files Opened:'),USE(?FilesOpened:Prompt)
+! ENTRY(@n3),USE(FilesOpened)
+[REPORTCONTROLS]
+! STRING(@n3),USE(FilesOpened)
+FilesOpened              BYTE
+!!> IDENT(4294967286),PROMPT('Files Opened:'),HEADER('Files Opened'),PICTURE(@n3)
+[SCREENCONTROLS]
+! PROMPT('Newsketch:'),USE(?Newsketch:Prompt)
+! ENTRY(@s255),USE(Newsketch)
+[REPORTCONTROLS]
+! STRING(@s255),USE(Newsketch)
+Newsketch                STRING(255)
+!!> IDENT(4294967285),PROMPT('Newsketch:'),HEADER('Newsketch'),PICTURE(@s255)
+[SCREENCONTROLS]
+! PROMPT('Factory:'),USE(?Factory:Prompt)
+! ENTRY(@s1),USE(Factory)
+[REPORTCONTROLS]
+! STRING(@s1),USE(Factory)
+Factory                  STRING(1)
+!!> IDENT(4294967284),PROMPT('Factory:'),HEADER('Factory'),PICTURE(@s1)
+[FILES]
+[PRIMARY]
+LL_RepLay
+[INSTANCE]
+1
+[KEY]
+LLL_:AreaRefKey
+[PRIMARY]
+LL_RepArea
+[INSTANCE]
+9
+[KEY]
+LLA_:ReportTypeKey
+[PROMPTS]
+%ButtonAction DEPEND %Control DEFAULT TIMES 14
+WHEN  ('?Browse:1') ('No Special Action')
+WHEN  ('?Change') ('No Special Action')
+WHEN  ('?Change:3') ('No Special Action')
+WHEN  ('?Close') ('No Special Action')
+WHEN  ('?CopyButton') ('Call a Procedure')
+WHEN  ('?CurrentTab') ('No Special Action')
+WHEN  ('?Delete') ('No Special Action')
+WHEN  ('?Delete:3') ('No Special Action')
+WHEN  ('?Help') ('No Special Action')
+WHEN  ('?Image1') ('No Special Action')
+WHEN  ('?Insert') ('No Special Action')
+WHEN  ('?Insert:3') ('No Special Action')
+WHEN  ('?List') ('No Special Action')
+WHEN  ('?Region1') ('No Special Action')
+
+%ButtonRunName DEPEND %Control DEFAULT TIMES 5
+WHEN  ('?Change') ('')
+WHEN  ('?CopyButton') ('')
+WHEN  ('?Delete') ('')
+WHEN  ('?Insert') ('')
+WHEN  ('?Insert:3') ('')
+
+%ButtonRunParameters DEPEND %Control DEFAULT TIMES 5
+WHEN  ('?Change') ('')
+WHEN  ('?CopyButton') ('')
+WHEN  ('?Delete') ('')
+WHEN  ('?Insert') ('')
+WHEN  ('?Insert:3') ('')
+
+%ButtonProcedure DEPEND %Control PROCEDURE TIMES 5
+WHEN  ('?Change') ()
+WHEN  ('?CopyButton') (CopyRptLayout)
+WHEN  ('?Delete') ()
+WHEN  ('?Insert') ()
+WHEN  ('?Insert:3') ()
+
+%ButtonThread DEPEND %Control LONG TIMES 5
+WHEN  ('?Change') (0)
+WHEN  ('?CopyButton') (0)
+WHEN  ('?Delete') (0)
+WHEN  ('?Insert') (0)
+WHEN  ('?Insert:3') (0)
+
+%ButtonThreadStack DEPEND %Control DEFAULT TIMES 14
+WHEN  ('?Browse:1') ('25000')
+WHEN  ('?Change') ('25000')
+WHEN  ('?Change:3') ('25000')
+WHEN  ('?Close') ('25000')
+WHEN  ('?CopyButton') ('25000')
+WHEN  ('?CurrentTab') ('25000')
+WHEN  ('?Delete') ('25000')
+WHEN  ('?Delete:3') ('25000')
+WHEN  ('?Help') ('25000')
+WHEN  ('?Image1') ('25000')
+WHEN  ('?Insert') ('25000')
+WHEN  ('?Insert:3') ('25000')
+WHEN  ('?List') ('25000')
+WHEN  ('?Region1') ('25000')
+
+%ButtonParameters DEPEND %Control DEFAULT TIMES 5
+WHEN  ('?Change') ('')
+WHEN  ('?CopyButton') ('(LLL_:Ref)')
+WHEN  ('?Delete') ('')
+WHEN  ('?Insert') ('')
+WHEN  ('?Insert:3') ('')
+
+%ButtonRequest DEPEND %Control DEFAULT TIMES 14
+WHEN  ('?Browse:1') ('None')
+WHEN  ('?Change') ('None')
+WHEN  ('?Change:3') ('None')
+WHEN  ('?Close') ('None')
+WHEN  ('?CopyButton') ('None')
+WHEN  ('?CurrentTab') ('None')
+WHEN  ('?Delete') ('None')
+WHEN  ('?Delete:3') ('None')
+WHEN  ('?Help') ('None')
+WHEN  ('?Image1') ('None')
+WHEN  ('?Insert') ('None')
+WHEN  ('?Insert:3') ('None')
+WHEN  ('?List') ('None')
+WHEN  ('?Region1') ('None')
+
+%PreLookupKey DEPEND %Control KEY TIMES 0
+
+%PreLookupField DEPEND %Control COMPONENT TIMES 0
+
+%PreLookupProcedure DEPEND %Control PROCEDURE TIMES 0
+
+%PostLookupKey DEPEND %Control KEY TIMES 0
+
+%PostLookupField DEPEND %Control COMPONENT TIMES 0
+
+%PostLookupProcedure DEPEND %Control PROCEDURE TIMES 0
+
+%ForceWindowRefresh DEPEND %Control LONG TIMES 0
+
+%ClassItem UNIQUE DEFAULT  ('Default', |
+  'WindowToolbar')
+%DefaultBaseClassType DEPEND %ClassItem DEFAULT TIMES 2
+WHEN  ('Default') ('WindowManager')
+WHEN  ('WindowToolbar') ('ToolbarClass')
+
+%ActualDefaultBaseClassType DEPEND %ClassItem DEFAULT TIMES 2
+WHEN  ('Default') ('')
+WHEN  ('WindowToolbar') ('')
+
+%ClassLines DEPEND %ClassItem MULTI DEFAULT TIMES 0
+
+%Parameters DEFAULT  ('')
+%ReturnValue FIELD  ()
+%WindowOperationMode DEFAULT  ('Use WINDOW setting')
+%INISaveWindow LONG  (1)
+%ThisObjectName DEPEND %ClassItem DEFAULT TIMES 2
+WHEN  ('Default') ('ThisWindow')
+WHEN  ('WindowToolbar') ('Toolbar')
+
+%UseDefaultABCBaseClass DEPEND %ClassItem LONG TIMES 2
+WHEN  ('Default') (1)
+WHEN  ('WindowToolbar') (1)
+
+%UseABCBaseClass DEPEND %ClassItem LONG TIMES 2
+WHEN  ('Default') (1)
+WHEN  ('WindowToolbar') (1)
+
+%ABCBaseClass DEPEND %ClassItem DEFAULT TIMES 2
+WHEN  ('Default') ('AsciiFileClass')
+WHEN  ('WindowToolbar') ('AsciiFileClass')
+
+%ExtBaseClass DEPEND %ClassItem DEFAULT TIMES 0
+
+%BaseClassIncludeFile DEPEND %ClassItem DEFAULT TIMES 0
+
+%DeriveFromBaseClass DEPEND %ClassItem LONG TIMES 2
+WHEN  ('Default') (0)
+WHEN  ('WindowToolbar') (0)
+
+%NewMethods DEPEND %ClassItem MULTI LONG TIMES 0
+
+%NewMethodName DEPEND %NewMethods DEFAULT TIMES 0
+
+%NewMethodPrototype DEPEND %NewMethods DEFAULT TIMES 0
+
+%NewClassPropertyItems DEPEND %ClassItem MULTI LONG TIMES 0
+
+%NewClassProperty DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataType DEPEND %NewClassPropertyItems DEFAULT TIMES 1
+WHEN  ('WindowToolbar')TIMES 0
+
+%NewClassOtherType DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataIsRef DEPEND %NewClassPropertyItems LONG TIMES 0
+
+%NewClassDataSize DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim1 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim2 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim3 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim4 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%ClassMethods DEPEND %ClassItem MULTI LONG TIMES 0
+
+%ClassMethodName DEPEND %ClassMethods DEFAULT TIMES 0
+
+%ClassMethodPrototype DEPEND %ClassMethods DEFAULT TIMES 0
+
+%ClassPropertyItems DEPEND %ClassItem MULTI LONG TIMES 0
+
+%ClassProperty DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataType DEPEND %ClassPropertyItems DEFAULT TIMES 1
+WHEN  ('WindowToolbar')TIMES 0
+
+%ClassOtherType DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataIsRef DEPEND %ClassPropertyItems LONG TIMES 0
+
+%ClassDataSize DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim1 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim2 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim3 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim4 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ButtonReturnValueAssignment DEPEND %Control FIELD TIMES 5
+WHEN  ('?Change') ()
+WHEN  ('?CopyButton') ()
+WHEN  ('?Delete') ()
+WHEN  ('?Insert') ()
+WHEN  ('?Insert:3') ()
+
+%ButtonReturnValueReferenceAssign DEPEND %Control LONG TIMES 5
+WHEN  ('?Change') (0)
+WHEN  ('?CopyButton') (0)
+WHEN  ('?Delete') (0)
+WHEN  ('?Insert') (0)
+WHEN  ('?Insert:3') (0)
+
+%ButtonThreadParameters DEPEND %Control DEFAULT TIMES 5
+WHEN  ('?Change') ('')
+WHEN  ('?CopyButton') ('')
+WHEN  ('?Delete') ('')
+WHEN  ('?Insert') ('')
+WHEN  ('?Insert:3') ('')
+
+%ButtonThreadReturnValueAssignment DEPEND %Control FIELD TIMES 5
+WHEN  ('?Change') ()
+WHEN  ('?CopyButton') ()
+WHEN  ('?Delete') ()
+WHEN  ('?Insert') ()
+WHEN  ('?Insert:3') ()
+
+%PostLookupDuringValidate DEPEND %Control LONG TIMES 11
+WHEN  ('?Browse:1') (1)
+WHEN  ('?Change') (1)
+WHEN  ('?CopyButton') (1)
+WHEN  ('?CurrentTab') (1)
+WHEN  ('?Delete') (1)
+WHEN  ('?Help') (1)
+WHEN  ('?Image1') (1)
+WHEN  ('?Insert') (1)
+WHEN  ('?Insert:3') (1)
+WHEN  ('?List') (1)
+WHEN  ('?Region1') (1)
+
+%LookupAssign DEPEND %Control MULTI LONG TIMES 0
+
+%MoreField DEPEND %LookupAssign DEFAULT TIMES 0
+
+%MoreTarget DEPEND %LookupAssign FIELD TIMES 0
+
+%CheckedAssigns DEPEND %Control MULTI LONG TIMES 0
+
+%CheckedAssignVariable DEPEND %CheckedAssigns FIELD TIMES 0
+
+%CheckedAssignValue DEPEND %CheckedAssigns DEFAULT TIMES 0
+
+%CheckedHides DEPEND %Control MULTI LONG TIMES 0
+
+%CheckedControl DEPEND %CheckedHides DEFAULT TIMES 0
+
+%CheckedControlAction DEPEND %CheckedHides DEFAULT TIMES 11
+WHEN  ('?Browse:1')TIMES 0
+WHEN  ('?Change')TIMES 0
+WHEN  ('?CopyButton')TIMES 0
+WHEN  ('?CurrentTab')TIMES 0
+WHEN  ('?Delete')TIMES 0
+WHEN  ('?Help')TIMES 0
+WHEN  ('?Image1')TIMES 0
+WHEN  ('?Insert')TIMES 0
+WHEN  ('?Insert:3')TIMES 0
+WHEN  ('?List')TIMES 0
+WHEN  ('?Region1')TIMES 0
+
+%CheckedEnables DEPEND %Control MULTI LONG TIMES 0
+
+%CheckedControl1 DEPEND %CheckedEnables DEFAULT TIMES 0
+
+%CheckedControl1Action DEPEND %CheckedEnables DEFAULT TIMES 11
+WHEN  ('?Browse:1')TIMES 0
+WHEN  ('?Change')TIMES 0
+WHEN  ('?CopyButton')TIMES 0
+WHEN  ('?CurrentTab')TIMES 0
+WHEN  ('?Delete')TIMES 0
+WHEN  ('?Help')TIMES 0
+WHEN  ('?Image1')TIMES 0
+WHEN  ('?Insert')TIMES 0
+WHEN  ('?Insert:3')TIMES 0
+WHEN  ('?List')TIMES 0
+WHEN  ('?Region1')TIMES 0
+
+%UncheckedAssigns DEPEND %Control MULTI LONG TIMES 0
+
+%UncheckedAssignVariable DEPEND %UncheckedAssigns FIELD TIMES 0
+
+%UncheckedAssignValue DEPEND %UncheckedAssigns DEFAULT TIMES 0
+
+%UnCheckedHides DEPEND %Control MULTI LONG TIMES 0
+
+%UnCheckedControl DEPEND %UnCheckedHides DEFAULT TIMES 0
+
+%UnCheckedControlAction DEPEND %UnCheckedHides DEFAULT TIMES 11
+WHEN  ('?Browse:1')TIMES 0
+WHEN  ('?Change')TIMES 0
+WHEN  ('?CopyButton')TIMES 0
+WHEN  ('?CurrentTab')TIMES 0
+WHEN  ('?Delete')TIMES 0
+WHEN  ('?Help')TIMES 0
+WHEN  ('?Image1')TIMES 0
+WHEN  ('?Insert')TIMES 0
+WHEN  ('?Insert:3')TIMES 0
+WHEN  ('?List')TIMES 0
+WHEN  ('?Region1')TIMES 0
+
+%UnCheckedEnables DEPEND %Control MULTI LONG TIMES 0
+
+%UnCheckedControl1 DEPEND %UnCheckedEnables DEFAULT TIMES 0
+
+%UnCheckedControl1Action DEPEND %UnCheckedEnables DEFAULT TIMES 11
+WHEN  ('?Browse:1')TIMES 0
+WHEN  ('?Change')TIMES 0
+WHEN  ('?CopyButton')TIMES 0
+WHEN  ('?CurrentTab')TIMES 0
+WHEN  ('?Delete')TIMES 0
+WHEN  ('?Help')TIMES 0
+WHEN  ('?Image1')TIMES 0
+WHEN  ('?Insert')TIMES 0
+WHEN  ('?Insert:3')TIMES 0
+WHEN  ('?List')TIMES 0
+WHEN  ('?Region1')TIMES 0
+
+%GlobalObject DEPEND %ClassItem DEFAULT TIMES 2
+WHEN  ('Default') ('NO')
+WHEN  ('WindowToolbar') ('NO')
+
+[EMBED]
+EMBED %ControlEventHandling
+[INSTANCES]
+WHEN '?CopyButton'
+[INSTANCES]
+WHEN 'Accepted'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 5000
+PROPERTY:END
+Brw1.ResetSort(1)
+[END]
+[END]
+WHEN '?Region1'
+[INSTANCES]
+WHEN 'Accepted'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 4499
+PROPERTY:END
+!if Keycode() = MouseLeft2 then
+!  Post(Event:Accepted,?LL_LayoutBtn)
+!end
+[END]
+[END]
+[END]
+EMBED %BrowserMethodCodeSection
+[INSTANCES]
+WHEN '1'
+[INSTANCES]
+WHEN 'UpdateWindow'
+[INSTANCES]
+WHEN '()'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 4500
+PROPERTY:END
+?CopyButton{PROP:Disable} = Self.ChangeControl{PROP:Disable}
+!?LL_LayoutBtn{PROP:Disable} = Self.ChangeControl{PROP:Disable}
+[END]
+[END]
+WHEN 'TakeNewSelection'
+[INSTANCES]
+WHEN '()'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 5001
+PROPERTY:END
+if clip(LLL_:FileName) <> '' then
+  Case(clip(LLL_:Type))
+  of 'List'
+    NewSketch = clip(LL_GlobalPath) & clip(LLL_:FileName) & '.lsv'
+  of 'Label'
+    NewSketch = clip(LL_GlobalPath) & clip(LLL_:FileName) & '.lbv'
+  of 'Card'
+    NewSketch = clip(LL_GlobalPath) & clip(LLL_:FileName) & '.crv'
+  end
+
+  Copy(NewSketch,'Sketch.bmp')
+  ?Image1{Prop:Text} = ''
+  ?Image1{Prop:Text} = 'Sketch.bmp'
+  UnHide(?Image1)
+  Display(?Image1)
+else
+  Hide(?Image1)
+end
+[END]
+[END]
+[END]
+[END]
+EMBED %WindowManagerMethodCodeSection
+[INSTANCES]
+WHEN 'Init'
+[INSTANCES]
+WHEN '(),BYTE'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 8001
+PROPERTY:END
+if GetIni('List and Label','Developer','','Solace.ini') = 'Yes' then
+  Unhide(?Insert)
+  Unhide(?Change)
+  Unhide(?Delete)
+  ?Browse:1{Prop:Format} = '13C|M~FD~@s1@#4#149L(2)|M~Layout Description~@s60@#1#55L(2)|M~File Name~@s80@#3#16L(2)|M~Type~@s5@#2#'
+  ?List{Prop:Format} = '24R(2)|M~Ref~C(0)@n6@#2#200L(2)|M~Area~@s50@#1#'
+end
+                                 
+[END]
+[END]
+[END]
+[END]
+[ADDITION]
+NAME ABC BrowseBox
+[INSTANCE]
+INSTANCE 1
+PROCPROP
+[PROMPTS]
+%AcceptToolBarControl LONG  (0)
+%EnableQuickScan LONG  (0)
+%LocatorType DEFAULT  ('Incremental')
+%OverrideDefaultLocator LONG  (0)
+%OverrideLocator DEFAULT  ('')
+%RecordFilter DEFAULT  ('')
+%RangeField COMPONENT  (LLL_:AreaRef)
+%RangeLimitType DEFAULT  ('Single Value')
+%RangeLimit FIELD  (LLA_:Ref)
+%RangeLow FIELD  ()
+%RangeHigh FIELD  ()
+%RangeFile FILE  ()
+%ScrollBehavior DEFAULT  ('Movable Thumb')
+%ScrollKeyDistribution DEFAULT  ('Runtime')
+%CustomKeyDistribution MULTI LONG  ()
+%KeyDistributionValue DEPEND %CustomKeyDistribution DEFAULT TIMES 0
+
+%ScrollAlpha LONG  (1)
+%ScrollNumeric LONG  (0)
+%ScrollAlt LONG  (0)
+%SortOrder MULTI LONG  ()
+%SortCondition DEPEND %SortOrder DEFAULT TIMES 0
+
+%SortKey DEPEND %SortOrder KEY TIMES 0
+
+%SortLocatorType DEPEND %SortOrder DEFAULT TIMES 0
+
+%SortOverrideDefaultLocator DEPEND %SortOrder LONG TIMES 0
+
+%SortOverrideLocator DEPEND %SortOrder DEFAULT TIMES 0
+
+%SortRecordFilter DEPEND %SortOrder DEFAULT TIMES 0
+
+%SortRangeField DEPEND %SortOrder COMPONENT TIMES 0
+
+%SortRangeLimitType DEPEND %SortOrder DEFAULT TIMES 0
+
+%SortRangeLimit DEPEND %SortOrder FIELD TIMES 0
+
+%SortRangeLow DEPEND %SortOrder FIELD TIMES 0
+
+%SortRangeHigh DEPEND %SortOrder FIELD TIMES 0
+
+%SortRangeFile DEPEND %SortOrder FILE TIMES 0
+
+%SortScrollBehavior DEPEND %SortOrder DEFAULT TIMES 0
+
+%SortScrollKeyDistribution DEPEND %SortOrder DEFAULT TIMES 0
+
+%SortCustomKeyDistribution DEPEND %SortOrder MULTI LONG TIMES 0
+
+%SortKeyDistributionValue DEPEND %SortCustomKeyDistribution DEFAULT TIMES 0
+
+%SortScrollAlpha DEPEND %SortOrder LONG TIMES 0
+
+%SortScrollNumeric DEPEND %SortOrder LONG TIMES 0
+
+%SortScrollAlt DEPEND %SortOrder LONG TIMES 0
+
+%ClassItem UNIQUE DEFAULT  ('Default', |
+  'Locator', |
+  'Locator0', |
+  'Step', |
+  'Step0')
+%DefaultBaseClassType DEPEND %ClassItem DEFAULT TIMES 3
+WHEN  ('Default') ('BrowseClass')
+WHEN  ('Locator0') ('IncrementalLocatorClass')
+WHEN  ('Step0') ('StepClass')
+
+%ActualDefaultBaseClassType DEPEND %ClassItem DEFAULT TIMES 3
+WHEN  ('Default') ('')
+WHEN  ('Locator0') ('')
+WHEN  ('Step0') ('StepStringClass')
+
+%ClassLines DEPEND %ClassItem MULTI DEFAULT TIMES 1
+WHEN  ('Default') ('Q {22}&Queue:Browse:1 {16}!Reference to browse queue')
+
+%LoadMethod DEFAULT  ('Page')
+%FindDefaultAnywhere LONG  (0)
+%ThisObjectName DEPEND %ClassItem DEFAULT TIMES 3
+WHEN  ('Default') ('BRW1')
+WHEN  ('Locator0') ('BRW1::Sort0:Locator')
+WHEN  ('Step0') ('BRW1::Sort0:StepClass')
+
+%UseDefaultABCBaseClass DEPEND %ClassItem LONG TIMES 3
+WHEN  ('Default') (1)
+WHEN  ('Locator0') (1)
+WHEN  ('Step0') (1)
+
+%UseABCBaseClass DEPEND %ClassItem LONG TIMES 3
+WHEN  ('Default') (1)
+WHEN  ('Locator0') (1)
+WHEN  ('Step0') (1)
+
+%ABCBaseClass DEPEND %ClassItem DEFAULT TIMES 3
+WHEN  ('Default') ('AsciiFileClass')
+WHEN  ('Locator0') ('AsciiFileClass')
+WHEN  ('Step0') ('AsciiFileClass')
+
+%ExtBaseClass DEPEND %ClassItem DEFAULT TIMES 0
+
+%BaseClassIncludeFile DEPEND %ClassItem DEFAULT TIMES 0
+
+%DeriveFromBaseClass DEPEND %ClassItem LONG TIMES 3
+WHEN  ('Default') (0)
+WHEN  ('Locator0') (0)
+WHEN  ('Step0') (0)
+
+%NewMethods DEPEND %ClassItem MULTI LONG TIMES 0
+
+%NewMethodName DEPEND %NewMethods DEFAULT TIMES 0
+
+%NewMethodPrototype DEPEND %NewMethods DEFAULT TIMES 0
+
+%NewClassPropertyItems DEPEND %ClassItem MULTI LONG TIMES 0
+
+%NewClassProperty DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataType DEPEND %NewClassPropertyItems DEFAULT TIMES 2
+WHEN  ('Default')TIMES 0
+WHEN  ('Step0')TIMES 0
+
+%NewClassOtherType DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataIsRef DEPEND %NewClassPropertyItems LONG TIMES 0
+
+%NewClassDataSize DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim1 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim2 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim3 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim4 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%ClassMethods DEPEND %ClassItem MULTI LONG TIMES 0
+
+%ClassMethodName DEPEND %ClassMethods DEFAULT TIMES 0
+
+%ClassMethodPrototype DEPEND %ClassMethods DEFAULT TIMES 0
+
+%ClassPropertyItems DEPEND %ClassItem MULTI LONG TIMES 0
+
+%ClassProperty DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataType DEPEND %ClassPropertyItems DEFAULT TIMES 2
+WHEN  ('Default')TIMES 0
+WHEN  ('Step0')TIMES 0
+
+%ClassOtherType DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataIsRef DEPEND %ClassPropertyItems LONG TIMES 0
+
+%ClassDataSize DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim1 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim2 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim3 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim4 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%AddSortFields DEFAULT  ('')
+%ResetFields MULTI LONG  ()
+%ResetField DEPEND %ResetFields FIELD TIMES 0
+
+%SortFindAnywhere DEPEND %SortOrder LONG TIMES 0
+
+%SortAddSortFields DEPEND %SortOrder DEFAULT TIMES 0
+
+%SortResetFields DEPEND %SortOrder MULTI LONG TIMES 0
+
+%SortResetField DEPEND %SortResetFields FIELD TIMES 0
+
+%HotFields MULTI LONG  (1, |
+  2)
+%HotField DEPEND %HotFields FIELD TIMES 2
+WHEN  (1) (LLL_:FileName)
+WHEN  (2) (Factory)
+
+%HotFieldBound DEPEND %HotFields LONG TIMES 0
+
+%HotFieldBindOnly DEPEND %HotFields LONG TIMES 0
+
+%ControlFieldForegroundNormal DEPEND %Control DEPEND %ControlField LONG TIMES 2
+WHEN  ('?Browse:1')TIMES 2
+WHEN  ('LLL_:Description') (-1)
+WHEN  ('LLL_:Type') (-1)
+WHEN  ('?Help')TIMES 0
+
+%ControlFieldBackgroundNormal DEPEND %Control DEPEND %ControlField LONG TIMES 2
+WHEN  ('?Browse:1')TIMES 2
+WHEN  ('LLL_:Description') (-1)
+WHEN  ('LLL_:Type') (-1)
+WHEN  ('?Help')TIMES 0
+
+%ControlFieldForegroundSelected DEPEND %Control DEPEND %ControlField LONG TIMES 2
+WHEN  ('?Browse:1')TIMES 2
+WHEN  ('LLL_:Description') (-1)
+WHEN  ('LLL_:Type') (-1)
+WHEN  ('?Help')TIMES 0
+
+%ControlFieldBackgroundSelected DEPEND %Control DEPEND %ControlField LONG TIMES 2
+WHEN  ('?Browse:1')TIMES 2
+WHEN  ('LLL_:Description') (-1)
+WHEN  ('LLL_:Type') (-1)
+WHEN  ('?Help')TIMES 0
+
+%ConditionalColors DEPEND %Control DEPEND %ControlField MULTI LONG TIMES 0
+
+%ColorCondition DEPEND %ConditionalColors DEFAULT TIMES 0
+
+%ConditionalControlFieldForegroundNormal DEPEND %ConditionalColors LONG TIMES 2
+WHEN  ('?Browse:1')TIMES 0
+WHEN  ('?Help')TIMES 0
+
+%ConditionalControlFieldBackgroundNormal DEPEND %ConditionalColors LONG TIMES 2
+WHEN  ('?Browse:1')TIMES 0
+WHEN  ('?Help')TIMES 0
+
+%ConditionalControlFieldForegroundSelected DEPEND %ConditionalColors LONG TIMES 2
+WHEN  ('?Browse:1')TIMES 0
+WHEN  ('?Help')TIMES 0
+
+%ConditionalControlFieldBackgroundSelected DEPEND %ConditionalColors LONG TIMES 2
+WHEN  ('?Browse:1')TIMES 0
+WHEN  ('?Help')TIMES 0
+
+%ControlFieldIcon DEPEND %Control DEPEND %ControlField DEFAULT TIMES 0
+
+%ConditionalIcons DEPEND %Control DEPEND %ControlField MULTI LONG TIMES 0
+
+%IconCondition DEPEND %ConditionalIcons DEFAULT TIMES 0
+
+%ConditionalControlFieldIcon DEPEND %ConditionalIcons DEFAULT TIMES 0
+
+%BrowseTotals MULTI LONG  ()
+%BrowseTotalTarget DEPEND %BrowseTotals FIELD TIMES 0
+
+%BrowseTotalType DEPEND %BrowseTotals DEFAULT TIMES 0
+
+%BrowseTotalField DEPEND %BrowseTotals FIELD TIMES 0
+
+%BrowseTotalBasedOn DEPEND %BrowseTotals DEFAULT TIMES 0
+
+%BrowseTotalCondition DEPEND %BrowseTotals DEFAULT TIMES 0
+
+%GlobalObject DEPEND %ClassItem DEFAULT TIMES 3
+WHEN  ('Default') ('NO')
+WHEN  ('Locator0') ('NO')
+WHEN  ('Step0') ('NO')
+
+%ControlFieldStyle DEPEND %Control DEPEND %ControlField DEFAULT TIMES 0
+
+%ConditionalStyles DEPEND %Control DEPEND %ControlField MULTI LONG TIMES 0
+
+%StyleCondition DEPEND %ConditionalStyles DEFAULT TIMES 0
+
+%ConditionalControlFieldStyle DEPEND %ConditionalStyles DEFAULT TIMES 0
+
+%ControlFieldIconIsNumber DEPEND %Control DEPEND %ControlField LONG TIMES 0
+
+%ConditionalControlFieldIconIsNumber DEPEND %ConditionalIcons LONG TIMES 0
+
+%ControlFieldTipField DEPEND %Control DEPEND %ControlField FIELD TIMES 0
+
+[INSTANCE]
+INSTANCE 9
+[PROMPTS]
+%ClassItem UNIQUE DEFAULT  ('Default', 'Locator', |
+  'Locator0', |
+  'Step', |
+  'Step0')
+%DefaultBaseClassType DEPEND %ClassItem DEFAULT TIMES 3
+WHEN  ('Default') ('BrowseClass')
+WHEN  ('Locator0') ('StepLocatorClass')
+WHEN  ('Step0') ('StepClass')
+
+%ActualDefaultBaseClassType DEPEND %ClassItem DEFAULT TIMES 3
+WHEN  ('Default') ('')
+WHEN  ('Locator0') ('')
+WHEN  ('Step0') ('StepStringClass')
+
+%ClassLines DEPEND %ClassItem MULTI DEFAULT TIMES 1
+WHEN  ('Default') ('Q {22}&Queue:Browse {18}!Reference to browse queue')
+
+%EnableQuickScan LONG  (0)
+%LoadMethod DEFAULT  ('Page')
+%AcceptToolBarControl LONG  (0)
+%LocatorType DEFAULT  ('Step')
+%OverrideDefaultLocator LONG  (0)
+%OverrideLocator DEFAULT  ('')
+%FindDefaultAnywhere LONG  (0)
+%ThisObjectName DEPEND %ClassItem DEFAULT TIMES 3
+WHEN  ('Default') ('BRW9')
+WHEN  ('Locator0') ('BRW9::Sort0:Locator')
+WHEN  ('Step0') ('BRW9::Sort0:StepClass')
+
+%UseDefaultABCBaseClass DEPEND %ClassItem LONG TIMES 3
+WHEN  ('Default') (1)
+WHEN  ('Locator0') (1)
+WHEN  ('Step0') (1)
+
+%UseABCBaseClass DEPEND %ClassItem LONG TIMES 3
+WHEN  ('Default') (1)
+WHEN  ('Locator0') (1)
+WHEN  ('Step0') (1)
+
+%ABCBaseClass DEPEND %ClassItem DEFAULT TIMES 3
+WHEN  ('Default') ('AsciiFileClass')
+WHEN  ('Locator0') ('AsciiFileClass')
+WHEN  ('Step0') ('AsciiFileClass')
+
+%ExtBaseClass DEPEND %ClassItem DEFAULT TIMES 0
+
+%BaseClassIncludeFile DEPEND %ClassItem DEFAULT TIMES 0
+
+%DeriveFromBaseClass DEPEND %ClassItem LONG TIMES 3
+WHEN  ('Default') (0)
+WHEN  ('Locator0') (0)
+WHEN  ('Step0') (0)
+
+%NewMethods DEPEND %ClassItem MULTI LONG TIMES 0
+
+%NewMethodName DEPEND %NewMethods DEFAULT TIMES 0
+
+%NewMethodPrototype DEPEND %NewMethods DEFAULT TIMES 0
+
+%NewClassPropertyItems DEPEND %ClassItem MULTI LONG TIMES 0
+
+%NewClassProperty DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataType DEPEND %NewClassPropertyItems DEFAULT TIMES 2
+WHEN  ('Default')TIMES 0
+WHEN  ('Step0')TIMES 0
+
+%NewClassOtherType DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataIsRef DEPEND %NewClassPropertyItems LONG TIMES 0
+
+%NewClassDataSize DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim1 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim2 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim3 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim4 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%ClassMethods DEPEND %ClassItem MULTI LONG TIMES 0
+
+%ClassMethodName DEPEND %ClassMethods DEFAULT TIMES 0
+
+%ClassMethodPrototype DEPEND %ClassMethods DEFAULT TIMES 0
+
+%ClassPropertyItems DEPEND %ClassItem MULTI LONG TIMES 0
+
+%ClassProperty DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataType DEPEND %ClassPropertyItems DEFAULT TIMES 2
+WHEN  ('Default')TIMES 0
+WHEN  ('Step0')TIMES 0
+
+%ClassOtherType DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataIsRef DEPEND %ClassPropertyItems LONG TIMES 0
+
+%ClassDataSize DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim1 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim2 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim3 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim4 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%RecordFilter DEFAULT  ('')
+%RangeField COMPONENT  ()
+%RangeLimitType DEFAULT  ('Current Value')
+%RangeLimit FIELD  ()
+%RangeLow FIELD  ()
+%RangeHigh FIELD  ()
+%RangeFile FILE  ()
+%AddSortFields DEFAULT  ('')
+%ResetFields MULTI LONG  ()
+%ResetField DEPEND %ResetFields FIELD TIMES 0
+
+%ScrollBehavior DEFAULT  ('Movable Thumb')
+%ScrollKeyDistribution DEFAULT  ('Alpha')
+%CustomKeyDistribution MULTI LONG  ()
+%KeyDistributionValue DEPEND %CustomKeyDistribution DEFAULT TIMES 0
+
+%ScrollAlpha LONG  (1)
+%ScrollNumeric LONG  (0)
+%ScrollAlt LONG  (0)
+%SortOrder MULTI LONG  ()
+%SortCondition DEPEND %SortOrder DEFAULT TIMES 0
+
+%SortKey DEPEND %SortOrder KEY TIMES 0
+
+%SortLocatorType DEPEND %SortOrder DEFAULT TIMES 0
+
+%SortOverrideDefaultLocator DEPEND %SortOrder LONG TIMES 0
+
+%SortOverrideLocator DEPEND %SortOrder DEFAULT TIMES 0
+
+%SortFindAnywhere DEPEND %SortOrder LONG TIMES 0
+
+%SortRecordFilter DEPEND %SortOrder DEFAULT TIMES 0
+
+%SortRangeField DEPEND %SortOrder COMPONENT TIMES 0
+
+%SortRangeLimitType DEPEND %SortOrder DEFAULT TIMES 0
+
+%SortRangeLimit DEPEND %SortOrder FIELD TIMES 0
+
+%SortRangeLow DEPEND %SortOrder FIELD TIMES 0
+
+%SortRangeHigh DEPEND %SortOrder FIELD TIMES 0
+
+%SortRangeFile DEPEND %SortOrder FILE TIMES 0
+
+%SortAddSortFields DEPEND %SortOrder DEFAULT TIMES 0
+
+%SortResetFields DEPEND %SortOrder MULTI LONG TIMES 0
+
+%SortResetField DEPEND %SortResetFields FIELD TIMES 0
+
+%SortScrollBehavior DEPEND %SortOrder DEFAULT TIMES 0
+
+%SortScrollKeyDistribution DEPEND %SortOrder DEFAULT TIMES 0
+
+%SortCustomKeyDistribution DEPEND %SortOrder MULTI LONG TIMES 0
+
+%SortKeyDistributionValue DEPEND %SortCustomKeyDistribution DEFAULT TIMES 0
+
+%SortScrollAlpha DEPEND %SortOrder LONG TIMES 0
+
+%SortScrollNumeric DEPEND %SortOrder LONG TIMES 0
+
+%SortScrollAlt DEPEND %SortOrder LONG TIMES 0
+
+%HotFields MULTI LONG  ()
+%HotField DEPEND %HotFields FIELD TIMES 0
+
+%HotFieldBound DEPEND %HotFields LONG TIMES 0
+
+%HotFieldBindOnly DEPEND %HotFields LONG TIMES 0
+
+%ControlFieldForegroundNormal DEPEND %Control DEPEND %ControlField LONG TIMES 2
+WHEN  ('?Help')TIMES 0
+WHEN  ('?List')TIMES 1
+WHEN  ('LLA_:ReportType') (-1)
+
+%ControlFieldBackgroundNormal DEPEND %Control DEPEND %ControlField LONG TIMES 2
+WHEN  ('?Help')TIMES 0
+WHEN  ('?List')TIMES 1
+WHEN  ('LLA_:ReportType') (-1)
+
+%ControlFieldForegroundSelected DEPEND %Control DEPEND %ControlField LONG TIMES 2
+WHEN  ('?Help')TIMES 0
+WHEN  ('?List')TIMES 1
+WHEN  ('LLA_:ReportType') (-1)
+
+%ControlFieldBackgroundSelected DEPEND %Control DEPEND %ControlField LONG TIMES 2
+WHEN  ('?Help')TIMES 0
+WHEN  ('?List')TIMES 1
+WHEN  ('LLA_:ReportType') (-1)
+
+%ConditionalColors DEPEND %Control DEPEND %ControlField MULTI LONG TIMES 0
+
+%ColorCondition DEPEND %ConditionalColors DEFAULT TIMES 0
+
+%ConditionalControlFieldForegroundNormal DEPEND %ConditionalColors LONG TIMES 2
+WHEN  ('?Help')TIMES 0
+WHEN  ('?List')TIMES 0
+
+%ConditionalControlFieldBackgroundNormal DEPEND %ConditionalColors LONG TIMES 2
+WHEN  ('?Help')TIMES 0
+WHEN  ('?List')TIMES 0
+
+%ConditionalControlFieldForegroundSelected DEPEND %ConditionalColors LONG TIMES 2
+WHEN  ('?Help')TIMES 0
+WHEN  ('?List')TIMES 0
+
+%ConditionalControlFieldBackgroundSelected DEPEND %ConditionalColors LONG TIMES 2
+WHEN  ('?Help')TIMES 0
+WHEN  ('?List')TIMES 0
+
+%ControlFieldIcon DEPEND %Control DEPEND %ControlField DEFAULT TIMES 0
+
+%ConditionalIcons DEPEND %Control DEPEND %ControlField MULTI LONG TIMES 0
+
+%IconCondition DEPEND %ConditionalIcons DEFAULT TIMES 0
+
+%ConditionalControlFieldIcon DEPEND %ConditionalIcons DEFAULT TIMES 0
+
+%BrowseTotals MULTI LONG  ()
+%BrowseTotalTarget DEPEND %BrowseTotals FIELD TIMES 0
+
+%BrowseTotalType DEPEND %BrowseTotals DEFAULT TIMES 0
+
+%BrowseTotalField DEPEND %BrowseTotals FIELD TIMES 0
+
+%BrowseTotalBasedOn DEPEND %BrowseTotals DEFAULT TIMES 0
+
+%BrowseTotalCondition DEPEND %BrowseTotals DEFAULT TIMES 0
+
+%GlobalObject DEPEND %ClassItem DEFAULT TIMES 3
+WHEN  ('Default') ('NO')
+WHEN  ('Locator0') ('NO')
+WHEN  ('Step0') ('NO')
+
+%ControlFieldStyle DEPEND %Control DEPEND %ControlField DEFAULT TIMES 0
+
+%ConditionalStyles DEPEND %Control DEPEND %ControlField MULTI LONG TIMES 0
+
+%StyleCondition DEPEND %ConditionalStyles DEFAULT TIMES 0
+
+%ConditionalControlFieldStyle DEPEND %ConditionalStyles DEFAULT TIMES 0
+
+%ControlFieldIconIsNumber DEPEND %Control DEPEND %ControlField LONG TIMES 0
+
+%ConditionalControlFieldIconIsNumber DEPEND %ConditionalIcons LONG TIMES 0
+
+%ControlFieldTipField DEPEND %Control DEPEND %ControlField FIELD TIMES 0
+
+[ADDITION]
+NAME ABC BrowseUpdateButtons
+[INSTANCE]
+INSTANCE 3
+PARENT 1
+PROCPROP
+[PROMPTS]
+%UpdateProcedure PROCEDURE  (UpdateRepLay)
+%EditViaPopup LONG  (1)
+%EditInPlace LONG  (0)
+%ClassItem UNIQUE DEFAULT  ('BrowseEIPManager', |
+  'EIP')
+%DefaultBaseClassType DEPEND %ClassItem DEFAULT TIMES 1
+WHEN  ('BrowseEIPManager') ('BrowseEIPManager')
+
+%ActualDefaultBaseClassType DEPEND %ClassItem DEFAULT TIMES 1
+WHEN  ('BrowseEIPManager') ('')
+
+%ClassLines DEPEND %ClassItem MULTI DEFAULT TIMES 0
+
+%ThisObjectName DEPEND %ClassItem DEFAULT TIMES 1
+WHEN  ('BrowseEIPManager') ('BRW1::EIPManager')
+
+%UseDefaultABCBaseClass DEPEND %ClassItem LONG TIMES 1
+WHEN  ('BrowseEIPManager') (1)
+
+%UseABCBaseClass DEPEND %ClassItem LONG TIMES 1
+WHEN  ('BrowseEIPManager') (1)
+
+%ABCBaseClass DEPEND %ClassItem DEFAULT TIMES 1
+WHEN  ('BrowseEIPManager') ('AsciiFileClass')
+
+%ExtBaseClass DEPEND %ClassItem DEFAULT TIMES 0
+
+%BaseClassIncludeFile DEPEND %ClassItem DEFAULT TIMES 0
+
+%DeriveFromBaseClass DEPEND %ClassItem LONG TIMES 1
+WHEN  ('BrowseEIPManager') (0)
+
+%NewMethods DEPEND %ClassItem MULTI LONG TIMES 0
+
+%NewMethodName DEPEND %NewMethods DEFAULT TIMES 0
+
+%NewMethodPrototype DEPEND %NewMethods DEFAULT TIMES 0
+
+%NewClassPropertyItems DEPEND %ClassItem MULTI LONG TIMES 0
+
+%NewClassProperty DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataType DEPEND %NewClassPropertyItems DEFAULT TIMES 1
+WHEN  ('BrowseEIPManager')TIMES 0
+
+%NewClassOtherType DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataIsRef DEPEND %NewClassPropertyItems LONG TIMES 0
+
+%NewClassDataSize DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim1 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim2 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim3 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim4 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%ClassMethods DEPEND %ClassItem MULTI LONG TIMES 0
+
+%ClassMethodName DEPEND %ClassMethods DEFAULT TIMES 0
+
+%ClassMethodPrototype DEPEND %ClassMethods DEFAULT TIMES 0
+
+%ClassPropertyItems DEPEND %ClassItem MULTI LONG TIMES 0
+
+%ClassProperty DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataType DEPEND %ClassPropertyItems DEFAULT TIMES 1
+WHEN  ('BrowseEIPManager')TIMES 0
+
+%ClassOtherType DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataIsRef DEPEND %ClassPropertyItems LONG TIMES 0
+
+%ClassDataSize DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim1 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim2 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim3 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim4 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%EIPTabAction DEFAULT  ('Default')
+%EIPTabRemain LONG  (0)
+%EIPEnterAction DEFAULT  ('Default')
+%EIPEnterRemain LONG  (0)
+%EIPArrowAction DEFAULT  ('Default')
+%EIPArrowRemain LONG  (1)
+%EIPArrowRetain LONG  (1)
+%EIPFocusAction DEFAULT  ('Default')
+%EIPInsertionPoint DEFAULT  ('After')
+%EditInPlaceList MULTI LONG  ()
+%EditInPlaceField DEPEND %EditInPlaceList FIELD TIMES 0
+
+%AllowEIP DEPEND %EditInPlaceList LONG TIMES 0
+
+%GlobalObject DEPEND %ClassItem DEFAULT TIMES 1
+WHEN  ('BrowseEIPManager') ('NO')
+
+[INSTANCE]
+INSTANCE 2
+PARENT 9
+[PROMPTS]
+%EditInPlace LONG  (0)
+%ClassItem UNIQUE DEFAULT  ('BrowseEIPManager', |
+  'EIP')
+%DefaultBaseClassType DEPEND %ClassItem DEFAULT TIMES 1
+WHEN  ('BrowseEIPManager') ('BrowseEIPManager')
+
+%ActualDefaultBaseClassType DEPEND %ClassItem DEFAULT TIMES 1
+WHEN  ('BrowseEIPManager') ('')
+
+%ClassLines DEPEND %ClassItem MULTI DEFAULT TIMES 0
+
+%ThisObjectName DEPEND %ClassItem DEFAULT TIMES 1
+WHEN  ('BrowseEIPManager') ('BRW9::EIPManager')
+
+%UseDefaultABCBaseClass DEPEND %ClassItem LONG TIMES 2
+WHEN  ('BrowseEIPManager') (1)
+WHEN  ('EIP') (1)
+
+%UseABCBaseClass DEPEND %ClassItem LONG TIMES 2
+WHEN  ('BrowseEIPManager') (1)
+WHEN  ('EIP') (1)
+
+%ABCBaseClass DEPEND %ClassItem DEFAULT TIMES 2
+WHEN  ('BrowseEIPManager') ('AsciiFileClass')
+WHEN  ('EIP') ('AsciiFileClass')
+
+%ExtBaseClass DEPEND %ClassItem DEFAULT TIMES 0
+
+%BaseClassIncludeFile DEPEND %ClassItem DEFAULT TIMES 0
+
+%DeriveFromBaseClass DEPEND %ClassItem LONG TIMES 2
+WHEN  ('BrowseEIPManager') (0)
+WHEN  ('EIP') (0)
+
+%NewMethods DEPEND %ClassItem MULTI LONG TIMES 0
+
+%NewMethodName DEPEND %NewMethods DEFAULT TIMES 0
+
+%NewMethodPrototype DEPEND %NewMethods DEFAULT TIMES 0
+
+%NewClassPropertyItems DEPEND %ClassItem MULTI LONG TIMES 0
+
+%NewClassProperty DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataType DEPEND %NewClassPropertyItems DEFAULT TIMES 2
+WHEN  ('BrowseEIPManager')TIMES 0
+WHEN  ('EIP')TIMES 0
+
+%NewClassOtherType DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataIsRef DEPEND %NewClassPropertyItems LONG TIMES 0
+
+%NewClassDataSize DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim1 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim2 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim3 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim4 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%ClassMethods DEPEND %ClassItem MULTI LONG TIMES 0
+
+%ClassMethodName DEPEND %ClassMethods DEFAULT TIMES 0
+
+%ClassMethodPrototype DEPEND %ClassMethods DEFAULT TIMES 0
+
+%ClassPropertyItems DEPEND %ClassItem MULTI LONG TIMES 0
+
+%ClassProperty DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataType DEPEND %ClassPropertyItems DEFAULT TIMES 2
+WHEN  ('BrowseEIPManager')TIMES 0
+WHEN  ('EIP')TIMES 0
+
+%ClassOtherType DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataIsRef DEPEND %ClassPropertyItems LONG TIMES 0
+
+%ClassDataSize DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim1 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim2 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim3 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim4 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%EIPTabAction DEFAULT  ('Default')
+%EIPTabRemain LONG  (0)
+%EIPEnterAction DEFAULT  ('Default')
+%EIPEnterRemain LONG  (0)
+%EIPArrowAction DEFAULT  ('Default')
+%EIPArrowRemain LONG  (1)
+%EIPArrowRetain LONG  (1)
+%EIPFocusAction DEFAULT  ('Default')
+%EIPInsertionPoint DEFAULT  ('After')
+%EditInPlaceList MULTI LONG  ()
+%EditInPlaceField DEPEND %EditInPlaceList FIELD TIMES 0
+
+%AllowEIP DEPEND %EditInPlaceList LONG TIMES 0
+
+%UpdateProcedure PROCEDURE  (UpdateRepArea)
+%GlobalObject DEPEND %ClassItem DEFAULT TIMES 1
+WHEN  ('BrowseEIPManager') ('NO')
+
+[ADDITION]
+NAME ABC CloseButton
+[INSTANCE]
+INSTANCE 4
+[ADDITION]
+NAME ABC WindowResize
+[INSTANCE]
+INSTANCE 5
+[PROMPTS]
+%UseAppStrategy DEFAULT  ('1')
+%AppStrategy DEFAULT  ('Spread')
+%RestrictMinSize LONG  (1)
+%WindowMinWidth DEFAULT  ('0')
+%WindowMaxWidth DEFAULT  ('0')
+%ClassItem UNIQUE DEFAULT  ('Default')
+%DefaultBaseClassType DEPEND %ClassItem DEFAULT TIMES 1
+WHEN  ('Default') ('WindowResizeClass')
+
+%ActualDefaultBaseClassType DEPEND %ClassItem DEFAULT TIMES 1
+WHEN  ('Default') ('')
+
+%ClassLines DEPEND %ClassItem MULTI DEFAULT TIMES 0
+
+%WindowMinHeight DEFAULT  ('')
+%RestrictMaxSize LONG  (0)
+%WindowMaxHeight DEFAULT  ('')
+%OverrideControls MULTI LONG  ()
+%OverrideControl DEPEND %OverrideControls DEFAULT TIMES 0
+
+%HorizResize DEPEND %OverrideControls DEFAULT TIMES 0
+
+%VertResize DEPEND %OverrideControls DEFAULT TIMES 0
+
+%HorizPositional DEPEND %OverrideControls DEFAULT TIMES 0
+
+%VertPositional DEPEND %OverrideControls DEFAULT TIMES 0
+
+%AutoFindParents DEFAULT  ('Default')
+%DeferMoves DEFAULT  ('Default')
+%AutoTransparent DEFAULT  ('Default')
+%ThisObjectName DEPEND %ClassItem DEFAULT TIMES 1
+WHEN  ('Default') ('Resizer')
+
+%UseDefaultABCBaseClass DEPEND %ClassItem LONG TIMES 1
+WHEN  ('Default') (1)
+
+%UseABCBaseClass DEPEND %ClassItem LONG TIMES 1
+WHEN  ('Default') (1)
+
+%ABCBaseClass DEPEND %ClassItem DEFAULT TIMES 1
+WHEN  ('Default') ('AsciiFileClass')
+
+%ExtBaseClass DEPEND %ClassItem DEFAULT TIMES 0
+
+%BaseClassIncludeFile DEPEND %ClassItem DEFAULT TIMES 0
+
+%DeriveFromBaseClass DEPEND %ClassItem LONG TIMES 1
+WHEN  ('Default') (0)
+
+%NewMethods DEPEND %ClassItem MULTI LONG TIMES 0
+
+%NewMethodName DEPEND %NewMethods DEFAULT TIMES 0
+
+%NewMethodPrototype DEPEND %NewMethods DEFAULT TIMES 0
+
+%NewClassPropertyItems DEPEND %ClassItem MULTI LONG TIMES 0
+
+%NewClassProperty DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataType DEPEND %NewClassPropertyItems DEFAULT TIMES 1
+WHEN  ('Default')TIMES 0
+
+%NewClassOtherType DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataIsRef DEPEND %NewClassPropertyItems LONG TIMES 0
+
+%NewClassDataSize DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim1 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim2 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim3 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim4 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%ClassMethods DEPEND %ClassItem MULTI LONG TIMES 0
+
+%ClassMethodName DEPEND %ClassMethods DEFAULT TIMES 0
+
+%ClassMethodPrototype DEPEND %ClassMethods DEFAULT TIMES 0
+
+%ClassPropertyItems DEPEND %ClassItem MULTI LONG TIMES 0
+
+%ClassProperty DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataType DEPEND %ClassPropertyItems DEFAULT TIMES 1
+WHEN  ('Default')TIMES 0
+
+%ClassOtherType DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataIsRef DEPEND %ClassPropertyItems LONG TIMES 0
+
+%ClassDataSize DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim1 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim2 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim3 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim4 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%DisableResize DEPEND %OverrideControls LONG TIMES 0
+
+%GlobalObject DEPEND %ClassItem DEFAULT TIMES 1
+WHEN  ('Default') ('NO')
+
+[WINDOW]
+QuickWindow WINDOW('Report Layout Manager'),AT(,,528,236),FONT('MS Sans Serif',8,,),CENTER,IMM,ICON('REPDES.ICO'), |
+         HLP('RptLayoutManager'),SYSTEM,GRAY,RESIZE,MDI
+       LIST,AT(124,12,264,178),USE(?Browse:1),IMM,HVSCROLL,MSG('Browsing Records'),VCR,FORMAT('219L(2)|M~Layout Description~@s60@16L(2)|M~Type~@s5@'), |
+           FROM(Queue:Browse:1),#SEQ(1),#ORIG(?List),#FIELDS(LLL_:Description,LLL_:Type)
+       STRING('''Sketch'' of Report Layout'),AT(400,10),USE(?String1),#ORIG(?String1)
+       REGION,AT(400,26,125,121),USE(?Region1),#ORIG(?Region1)
+       IMAGE,AT(400,24,125,122),USE(?Image1),CENTERED,#ORIG(?Image1)
+       BUTTON('&Insert'),AT(248,196,45,14),USE(?Insert:3),#SEQ(3),#ORIG(?Insert),#LINK(?Change:3)
+       BUTTON('&Change'),AT(296,196,45,14),USE(?Change:3),DEFAULT,#SEQ(3),#ORIG(?Change),#LINK(?Delete:3)
+       BUTTON('&Delete'),AT(344,196,45,14),USE(?Delete:3),#SEQ(3),#ORIG(?Delete),#LINK(?Insert:3)
+       SHEET,AT(4,4,391,209),USE(?CurrentTab),WIZARD,#ORIG(CurrentTab)
+         TAB('RPL:AreaRefKey'),USE(?Tab:2)
+           LIST,AT(8,12,112,178),USE(?List),IMM,VSCROLL,MSG('Browsing Records'),FORMAT('200L(2)|M~Area~@s50@'), |
+               FROM(Queue:Browse),#SEQ(9),#ORIG(?List),#FIELDS(LLA_:ReportType)
+           BUTTON('&Insert'),AT(16,196,33,14),USE(?Insert),HIDE,#SEQ(2),#ORIG(?Insert)
+           BUTTON('&Change'),AT(52,196,33,14),USE(?Change),HIDE,#SEQ(2),#ORIG(?Change)
+           BUTTON('&Delete'),AT(88,196,33,14),USE(?Delete),HIDE,#SEQ(2),#ORIG(?Delete)
+           BUTTON('Copy Layout'),AT(192,196,51,14),USE(?CopyButton),MSG('Creates a new layout based on an existing layout'), |
+               TIP('Creates a new layout based on an existing layout'),#ORIG(?Button7)
+         END
+       END
+       BUTTON('Close'),AT(300,216,45,14),USE(?Close),#SEQ(4),#ORIG(?Close)
+       BUTTON('Help'),AT(348,216,45,14),USE(?Help),STD(STD:Help)
+     END
+
+[FORMULA]
+DEFINE FactoryDefault
+ASSIGN Factory
+CLASS Format Browse
+INSTANCE 1
+DESCRIPTION 
+IF LLL_:FactoryDefault = true
+    = 'F'
+ELSE
+    = ''
+END
+[PROCEDURE]
+NAME UpdateRepLay
+[COMMON]
+DESCRIPTION 'Update the RepLay file'
+FROM ABC Window
+CATEGORY 'Layout Manager'
+MODIFIED '2003/04/18' '12:10:24'
+[DATA]
+[SCREENCONTROLS]
+! PROMPT('Files Opened:'),USE(?FilesOpened:Prompt)
+! ENTRY(@n3),USE(FilesOpened)
+[REPORTCONTROLS]
+! STRING(@n3),USE(FilesOpened)
+FilesOpened              BYTE
+!!> IDENT(4294967283),PROMPT('Files Opened:'),HEADER('Files Opened'),PICTURE(@n3)
+[SCREENCONTROLS]
+! PROMPT('Action Message:'),USE(?ActionMessage:Prompt)
+! ENTRY(@s39),USE(ActionMessage)
+[REPORTCONTROLS]
+! STRING(@s39),USE(ActionMessage)
+ActionMessage            CSTRING(40)
+!!> IDENT(4294967282),PROMPT('Action Message:'),HEADER('Action Message'),PICTURE(@s39)
+[SCREENCONTROLS]
+! PROMPT('L : File Name:'),USE(?L:FileName:Prompt)
+! ENTRY(@s20),USE(L:FileName)
+[REPORTCONTROLS]
+! STRING(@s20),USE(L:FileName)
+L:FileName               CSTRING(21)
+!!> IDENT(4294967281),PROMPT('L : File Name:'),HEADER('L : File Name'),PICTURE(@s20)
+[SCREENCONTROLS]
+! PROMPT('Bin Value:'),USE(?BinValue:Prompt)
+! ENTRY(@n3),USE(BinValue)
+[REPORTCONTROLS]
+! STRING(@n3),USE(BinValue)
+BinValue                 BYTE
+!!> IDENT(4294967280),PROMPT('Bin Value:'),HEADER('Bin Value'),PICTURE(@n3)
+[SCREENCONTROLS]
+! PROMPT('Time Now:'),USE(?TimeNow:Prompt)
+! ENTRY(@n-14),USE(TimeNow),RIGHT(1)
+[REPORTCONTROLS]
+! STRING(@n-14),USE(TimeNow),RIGHT(1)
+TimeNow                  LONG
+!!> IDENT(4294967279),PROMPT('Time Now:'),HEADER('Time Now'),PICTURE(@n-14),JUSTIFY(RIGHT,1)
+[FILES]
+[PRIMARY]
+LL_RepArea
+[INSTANCE]
+1
+[PRIMARY]
+LL_RepLay
+[INSTANCE]
+3
+[PRIMARY]
+LL_RepLay
+[INSTANCE]
+5
+[PROMPTS]
+%ForceWindowRefresh DEPEND %Control LONG TIMES 0
+
+%ClassItem UNIQUE DEFAULT  ('Default', |
+  'WindowToolbar')
+%DefaultBaseClassType DEPEND %ClassItem DEFAULT TIMES 2
+WHEN  ('Default') ('WindowManager')
+WHEN  ('WindowToolbar') ('ToolbarClass')
+
+%ActualDefaultBaseClassType DEPEND %ClassItem DEFAULT TIMES 2
+WHEN  ('Default') ('')
+WHEN  ('WindowToolbar') ('')
+
+%ClassLines DEPEND %ClassItem MULTI DEFAULT TIMES 0
+
+%Parameters DEFAULT  ('')
+%ReturnValue FIELD  ()
+%WindowOperationMode DEFAULT  ('Use WINDOW setting')
+%INISaveWindow LONG  (1)
+%ThisObjectName DEPEND %ClassItem DEFAULT TIMES 2
+WHEN  ('Default') ('ThisWindow')
+WHEN  ('WindowToolbar') ('Toolbar')
+
+%UseDefaultABCBaseClass DEPEND %ClassItem LONG TIMES 2
+WHEN  ('Default') (1)
+WHEN  ('WindowToolbar') (1)
+
+%UseABCBaseClass DEPEND %ClassItem LONG TIMES 2
+WHEN  ('Default') (1)
+WHEN  ('WindowToolbar') (1)
+
+%ABCBaseClass DEPEND %ClassItem DEFAULT TIMES 2
+WHEN  ('Default') ('AsciiFileClass')
+WHEN  ('WindowToolbar') ('AsciiFileClass')
+
+%ExtBaseClass DEPEND %ClassItem DEFAULT TIMES 0
+
+%BaseClassIncludeFile DEPEND %ClassItem DEFAULT TIMES 0
+
+%DeriveFromBaseClass DEPEND %ClassItem LONG TIMES 2
+WHEN  ('Default') (0)
+WHEN  ('WindowToolbar') (0)
+
+%NewMethods DEPEND %ClassItem MULTI LONG TIMES 0
+
+%NewMethodName DEPEND %NewMethods DEFAULT TIMES 0
+
+%NewMethodPrototype DEPEND %NewMethods DEFAULT TIMES 0
+
+%NewClassPropertyItems DEPEND %ClassItem MULTI LONG TIMES 0
+
+%NewClassProperty DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataType DEPEND %NewClassPropertyItems DEFAULT TIMES 1
+WHEN  ('WindowToolbar')TIMES 0
+
+%NewClassOtherType DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataIsRef DEPEND %NewClassPropertyItems LONG TIMES 0
+
+%NewClassDataSize DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim1 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim2 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim3 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim4 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%ClassMethods DEPEND %ClassItem MULTI LONG TIMES 0
+
+%ClassMethodName DEPEND %ClassMethods DEFAULT TIMES 0
+
+%ClassMethodPrototype DEPEND %ClassMethods DEFAULT TIMES 0
+
+%ClassPropertyItems DEPEND %ClassItem MULTI LONG TIMES 0
+
+%ClassProperty DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataType DEPEND %ClassPropertyItems DEFAULT TIMES 1
+WHEN  ('WindowToolbar')TIMES 0
+
+%ClassOtherType DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataIsRef DEPEND %ClassPropertyItems LONG TIMES 0
+
+%ClassDataSize DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim1 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim2 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim3 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim4 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ButtonAction DEPEND %Control DEFAULT TIMES 10
+WHEN  ('') ('No Special Action')
+WHEN  ('?Cancel') ('No Special Action')
+WHEN  ('?CurrentTab') ('No Special Action')
+WHEN  ('?LLA_:ReportType') ('No Special Action')
+WHEN  ('?LLL_:FactoryDefault') ('No Special Action')
+WHEN  ('?LLL_:Pages') ('No Special Action')
+WHEN  ('?LLL_:Type') ('No Special Action')
+WHEN  ('?LL_LayoutBtn') ('No Special Action')
+WHEN  ('?OK') ('No Special Action')
+WHEN  ('?Prompt3') ('No Special Action')
+
+%ButtonRunName DEPEND %Control DEFAULT TIMES 1
+WHEN  ('?LL_LayoutBtn') ('')
+
+%ButtonRunParameters DEPEND %Control DEFAULT TIMES 1
+WHEN  ('?LL_LayoutBtn') ('')
+
+%ButtonProcedure DEPEND %Control PROCEDURE TIMES 1
+WHEN  ('?LL_LayoutBtn') ()
+
+%ButtonThread DEPEND %Control LONG TIMES 1
+WHEN  ('?LL_LayoutBtn') (0)
+
+%ButtonThreadStack DEPEND %Control DEFAULT TIMES 10
+WHEN  ('') ('25000')
+WHEN  ('?Cancel') ('25000')
+WHEN  ('?CurrentTab') ('25000')
+WHEN  ('?LLA_:ReportType') ('25000')
+WHEN  ('?LLL_:FactoryDefault') ('25000')
+WHEN  ('?LLL_:Pages') ('25000')
+WHEN  ('?LLL_:Type') ('25000')
+WHEN  ('?LL_LayoutBtn') ('25000')
+WHEN  ('?OK') ('25000')
+WHEN  ('?Prompt3') ('25000')
+
+%ButtonParameters DEPEND %Control DEFAULT TIMES 1
+WHEN  ('?LL_LayoutBtn') ('')
+
+%ButtonReturnValueAssignment DEPEND %Control FIELD TIMES 1
+WHEN  ('?LL_LayoutBtn') ()
+
+%ButtonReturnValueReferenceAssign DEPEND %Control LONG TIMES 1
+WHEN  ('?LL_LayoutBtn') (0)
+
+%ButtonRequest DEPEND %Control DEFAULT TIMES 10
+WHEN  ('') ('None')
+WHEN  ('?Cancel') ('None')
+WHEN  ('?CurrentTab') ('None')
+WHEN  ('?LLA_:ReportType') ('None')
+WHEN  ('?LLL_:FactoryDefault') ('None')
+WHEN  ('?LLL_:Pages') ('None')
+WHEN  ('?LLL_:Type') ('None')
+WHEN  ('?LL_LayoutBtn') ('None')
+WHEN  ('?OK') ('None')
+WHEN  ('?Prompt3') ('None')
+
+%ButtonThreadParameters DEPEND %Control DEFAULT TIMES 1
+WHEN  ('?LL_LayoutBtn') ('')
+
+%ButtonThreadReturnValueAssignment DEPEND %Control FIELD TIMES 1
+WHEN  ('?LL_LayoutBtn') ()
+
+%PreLookupKey DEPEND %Control KEY TIMES 0
+
+%PreLookupField DEPEND %Control COMPONENT TIMES 1
+WHEN  ('?LLL_:Pages') ()
+
+%PreLookupProcedure DEPEND %Control PROCEDURE TIMES 1
+WHEN  ('?LLL_:Pages') ()
+
+%PostLookupKey DEPEND %Control KEY TIMES 0
+
+%PostLookupField DEPEND %Control COMPONENT TIMES 1
+WHEN  ('?LLL_:Pages') ()
+
+%PostLookupProcedure DEPEND %Control PROCEDURE TIMES 1
+WHEN  ('?LLL_:Pages') ()
+
+%PostLookupDuringValidate DEPEND %Control LONG TIMES 10
+WHEN  ('') (1)
+WHEN  ('?Cancel') (1)
+WHEN  ('?CurrentTab') (1)
+WHEN  ('?LLA_:ReportType') (1)
+WHEN  ('?LLL_:Description') (1)
+WHEN  ('?LLL_:FactoryDefault') (1)
+WHEN  ('?LLL_:Pages') (1)
+WHEN  ('?LLL_:Type') (1)
+WHEN  ('?LL_LayoutBtn') (1)
+WHEN  ('?Prompt3') (1)
+
+%LookupAssign DEPEND %Control MULTI LONG TIMES 0
+
+%MoreField DEPEND %LookupAssign DEFAULT TIMES 0
+
+%MoreTarget DEPEND %LookupAssign FIELD TIMES 0
+
+%CheckedAssigns DEPEND %Control MULTI LONG TIMES 0
+
+%CheckedAssignVariable DEPEND %CheckedAssigns FIELD TIMES 0
+
+%CheckedAssignValue DEPEND %CheckedAssigns DEFAULT TIMES 0
+
+%CheckedHides DEPEND %Control MULTI LONG TIMES 0
+
+%CheckedControl DEPEND %CheckedHides DEFAULT TIMES 0
+
+%CheckedControlAction DEPEND %CheckedHides DEFAULT TIMES 9
+WHEN  ('')TIMES 0
+WHEN  ('?Cancel')TIMES 0
+WHEN  ('?CurrentTab')TIMES 0
+WHEN  ('?LLA_:ReportType')TIMES 0
+WHEN  ('?LLL_:FactoryDefault')TIMES 0
+WHEN  ('?LLL_:Pages')TIMES 0
+WHEN  ('?LLL_:Type')TIMES 0
+WHEN  ('?LL_LayoutBtn')TIMES 0
+WHEN  ('?Prompt3')TIMES 0
+
+%CheckedEnables DEPEND %Control MULTI LONG TIMES 0
+
+%CheckedControl1 DEPEND %CheckedEnables DEFAULT TIMES 0
+
+%CheckedControl1Action DEPEND %CheckedEnables DEFAULT TIMES 9
+WHEN  ('')TIMES 0
+WHEN  ('?Cancel')TIMES 0
+WHEN  ('?CurrentTab')TIMES 0
+WHEN  ('?LLA_:ReportType')TIMES 0
+WHEN  ('?LLL_:FactoryDefault')TIMES 0
+WHEN  ('?LLL_:Pages')TIMES 0
+WHEN  ('?LLL_:Type')TIMES 0
+WHEN  ('?LL_LayoutBtn')TIMES 0
+WHEN  ('?Prompt3')TIMES 0
+
+%UncheckedAssigns DEPEND %Control MULTI LONG TIMES 0
+
+%UncheckedAssignVariable DEPEND %UncheckedAssigns FIELD TIMES 0
+
+%UncheckedAssignValue DEPEND %UncheckedAssigns DEFAULT TIMES 0
+
+%UnCheckedHides DEPEND %Control MULTI LONG TIMES 0
+
+%UnCheckedControl DEPEND %UnCheckedHides DEFAULT TIMES 0
+
+%UnCheckedControlAction DEPEND %UnCheckedHides DEFAULT TIMES 9
+WHEN  ('')TIMES 0
+WHEN  ('?Cancel')TIMES 0
+WHEN  ('?CurrentTab')TIMES 0
+WHEN  ('?LLA_:ReportType')TIMES 0
+WHEN  ('?LLL_:FactoryDefault')TIMES 0
+WHEN  ('?LLL_:Pages')TIMES 0
+WHEN  ('?LLL_:Type')TIMES 0
+WHEN  ('?LL_LayoutBtn')TIMES 0
+WHEN  ('?Prompt3')TIMES 0
+
+%UnCheckedEnables DEPEND %Control MULTI LONG TIMES 0
+
+%UnCheckedControl1 DEPEND %UnCheckedEnables DEFAULT TIMES 0
+
+%UnCheckedControl1Action DEPEND %UnCheckedEnables DEFAULT TIMES 9
+WHEN  ('')TIMES 0
+WHEN  ('?Cancel')TIMES 0
+WHEN  ('?CurrentTab')TIMES 0
+WHEN  ('?LLA_:ReportType')TIMES 0
+WHEN  ('?LLL_:FactoryDefault')TIMES 0
+WHEN  ('?LLL_:Pages')TIMES 0
+WHEN  ('?LLL_:Type')TIMES 0
+WHEN  ('?LL_LayoutBtn')TIMES 0
+WHEN  ('?Prompt3')TIMES 0
+
+%GlobalObject DEPEND %ClassItem DEFAULT TIMES 2
+WHEN  ('Default') ('NO')
+WHEN  ('WindowToolbar') ('NO')
+
+[EMBED]
+EMBED %ControlEventHandling
+[INSTANCES]
+WHEN '?LL_LayoutBtn'
+[INSTANCES]
+WHEN 'Accepted'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 4499
+PROPERTY:END
+  if ThisWindow.Request = InsertRecord then
+    if LLL_:FactoryDefault = true then
+      LLL_:FileName = 'FD' & LLL_:Ref
+    Else
+      LLL_:FileName = 'LT' & LLL_:Ref
+    End
+  end
+
+  Case clip(LLL_:Type)
+  of 'List'
+    LL_ReportType = LL_Project_List
+  of 'Card'
+    LL_ReportType = LL_Project_Card
+  of 'Label'
+    LL_ReportType = LL_Project_Label
+  end
+
+  do LL_DefineLayout
+[END]
+[END]
+[END]
+EMBED %WindowManagerMethodCodeSection
+[INSTANCES]
+WHEN 'Kill'
+[INSTANCES]
+WHEN '(),BYTE'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 4500
+PROPERTY:END
+if Self.Request = DeleteRecord and Self.Response = RequestCompleted then
+  Case Clip(LLL_:Type)
+  of 'Card'
+    !****** Form File
+    L:FileName = Clip(LLL_:FileName) & '.crd'
+    Remove(L:FileName)
+
+    !****** Printer Definition File
+    L:FileName = Clip(LLL_:FileName) & '.crp'
+    Remove(L:FileName)
+
+    !****** Sketch for file open dialog
+    L:FileName = Clip(LLL_:FileName) & '.crv'
+    Remove(L:FileName)
+
+  of 'List'
+    !****** Form File
+    L:FileName = Clip(LLL_:FileName) & '.lst'
+    Remove(L:FileName)
+
+    !****** Printer Definition File
+    L:FileName = Clip(LLL_:FileName) & '.lsp'
+    Remove(L:FileName)
+
+    !****** Sketch for file open dialog
+    L:FileName = Clip(LLL_:FileName) & '.lsv'
+    Remove(L:FileName)
+  of 'Label'
+    !****** Form File
+    L:FileName = Clip(LLL_:FileName) & '.lbl'
+    Remove(L:FileName)
+
+    !****** Printer Definition File
+    L:FileName = Clip(LLL_:FileName) & '.lbp'
+    Remove(L:FileName)
+
+    !****** Sketch for file open dialog
+    L:FileName = Clip(LLL_:FileName) & '.lbv'
+    Remove(L:FileName)
+  end
+end
+
+[END]
+[END]
+WHEN 'Ask'
+[INSTANCES]
+WHEN '()'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 4500
+PROPERTY:END
+Window{Prop:Text} = ActionMessage
+[END]
+[END]
+WHEN 'Init'
+[INSTANCES]
+WHEN '(),BYTE'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 8001
+PROPERTY:END
+if GetIni('List and Label','Developer','','Solace.ini') = 'Yes' then
+  Unhide(?LLL_:FactoryDefault)
+end
+[END]
+[END]
+[END]
+EMBED %LLStandardInit
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 4000
+PROPERTY:END
+    LL_Report_Name      = LLL_:FileName
+    LL_Report_Title     = LLL_:Description
+[END]
+[END]
+[ADDITION]
+NAME ABC CancelButton
+[INSTANCE]
+INSTANCE 2
+[ADDITION]
+NAME ABC SaveButton
+[INSTANCE]
+INSTANCE 3
+PROCPROP
+[PROMPTS]
+%DeleteAllowed LONG  (1)
+%InsertAllowed LONG  (1)
+%ChangeAllowed LONG  (1)
+%HistoryKey DEFAULT  ('734')
+%PrimingFields MULTI LONG  (1)
+%PrimedField DEPEND %PrimingFields FIELD TIMES 1
+WHEN  (1) (LLL_:Pages)
+
+%PrimedValue DEPEND %PrimingFields DEFAULT TIMES 1
+WHEN  (1) ('1')
+
+%InsertMessage DEFAULT  ('Adding a Report Layout')
+%ChangeMessage DEFAULT  ('Changing a Report Layout')
+%DeleteMessage DEFAULT  ('Record will be Deleted')
+%ActionOnCancel DEFAULT  ('Offer to save changes')
+%ActionOnDelete DEFAULT  ('Standard Warning')
+%AfterGoodInsert DEFAULT  ('Return to caller')
+%AskAfterAdd LONG  (0)
+%MessageLocation DEFAULT  ('None/Window Control')
+%MessageStatusSection DEFAULT  ('')
+%AppendToTitle LONG  (0)
+%AppendToTitleID DEFAULT  ('')
+%ViewMessage DEFAULT  ('View Record')
+[ADDITION]
+NAME ABC FileDrop
+[INSTANCE]
+INSTANCE 1
+[PROMPTS]
+%ClassItem UNIQUE DEFAULT  ('Default')
+%DefaultBaseClassType DEPEND %ClassItem DEFAULT TIMES 1
+WHEN  ('Default') ('FileDropClass')
+
+%ActualDefaultBaseClassType DEPEND %ClassItem DEFAULT TIMES 1
+WHEN  ('Default') ('')
+
+%ClassLines DEPEND %ClassItem MULTI DEFAULT TIMES 0
+
+%FillField FIELD  (LLA_:Ref)
+%TargetField FIELD  (LLL_:AreaRef)
+%MoreAssignments MULTI LONG  ()
+%MoreField DEPEND %MoreAssignments FIELD TIMES 0
+
+%MoreTarget DEPEND %MoreAssignments FIELD TIMES 0
+
+%RecordFilter DEFAULT  ('')
+%DefaultFill LONG  (0)
+%RangeField COMPONENT  ()
+%RangeLimitType DEFAULT  ('Current Value')
+%RangeLimit FIELD  ()
+%RangeLow FIELD  ()
+%RangeHigh FIELD  ()
+%RangeFile FILE  ()
+%ControlFieldForegroundNormal DEPEND %Control DEPEND %ControlField LONG TIMES 3
+WHEN  ('')TIMES 0
+WHEN  ('?Cancel')TIMES 0
+WHEN  ('?LLA_:ReportType')TIMES 1
+WHEN  ('LLA_:ReportType') (-1)
+
+%ControlFieldBackgroundNormal DEPEND %Control DEPEND %ControlField LONG TIMES 3
+WHEN  ('')TIMES 0
+WHEN  ('?Cancel')TIMES 0
+WHEN  ('?LLA_:ReportType')TIMES 1
+WHEN  ('LLA_:ReportType') (-1)
+
+%ControlFieldForegroundSelected DEPEND %Control DEPEND %ControlField LONG TIMES 3
+WHEN  ('')TIMES 0
+WHEN  ('?Cancel')TIMES 0
+WHEN  ('?LLA_:ReportType')TIMES 1
+WHEN  ('LLA_:ReportType') (-1)
+
+%ControlFieldBackgroundSelected DEPEND %Control DEPEND %ControlField LONG TIMES 3
+WHEN  ('')TIMES 0
+WHEN  ('?Cancel')TIMES 0
+WHEN  ('?LLA_:ReportType')TIMES 1
+WHEN  ('LLA_:ReportType') (-1)
+
+%ConditionalColors DEPEND %Control DEPEND %ControlField MULTI LONG TIMES 0
+
+%ColorCondition DEPEND %ConditionalColors DEFAULT TIMES 0
+
+%ConditionalControlFieldForegroundNormal DEPEND %ConditionalColors LONG TIMES 3
+WHEN  ('')TIMES 0
+WHEN  ('?Cancel')TIMES 0
+WHEN  ('?LLA_:ReportType')TIMES 0
+
+%ConditionalControlFieldBackgroundNormal DEPEND %ConditionalColors LONG TIMES 3
+WHEN  ('')TIMES 0
+WHEN  ('?Cancel')TIMES 0
+WHEN  ('?LLA_:ReportType')TIMES 0
+
+%ConditionalControlFieldForegroundSelected DEPEND %ConditionalColors LONG TIMES 3
+WHEN  ('')TIMES 0
+WHEN  ('?Cancel')TIMES 0
+WHEN  ('?LLA_:ReportType')TIMES 0
+
+%ConditionalControlFieldBackgroundSelected DEPEND %ConditionalColors LONG TIMES 3
+WHEN  ('')TIMES 0
+WHEN  ('?Cancel')TIMES 0
+WHEN  ('?LLA_:ReportType')TIMES 0
+
+%ControlFieldIcon DEPEND %Control DEPEND %ControlField DEFAULT TIMES 0
+
+%ConditionalIcons DEPEND %Control DEPEND %ControlField MULTI LONG TIMES 0
+
+%IconCondition DEPEND %ConditionalIcons DEFAULT TIMES 0
+
+%ConditionalControlFieldIcon DEPEND %ConditionalIcons DEFAULT TIMES 0
+
+%HotFields MULTI LONG  ()
+%HotField DEPEND %HotFields FIELD TIMES 0
+
+%HotFieldBound DEPEND %HotFields LONG TIMES 0
+
+%HotFieldBindOnly DEPEND %HotFields LONG TIMES 0
+
+%SortFields MULTI LONG  ()
+%SortField DEPEND %SortFields FIELD TIMES 0
+
+%ThisObjectName DEPEND %ClassItem DEFAULT TIMES 1
+WHEN  ('Default') ('FDB1')
+
+%UseDefaultABCBaseClass DEPEND %ClassItem LONG TIMES 1
+WHEN  ('Default') (1)
+
+%UseABCBaseClass DEPEND %ClassItem LONG TIMES 1
+WHEN  ('Default') (1)
+
+%ABCBaseClass DEPEND %ClassItem DEFAULT TIMES 1
+WHEN  ('Default') ('AsciiFileClass')
+
+%ExtBaseClass DEPEND %ClassItem DEFAULT TIMES 0
+
+%BaseClassIncludeFile DEPEND %ClassItem DEFAULT TIMES 0
+
+%DeriveFromBaseClass DEPEND %ClassItem LONG TIMES 1
+WHEN  ('Default') (0)
+
+%NewMethods DEPEND %ClassItem MULTI LONG TIMES 0
+
+%NewMethodName DEPEND %NewMethods DEFAULT TIMES 0
+
+%NewMethodPrototype DEPEND %NewMethods DEFAULT TIMES 0
+
+%NewClassPropertyItems DEPEND %ClassItem MULTI LONG TIMES 0
+
+%NewClassProperty DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataType DEPEND %NewClassPropertyItems DEFAULT TIMES 1
+WHEN  ('Default')TIMES 0
+
+%NewClassOtherType DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataIsRef DEPEND %NewClassPropertyItems LONG TIMES 0
+
+%NewClassDataSize DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim1 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim2 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim3 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim4 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%ClassMethods DEPEND %ClassItem MULTI LONG TIMES 0
+
+%ClassMethodName DEPEND %ClassMethods DEFAULT TIMES 0
+
+%ClassMethodPrototype DEPEND %ClassMethods DEFAULT TIMES 0
+
+%ClassPropertyItems DEPEND %ClassItem MULTI LONG TIMES 0
+
+%ClassProperty DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataType DEPEND %ClassPropertyItems DEFAULT TIMES 1
+WHEN  ('Default')TIMES 0
+
+%ClassOtherType DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataIsRef DEPEND %ClassPropertyItems LONG TIMES 0
+
+%ClassDataSize DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim1 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim2 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim3 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim4 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ControlFieldStyle DEPEND %Control DEPEND %ControlField DEFAULT TIMES 0
+
+%ConditionalStyles DEPEND %Control DEPEND %ControlField MULTI LONG TIMES 0
+
+%StyleCondition DEPEND %ConditionalStyles DEFAULT TIMES 0
+
+%ConditionalControlFieldStyle DEPEND %ConditionalStyles DEFAULT TIMES 0
+
+%GlobalObject DEPEND %ClassItem DEFAULT TIMES 1
+WHEN  ('Default') ('NO')
+
+%ControlFieldIconIsNumber DEPEND %Control DEPEND %ControlField LONG TIMES 0
+
+%ConditionalControlFieldIconIsNumber DEPEND %ConditionalIcons LONG TIMES 0
+
+%ControlFieldTipField DEPEND %Control DEPEND %ControlField FIELD TIMES 0
+
+[ADDITION]
+NAME ListAndLabel LL_LayoutManager
+[INSTANCE]
+INSTANCE 4
+[PROMPTS]
+%CondUse LONG  (1)
+%StopEval LONG  (1)
+%RepFiles MULTI LONG  ()
+%Condition DEPEND %RepFiles DEFAULT TIMES 0
+
+%RepFields MULTI LONG  ()
+%RepFileField DEPEND %RepFields FIELD TIMES 0
+
+%RepManFields MULTI LONG  ()
+%RepManFieldName DEPEND %RepManFields DEFAULT TIMES 0
+
+%RepManFieldType DEPEND %RepManFields DEFAULT TIMES 0
+
+%RepManFileField DEPEND %RepManFields DEFAULT TIMES 0
+
+%RepManFieldFormat DEPEND %RepManFields DEFAULT TIMES 0
+
+%Binds MULTI LONG  ()
+%Binder DEPEND %Binds DEFAULT TIMES 0
+
+%DemoData LONG  (1)
+%OpenError LONG  (1)
+%ProcessError DEFAULT  ('Display message')
+%ErrorProc PROCEDURE  ()
+%ErrorParams DEFAULT  ('')
+%ErrorText DEFAULT  ('''Result returned was '' & LL_Result')
+%SupportTextPageBreak LONG  (1)
+%CaseSensitiveVars LONG  (0)
+%MultiTableLines LONG  (1)
+%SortVars LONG  (0)
+%ConvertCRLF LONG  (1)
+%LLHelpAvailable LONG  (1)
+%NoParamCheck LONG  (1)
+%NoTableCheck LONG  (1)
+%SpaceOptimize LONG  (1)
+%DelayTableHead LONG  (0)
+%Supervisor LONG  (0)
+%PreviewSendTo LONG  (1)
+%PreviewSaveAs LONG  (0)
+%FileCond DEPEND %RepFiles MULTI LONG TIMES 0
+
+%RepFileName DEPEND %FileCond FILE TIMES 0
+
+%RepUsage DEPEND %FileCond DEFAULT TIMES 0
+
+%Debugmode LONG  (0)
+%ModifyFactory LONG  (1)
+%FactoryMessage DEFAULT  ('''You may not alter or delete factory default layouts''')
+%RepNote DEPEND %RepFiles DEFAULT TIMES 0
+
+%DesignNew LONG  (1)
+%DesignOpen LONG  (1)
+%DesignSaveAs LONG  (1)
+%DesignRecentFiles LONG  (1)
+%DesignMax LONG  (1)
+%DesignMin LONG  (1)
+%ManCondition DEPEND %RepManFields DEFAULT TIMES 0
+
+%LLSendReplay LONG  (0)
+%LLSendRepArea LONG  (0)
+%InvoiceStyle LONG  (0)
+%BreakField FIELD  ()
+%LLOtherBreakFields MULTI LONG  ()
+%LLOtherBreakField DEPEND %LLOtherBreakFields FIELD TIMES 0
+
+[WINDOW]
+Window WINDOW('Update RepLay File'),AT(,,243,118),FONT('MS Sans Serif',8,,FONT:regular),CENTER,IMM,ICON(ICON:Application), |
+         HLP('~UpdateRepLay'),SYSTEM,GRAY,MAX,DOUBLE,AUTO,MDI
+       SHEET,AT(4,4,236,93),USE(?CurrentTab),WIZARD,#ORIG(?CurrentTab)
+         TAB('General-Page:1')
+           PROMPT('Name:'),AT(33,12,21,12),USE(?Prompt:RPL:Description),TRN,#ORIG(?Prompt:RPL:Description)
+           ENTRY(@s60),AT(60,12,171,12),USE(LLL_:Description),REQ,CAP,#ORIG(RPL:Description)
+           PROMPT('Area:'),AT(37,28),USE(?Prompt3),TRN,#ORIG(?Prompt3)
+           LIST,AT(60,28,171,12),USE(LLA_:ReportType),VSCROLL,FORMAT('200L(2)@s50@'),DROP(10),FROM(Queue:FileDrop), |
+               #SEQ(1),#ORIG(RPA:ReportType),#FIELDS(LLA_:ReportType)
+           PROMPT('Report Type:'),AT(13,44),USE(?RPL:Type:Prompt),#ORIG(?RPL:Type:Prompt)
+           LIST,AT(60,44,65,12),USE(LLL_:Type),DROP(5),FROM('Card|List|Label'),#ORIG(RPL:Type)
+           ENTRY(@n3),AT(60,60,21,12),USE(LLL_:Pages),CENTER,#ORIG(LLL_:Pages),#LINK(?LLL_:Pages:Prompt)
+           CHECK('Factory Default'),AT(60,76,64,10),USE(LLL_:FactoryDefault),HIDE,#ORIG(LLL_:FactoryDefault)
+           BUTTON('Layout Designer'),AT(153,47,79,41),USE(?LL_LayoutBtn),ICON('REPDES.ICO'),#SEQ(4),#ORIG(?LL_LayoutBtn)
+           PROMPT('Pages:'),AT(32,60),USE(?LLL_:Pages:Prompt),#ORIG(?LLL_:Pages:Prompt),#LINK(?LLL_:Pages)
+         END
+       END
+       BUTTON('&OK'),AT(148,100,45,14),USE(?OK),DEFAULT,#SEQ(3),#ORIG(?OK)
+       BUTTON('&Cancel'),AT(196,100,45,14),USE(?Cancel),#SEQ(2),#ORIG(?Cancel)
+     END
+
+[PROCEDURE]
+NAME ReportOptions
+PROTOTYPE '(Long,*Byte,*CString,*CString,*Long,*Long,*CString,*CString),Byte'
+[COMMON]
+FROM ABC Window
+CATEGORY 'Layout Manager'
+MODIFIED '2003/04/18' '12:09:35'
+[DATA]
+[SCREENCONTROLS]
+! PROMPT('Files Opened:'),USE(?FilesOpened:Prompt)
+! ENTRY(@n3),USE(FilesOpened)
+[REPORTCONTROLS]
+! STRING(@n3),USE(FilesOpened)
+FilesOpened              BYTE
+!!> IDENT(4294967278),PROMPT('Files Opened:'),HEADER('Files Opened'),PICTURE(@n3)
+[SCREENCONTROLS]
+! PROMPT('Ret Val:'),USE(?RetVal:Prompt)
+! ENTRY(@n3),USE(RetVal)
+[REPORTCONTROLS]
+! STRING(@n3),USE(RetVal)
+RetVal                   BYTE
+!!> IDENT(4294967277),PROMPT('Ret Val:'),HEADER('Ret Val'),PICTURE(@n3)
+[SCREENCONTROLS]
+! PROMPT('L : Area Ref:'),USE(?L:AreaRef:Prompt)
+! ENTRY(@n-14),USE(L:AreaRef),RIGHT(1)
+[REPORTCONTROLS]
+! STRING(@n-14),USE(L:AreaRef),RIGHT(1)
+L:AreaRef                LONG
+!!> IDENT(4294967276),PROMPT('L : Area Ref:'),HEADER('L : Area Ref'),PICTURE(@n-14),JUSTIFY(RIGHT,1)
+[SCREENCONTROLS]
+! CHECK('Printer options before starting report'),USE(L:PrinterOptions)
+[REPORTCONTROLS]
+! CHECK('Printer options before starting report'),USE(L:PrinterOptions)
+L:PrinterOptions         BYTE
+!!> IDENT(4294967275),VALID(BOOLEAN),PROMPT('Printer options before starting report'),HEADER('L : Printer Options'),PICTURE(@n3)
+[SCREENCONTROLS]
+! PROMPT('L : Preview:'),USE(?L:Preview:Prompt)
+! LIST,USE(L:Preview),DROP(5),FROM('Printer|Preview|RTF|Html|JPeg|EMF|BMP')
+[REPORTCONTROLS]
+! STRING(@s10),USE(L:Preview)
+L:Preview                STRING(10)
+!!> IDENT(4294967274),VALID(INLIST('Printer|Preview|RTF|Html|JPeg|EMF|BMP')),PROMPT('L : Preview:'),HEADER('L : Preview'),PICTURE(@s10)
+[SCREENCONTROLS]
+! PROMPT('Newsketch:'),USE(?Newsketch:Prompt)
+! ENTRY(@s255),USE(Newsketch)
+[REPORTCONTROLS]
+! STRING(@s255),USE(Newsketch)
+Newsketch                STRING(255)
+!!> IDENT(4294967273),PROMPT('Newsketch:'),HEADER('Newsketch'),PICTURE(@s255)
+[FILES]
+[PRIMARY]
+LL_RepLay
+[INSTANCE]
+2
+[KEY]
+LLL_:AreaRefKey
+[PROMPTS]
+%ClassItem UNIQUE DEFAULT  ('Default', |
+  'WindowToolbar')
+%DefaultBaseClassType DEPEND %ClassItem DEFAULT TIMES 2
+WHEN  ('Default') ('WindowManager')
+WHEN  ('WindowToolbar') ('ToolbarClass')
+
+%ActualDefaultBaseClassType DEPEND %ClassItem DEFAULT TIMES 2
+WHEN  ('Default') ('')
+WHEN  ('WindowToolbar') ('')
+
+%ClassLines DEPEND %ClassItem MULTI DEFAULT TIMES 0
+
+%Parameters DEFAULT  ('(P:ReportRef,P:PrintType,P:ReportLayout,P:ReportTitle,P:DesignType,P:PrintOptions,P:LLOutputfile,P:LLOutPutDirectory)')
+%ReturnValue FIELD  (RetVal)
+%WindowOperationMode DEFAULT  ('Use WINDOW setting')
+%INISaveWindow LONG  (1)
+%ThisObjectName DEPEND %ClassItem DEFAULT TIMES 2
+WHEN  ('Default') ('ThisWindow')
+WHEN  ('WindowToolbar') ('Toolbar')
+
+%UseDefaultABCBaseClass DEPEND %ClassItem LONG TIMES 2
+WHEN  ('Default') (1)
+WHEN  ('WindowToolbar') (1)
+
+%UseABCBaseClass DEPEND %ClassItem LONG TIMES 2
+WHEN  ('Default') (1)
+WHEN  ('WindowToolbar') (1)
+
+%ABCBaseClass DEPEND %ClassItem DEFAULT TIMES 2
+WHEN  ('Default') ('AsciiFileClass')
+WHEN  ('WindowToolbar') ('AsciiFileClass')
+
+%ExtBaseClass DEPEND %ClassItem DEFAULT TIMES 0
+
+%BaseClassIncludeFile DEPEND %ClassItem DEFAULT TIMES 0
+
+%DeriveFromBaseClass DEPEND %ClassItem LONG TIMES 2
+WHEN  ('Default') (0)
+WHEN  ('WindowToolbar') (0)
+
+%NewMethods DEPEND %ClassItem MULTI LONG TIMES 0
+
+%NewMethodName DEPEND %NewMethods DEFAULT TIMES 0
+
+%NewMethodPrototype DEPEND %NewMethods DEFAULT TIMES 0
+
+%NewClassPropertyItems DEPEND %ClassItem MULTI LONG TIMES 0
+
+%NewClassProperty DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataType DEPEND %NewClassPropertyItems DEFAULT TIMES 1
+WHEN  ('WindowToolbar')TIMES 0
+
+%NewClassOtherType DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataIsRef DEPEND %NewClassPropertyItems LONG TIMES 0
+
+%NewClassDataSize DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim1 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim2 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim3 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim4 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%ClassMethods DEPEND %ClassItem MULTI LONG TIMES 0
+
+%ClassMethodName DEPEND %ClassMethods DEFAULT TIMES 0
+
+%ClassMethodPrototype DEPEND %ClassMethods DEFAULT TIMES 0
+
+%ClassPropertyItems DEPEND %ClassItem MULTI LONG TIMES 0
+
+%ClassProperty DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataType DEPEND %ClassPropertyItems DEFAULT TIMES 1
+WHEN  ('WindowToolbar')TIMES 0
+
+%ClassOtherType DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataIsRef DEPEND %ClassPropertyItems LONG TIMES 0
+
+%ClassDataSize DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim1 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim2 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim3 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim4 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ButtonAction DEPEND %Control DEFAULT TIMES 9
+WHEN  ('?CancelButton') ('No Special Action')
+WHEN  ('?Image1') ('No Special Action')
+WHEN  ('?L:Preview') ('No Special Action')
+WHEN  ('?L:Preview:Prompt') ('No Special Action')
+WHEN  ('?L:PrinterOptions') ('No Special Action')
+WHEN  ('?List') ('No Special Action')
+WHEN  ('?OkButton') ('No Special Action')
+WHEN  ('?Region1') ('No Special Action')
+WHEN  ('?Sheet1') ('No Special Action')
+
+%ButtonRunName DEPEND %Control DEFAULT TIMES 2
+WHEN  ('?CancelButton') ('')
+WHEN  ('?OkButton') ('')
+
+%ButtonRunParameters DEPEND %Control DEFAULT TIMES 2
+WHEN  ('?CancelButton') ('')
+WHEN  ('?OkButton') ('')
+
+%ButtonProcedure DEPEND %Control PROCEDURE TIMES 2
+WHEN  ('?CancelButton') ()
+WHEN  ('?OkButton') ()
+
+%ButtonThread DEPEND %Control LONG TIMES 2
+WHEN  ('?CancelButton') (0)
+WHEN  ('?OkButton') (0)
+
+%ButtonThreadStack DEPEND %Control DEFAULT TIMES 9
+WHEN  ('?CancelButton') ('25000')
+WHEN  ('?Image1') ('25000')
+WHEN  ('?L:Preview') ('25000')
+WHEN  ('?L:Preview:Prompt') ('25000')
+WHEN  ('?L:PrinterOptions') ('25000')
+WHEN  ('?List') ('25000')
+WHEN  ('?OkButton') ('25000')
+WHEN  ('?Region1') ('25000')
+WHEN  ('?Sheet1') ('25000')
+
+%ButtonParameters DEPEND %Control DEFAULT TIMES 2
+WHEN  ('?CancelButton') ('')
+WHEN  ('?OkButton') ('')
+
+%ButtonReturnValueAssignment DEPEND %Control FIELD TIMES 2
+WHEN  ('?CancelButton') ()
+WHEN  ('?OkButton') ()
+
+%ButtonReturnValueReferenceAssign DEPEND %Control LONG TIMES 2
+WHEN  ('?CancelButton') (0)
+WHEN  ('?OkButton') (0)
+
+%ButtonRequest DEPEND %Control DEFAULT TIMES 9
+WHEN  ('?CancelButton') ('None')
+WHEN  ('?Image1') ('None')
+WHEN  ('?L:Preview') ('None')
+WHEN  ('?L:Preview:Prompt') ('None')
+WHEN  ('?L:PrinterOptions') ('None')
+WHEN  ('?List') ('None')
+WHEN  ('?OkButton') ('None')
+WHEN  ('?Region1') ('None')
+WHEN  ('?Sheet1') ('None')
+
+%ButtonThreadParameters DEPEND %Control DEFAULT TIMES 2
+WHEN  ('?CancelButton') ('')
+WHEN  ('?OkButton') ('')
+
+%ButtonThreadReturnValueAssignment DEPEND %Control FIELD TIMES 2
+WHEN  ('?CancelButton') ()
+WHEN  ('?OkButton') ()
+
+%PreLookupKey DEPEND %Control KEY TIMES 0
+
+%PreLookupField DEPEND %Control COMPONENT TIMES 0
+
+%PreLookupProcedure DEPEND %Control PROCEDURE TIMES 0
+
+%PostLookupKey DEPEND %Control KEY TIMES 0
+
+%PostLookupField DEPEND %Control COMPONENT TIMES 0
+
+%PostLookupProcedure DEPEND %Control PROCEDURE TIMES 0
+
+%PostLookupDuringValidate DEPEND %Control LONG TIMES 9
+WHEN  ('?CancelButton') (1)
+WHEN  ('?Image1') (1)
+WHEN  ('?L:Preview') (1)
+WHEN  ('?L:Preview:Prompt') (1)
+WHEN  ('?L:PrinterOptions') (1)
+WHEN  ('?List') (1)
+WHEN  ('?OkButton') (1)
+WHEN  ('?Region1') (1)
+WHEN  ('?Sheet1') (1)
+
+%ForceWindowRefresh DEPEND %Control LONG TIMES 0
+
+%LookupAssign DEPEND %Control MULTI LONG TIMES 0
+
+%MoreField DEPEND %LookupAssign DEFAULT TIMES 0
+
+%MoreTarget DEPEND %LookupAssign FIELD TIMES 0
+
+%CheckedAssigns DEPEND %Control MULTI LONG TIMES 0
+
+%CheckedAssignVariable DEPEND %CheckedAssigns FIELD TIMES 0
+
+%CheckedAssignValue DEPEND %CheckedAssigns DEFAULT TIMES 0
+
+%CheckedHides DEPEND %Control MULTI LONG TIMES 0
+
+%CheckedControl DEPEND %CheckedHides DEFAULT TIMES 0
+
+%CheckedControlAction DEPEND %CheckedHides DEFAULT TIMES 9
+WHEN  ('?CancelButton')TIMES 0
+WHEN  ('?Image1')TIMES 0
+WHEN  ('?L:Preview')TIMES 0
+WHEN  ('?L:Preview:Prompt')TIMES 0
+WHEN  ('?L:PrinterOptions')TIMES 0
+WHEN  ('?List')TIMES 0
+WHEN  ('?OkButton')TIMES 0
+WHEN  ('?Region1')TIMES 0
+WHEN  ('?Sheet1')TIMES 0
+
+%CheckedEnables DEPEND %Control MULTI LONG TIMES 0
+
+%CheckedControl1 DEPEND %CheckedEnables DEFAULT TIMES 0
+
+%CheckedControl1Action DEPEND %CheckedEnables DEFAULT TIMES 9
+WHEN  ('?CancelButton')TIMES 0
+WHEN  ('?Image1')TIMES 0
+WHEN  ('?L:Preview')TIMES 0
+WHEN  ('?L:Preview:Prompt')TIMES 0
+WHEN  ('?L:PrinterOptions')TIMES 0
+WHEN  ('?List')TIMES 0
+WHEN  ('?OkButton')TIMES 0
+WHEN  ('?Region1')TIMES 0
+WHEN  ('?Sheet1')TIMES 0
+
+%UncheckedAssigns DEPEND %Control MULTI LONG TIMES 0
+
+%UncheckedAssignVariable DEPEND %UncheckedAssigns FIELD TIMES 0
+
+%UncheckedAssignValue DEPEND %UncheckedAssigns DEFAULT TIMES 0
+
+%UnCheckedHides DEPEND %Control MULTI LONG TIMES 0
+
+%UnCheckedControl DEPEND %UnCheckedHides DEFAULT TIMES 0
+
+%UnCheckedControlAction DEPEND %UnCheckedHides DEFAULT TIMES 9
+WHEN  ('?CancelButton')TIMES 0
+WHEN  ('?Image1')TIMES 0
+WHEN  ('?L:Preview')TIMES 0
+WHEN  ('?L:Preview:Prompt')TIMES 0
+WHEN  ('?L:PrinterOptions')TIMES 0
+WHEN  ('?List')TIMES 0
+WHEN  ('?OkButton')TIMES 0
+WHEN  ('?Region1')TIMES 0
+WHEN  ('?Sheet1')TIMES 0
+
+%UnCheckedEnables DEPEND %Control MULTI LONG TIMES 0
+
+%UnCheckedControl1 DEPEND %UnCheckedEnables DEFAULT TIMES 0
+
+%UnCheckedControl1Action DEPEND %UnCheckedEnables DEFAULT TIMES 9
+WHEN  ('?CancelButton')TIMES 0
+WHEN  ('?Image1')TIMES 0
+WHEN  ('?L:Preview')TIMES 0
+WHEN  ('?L:Preview:Prompt')TIMES 0
+WHEN  ('?L:PrinterOptions')TIMES 0
+WHEN  ('?List')TIMES 0
+WHEN  ('?OkButton')TIMES 0
+WHEN  ('?Region1')TIMES 0
+WHEN  ('?Sheet1')TIMES 0
+
+%GlobalObject DEPEND %ClassItem DEFAULT TIMES 2
+WHEN  ('Default') ('NO')
+WHEN  ('WindowToolbar') ('NO')
+
+[EMBED]
+EMBED %ControlEventHandling
+[INSTANCES]
+WHEN '?OkButton'
+[INSTANCES]
+WHEN 'Accepted'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 4499
+PROPERTY:END
+RetVal = true                                  !Set Return Value as Completed
+Case clip(Upper(L:Preview))
+of 'PREVIEW'
+  P:PrintType = 2                              !Variable was passed by Address
+of 'PRINTER'
+  P:PrintType = 3                              !Variable was passed by Address
+of 'RTF'
+  if ~FileDialog('Select Rich Text file',P:LLOutputfile,'*.rtf',3) then
+    cycle
+  else
+    if ~Instring('.', P:LLOutputfile,1,1) then
+      P:LLOutputfile = clip(P:LLOutputfile) & '.rtf'
+    end
+  end
+  P:PrintType = 4                              !Variable was passed by Address
+of 'HTML'
+  if ~FileDialog('Select Html file',P:LLOutputfile,'*.htm',3) then
+    cycle
+  else
+    if ~Instring('.', P:LLOutputfile,1,1) then
+      P:LLOutputfile = clip(P:LLOutputfile) & '.htm'
+    end
+  end
+  P:PrintType = 5                              !Variable was passed by Address
+of 'JPEG'
+  if ~FileDialog('Select JPeg file',P:LLOutputfile,'*.jpg',3) then
+    cycle
+  else
+    if ~Instring('.', P:LLOutputfile,1,1) then
+      P:LLOutputfile = clip(P:LLOutputfile) & '.jpg'
+    end
+  end
+  P:PrintType = 6                              !Variable was passed by Address
+of 'EMF'
+  if ~FileDialog('Select EMF file',P:LLOutputfile,'*.emf',3)
+    cycle
+  else
+    if ~Instring('.', P:LLOutputfile,1,1) then
+      P:LLOutputfile = clip(P:LLOutputfile) & '.emf'
+    end
+  end
+  P:PrintType = 7                              !Variable was passed by Address
+of 'BMP'
+  if ~FileDialog('Select Bitmap file',P:LLOutputfile,'*.bmp',3) then
+    cycle
+  else
+    if ~Instring('.', P:LLOutputfile,1,1) then
+      P:LLOutputfile = clip(P:LLOutputfile) & '.bmp'
+    end
+  end
+  P:PrintType = 8                              !Variable was passed by Address
+of 'PDF'
+  if ~FileDialog('Select PDF file',P:LLOutputfile,'*.pdf',3) then
+    cycle
+  else
+    if ~Instring('.', P:LLOutputfile,1,1) then
+      P:LLOutputfile = clip(P:LLOutputfile) & '.pdf'
+    end
+  end
+  P:PrintType = 9                              !Variable was passed by Address
+of 'MHTML'
+  if ~FileDialog('Select MHT file',P:LLOutputfile,'*.MHT',3) then
+    cycle
+  else
+    if ~Instring('.', P:LLOutputfile,1,1) then
+      P:LLOutputfile = clip(P:LLOutputfile) & '.MHT'
+    end
+  end
+  P:PrintType = 10                              !Variable was passed by Address
+of 'XML'
+  if ~FileDialog('Select XML file',P:LLOutputfile,'*.XML',3) then
+    cycle
+  else
+    if ~Instring('.', P:LLOutputfile,1,1) then
+      P:LLOutputfile = clip(P:LLOutputfile) & '.XML'
+    end
+  end
+  P:PrintType = 11                              !Variable was passed by Address
+of 'XLS'
+  if ~FileDialog('Select XLS file',P:LLOutputfile,'*.XLS',3) then
+    cycle
+  else
+    if ~Instring('.', P:LLOutputfile,1,1) then
+      P:LLOutputfile = clip(P:LLOutputfile) & '.XLS'
+    end
+  end
+  P:PrintType = 12                              !Variable was passed by Address
+of 'TEXT'
+  if ~FileDialog('Select Text file',P:LLOutputfile,'*.txt',3) then
+    cycle
+  else
+    if ~Instring('.', P:LLOutputfile,1,1) then
+      P:LLOutputfile = clip(P:LLOutputfile) & '.txt'
+    end
+  end
+  P:PrintType = 13                              !Variable was passed by Address
+End
+
+If Inlist(Upper(L:Preview),'RTF','HTML','JPEG','EMF','BMP','PDF','MHTML','XML','XLS','TEXT') then
+  do ExtractDirectory
+end
+
+
+P:ReportLayout = LLL_:FileName                 !Variable was passed by Address
+P:PrintOptions = L:PrinterOptions              !Variable was passed by Address
+P:ReportTitle = LLL_:Description               !Variable was passed by Address
+Case clip(LLL_:Type)
+of 'Label'
+  P:DesignType = 1
+of 'List'
+  P:DesignType = 2                             !Variable was passed by Address
+of 'Card'
+  P:DesignType = 3                             !Variable was passed by Address
+end
+
+SOL_Pages = LLL_:Pages
+[GROUP]
+PRIORITY 4499
+INSTANCE 3
+[END]
+[END]
+WHEN '?CancelButton'
+[INSTANCES]
+WHEN 'Accepted'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 4499
+PROPERTY:END
+RetVal = False
+[GROUP]
+PRIORITY 4499
+INSTANCE 6
+[END]
+[END]
+WHEN '?List'
+[INSTANCES]
+WHEN 'AlertKey'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 4499
+PROPERTY:END
+If Keycode() = MouseLeft2 then
+  Post(Event:accepted,?OkButton)
+end
+[END]
+[END]
+[END]
+EMBED %WindowManagerMethodCodeSection
+[INSTANCES]
+WHEN 'Init'
+[INSTANCES]
+WHEN '(),BYTE'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 5101
+PROPERTY:END
+L:AreaRef = P:ReportRef
+L:Preview = 'Preview'           !Set your default output
+[END]
+[END]
+[END]
+EMBED %BrowserMethodCodeSection
+[INSTANCES]
+WHEN '2'
+[INSTANCES]
+WHEN 'TakeNewSelection'
+[INSTANCES]
+WHEN '()'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 5001
+PROPERTY:END
+if clip(LLL_:FileName) <> '' then
+  Case(clip(LLL_:Type))
+  of 'List'
+    NewSketch = clip(LL_GlobalPath) & clip(LLL_:FileName) & '.lsv'
+  of 'Label'
+    NewSketch = clip(LL_GlobalPath) & clip(LLL_:FileName) & '.lbv'
+  of 'Card'
+    NewSketch = clip(LL_GlobalPath) & clip(LLL_:FileName) & '.crv'
+  end
+
+  Copy(NewSketch,'Sketch.bmp')
+  ?Image1{Prop:Text} = ''                !To overcome C55 optimizing
+  ?Image1{Prop:Text} = 'Sketch.bmp'
+  UnHide(?Image1)
+  Display(?Image1)
+else
+  Hide(?Image1)
+end
+[END]
+[END]
+[END]
+[END]
+EMBED %ControlHandling
+[INSTANCES]
+WHEN '?Region1'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 5000
+PROPERTY:END
+if keycode() = MouseLeft2 then
+  Post(Event:accepted,?OkButton)
+end
+[END]
+[END]
+EMBED %ProcedureRoutines
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 4000
+PROPERTY:END
+ExtractDirectory        Routine
+  Loop x# = 1 to Len(P:LLOutputfile)
+    if Sub(P:LLOutputfile,x#,1) = '\' then
+      PointSlash# = x#
+    end
+  end
+
+  P:LLOutputDirectory = Sub(P:LLOutputfile,1,PointSlash#)
+  P:LLOutputfile = Sub(P:LLOutputfile,PointSlash# + 1,Len(P:LLOutputfile))
+[END]
+[END]
+[ADDITION]
+NAME ABC BrowseBox
+[INSTANCE]
+INSTANCE 2
+[PROMPTS]
+%ClassItem UNIQUE DEFAULT  ('Default', |
+  'Locator', |
+  'Locator0', |
+  'Step', 'Step0')
+%DefaultBaseClassType DEPEND %ClassItem DEFAULT TIMES 3
+WHEN  ('Default') ('BrowseClass')
+WHEN  ('Locator0') ('StepLocatorClass')
+WHEN  ('Step0') ('StepClass')
+
+%ActualDefaultBaseClassType DEPEND %ClassItem DEFAULT TIMES 3
+WHEN  ('Default') ('')
+WHEN  ('Locator0') ('')
+WHEN  ('Step0') ('')
+
+%ClassLines DEPEND %ClassItem MULTI DEFAULT TIMES 0
+
+%EnableQuickScan LONG  (0)
+%LoadMethod DEFAULT  ('Page')
+%AcceptToolBarControl LONG  (0)
+%LocatorType DEFAULT  ('Step')
+%OverrideDefaultLocator LONG  (0)
+%OverrideLocator DEFAULT  ('')
+%FindDefaultAnywhere LONG  (0)
+%ThisObjectName DEPEND %ClassItem DEFAULT TIMES 3
+WHEN  ('Default') ('BRW2')
+WHEN  ('Locator0') ('BRW2::Sort0:Locator')
+WHEN  ('Step0') ('BRW2::Sort0:StepClass')
+
+%UseDefaultABCBaseClass DEPEND %ClassItem LONG TIMES 3
+WHEN  ('Default') (1)
+WHEN  ('Locator0') (1)
+WHEN  ('Step0') (1)
+
+%UseABCBaseClass DEPEND %ClassItem LONG TIMES 3
+WHEN  ('Default') (1)
+WHEN  ('Locator0') (1)
+WHEN  ('Step0') (1)
+
+%ABCBaseClass DEPEND %ClassItem DEFAULT TIMES 3
+WHEN  ('Default') ('AsciiFileClass')
+WHEN  ('Locator0') ('AsciiFileClass')
+WHEN  ('Step0') ('AsciiFileClass')
+
+%ExtBaseClass DEPEND %ClassItem DEFAULT TIMES 0
+
+%BaseClassIncludeFile DEPEND %ClassItem DEFAULT TIMES 0
+
+%DeriveFromBaseClass DEPEND %ClassItem LONG TIMES 3
+WHEN  ('Default') (0)
+WHEN  ('Locator0') (0)
+WHEN  ('Step0') (0)
+
+%NewMethods DEPEND %ClassItem MULTI LONG TIMES 0
+
+%NewMethodName DEPEND %NewMethods DEFAULT TIMES 0
+
+%NewMethodPrototype DEPEND %NewMethods DEFAULT TIMES 0
+
+%NewClassPropertyItems DEPEND %ClassItem MULTI LONG TIMES 0
+
+%NewClassProperty DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataType DEPEND %NewClassPropertyItems DEFAULT TIMES 2
+WHEN  ('Default')TIMES 0
+WHEN  ('Step0')TIMES 0
+
+%NewClassOtherType DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataIsRef DEPEND %NewClassPropertyItems LONG TIMES 0
+
+%NewClassDataSize DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim1 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim2 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim3 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim4 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%ClassMethods DEPEND %ClassItem MULTI LONG TIMES 0
+
+%ClassMethodName DEPEND %ClassMethods DEFAULT TIMES 0
+
+%ClassMethodPrototype DEPEND %ClassMethods DEFAULT TIMES 0
+
+%ClassPropertyItems DEPEND %ClassItem MULTI LONG TIMES 0
+
+%ClassProperty DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataType DEPEND %ClassPropertyItems DEFAULT TIMES 2
+WHEN  ('Default')TIMES 0
+WHEN  ('Step0')TIMES 0
+
+%ClassOtherType DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataIsRef DEPEND %ClassPropertyItems LONG TIMES 0
+
+%ClassDataSize DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim1 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim2 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim3 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim4 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%RecordFilter DEFAULT  ('')
+%RangeField COMPONENT  (LLL_:AreaRef)
+%RangeLimitType DEFAULT  ('Single Value')
+%RangeLimit FIELD  (L:AreaRef)
+%RangeLow FIELD  ()
+%RangeHigh FIELD  ()
+%RangeFile FILE  ()
+%AddSortFields DEFAULT  ('')
+%ResetFields MULTI LONG  ()
+%ResetField DEPEND %ResetFields FIELD TIMES 0
+
+%ScrollBehavior DEFAULT  ('Movable Thumb')
+%ScrollKeyDistribution DEFAULT  ('Alpha')
+%CustomKeyDistribution MULTI LONG  ()
+%KeyDistributionValue DEPEND %CustomKeyDistribution DEFAULT TIMES 0
+
+%ScrollAlpha LONG  (1)
+%ScrollNumeric LONG  (0)
+%ScrollAlt LONG  (0)
+%SortOrder MULTI LONG  ()
+%SortCondition DEPEND %SortOrder DEFAULT TIMES 0
+
+%SortKey DEPEND %SortOrder KEY TIMES 0
+
+%SortLocatorType DEPEND %SortOrder DEFAULT TIMES 0
+
+%SortOverrideDefaultLocator DEPEND %SortOrder LONG TIMES 0
+
+%SortOverrideLocator DEPEND %SortOrder DEFAULT TIMES 0
+
+%SortFindAnywhere DEPEND %SortOrder LONG TIMES 0
+
+%SortRecordFilter DEPEND %SortOrder DEFAULT TIMES 0
+
+%SortRangeField DEPEND %SortOrder COMPONENT TIMES 0
+
+%SortRangeLimitType DEPEND %SortOrder DEFAULT TIMES 0
+
+%SortRangeLimit DEPEND %SortOrder FIELD TIMES 0
+
+%SortRangeLow DEPEND %SortOrder FIELD TIMES 0
+
+%SortRangeHigh DEPEND %SortOrder FIELD TIMES 0
+
+%SortRangeFile DEPEND %SortOrder FILE TIMES 0
+
+%SortAddSortFields DEPEND %SortOrder DEFAULT TIMES 0
+
+%SortResetFields DEPEND %SortOrder MULTI LONG TIMES 0
+
+%SortResetField DEPEND %SortResetFields FIELD TIMES 0
+
+%SortScrollBehavior DEPEND %SortOrder DEFAULT TIMES 0
+
+%SortScrollKeyDistribution DEPEND %SortOrder DEFAULT TIMES 0
+
+%SortCustomKeyDistribution DEPEND %SortOrder MULTI LONG TIMES 0
+
+%SortKeyDistributionValue DEPEND %SortCustomKeyDistribution DEFAULT TIMES 0
+
+%SortScrollAlpha DEPEND %SortOrder LONG TIMES 0
+
+%SortScrollNumeric DEPEND %SortOrder LONG TIMES 0
+
+%SortScrollAlt DEPEND %SortOrder LONG TIMES 0
+
+%HotFields MULTI LONG  (1, |
+  2, |
+  3)
+%HotField DEPEND %HotFields FIELD TIMES 3
+WHEN  (1) (LLL_:FileName)
+WHEN  (2) (LLL_:Type)
+WHEN  (3) (LLL_:Pages)
+
+%HotFieldBound DEPEND %HotFields LONG TIMES 0
+
+%HotFieldBindOnly DEPEND %HotFields LONG TIMES 0
+
+%ControlFieldForegroundNormal DEPEND %Control DEPEND %ControlField LONG TIMES 2
+WHEN  ('?CancelButton')TIMES 0
+WHEN  ('?List')TIMES 2
+WHEN  ('LLL_:Description') (-1)
+WHEN  ('LLL_:Type') (-1)
+
+%ControlFieldBackgroundNormal DEPEND %Control DEPEND %ControlField LONG TIMES 2
+WHEN  ('?CancelButton')TIMES 0
+WHEN  ('?List')TIMES 2
+WHEN  ('LLL_:Description') (-1)
+WHEN  ('LLL_:Type') (-1)
+
+%ControlFieldForegroundSelected DEPEND %Control DEPEND %ControlField LONG TIMES 2
+WHEN  ('?CancelButton')TIMES 0
+WHEN  ('?List')TIMES 2
+WHEN  ('LLL_:Description') (-1)
+WHEN  ('LLL_:Type') (-1)
+
+%ControlFieldBackgroundSelected DEPEND %Control DEPEND %ControlField LONG TIMES 2
+WHEN  ('?CancelButton')TIMES 0
+WHEN  ('?List')TIMES 2
+WHEN  ('LLL_:Description') (-1)
+WHEN  ('LLL_:Type') (-1)
+
+%ConditionalColors DEPEND %Control DEPEND %ControlField MULTI LONG TIMES 0
+
+%ColorCondition DEPEND %ConditionalColors DEFAULT TIMES 0
+
+%ConditionalControlFieldForegroundNormal DEPEND %ConditionalColors LONG TIMES 2
+WHEN  ('?CancelButton')TIMES 0
+WHEN  ('?List')TIMES 0
+
+%ConditionalControlFieldBackgroundNormal DEPEND %ConditionalColors LONG TIMES 2
+WHEN  ('?CancelButton')TIMES 0
+WHEN  ('?List')TIMES 0
+
+%ConditionalControlFieldForegroundSelected DEPEND %ConditionalColors LONG TIMES 2
+WHEN  ('?CancelButton')TIMES 0
+WHEN  ('?List')TIMES 0
+
+%ConditionalControlFieldBackgroundSelected DEPEND %ConditionalColors LONG TIMES 2
+WHEN  ('?CancelButton')TIMES 0
+WHEN  ('?List')TIMES 0
+
+%ControlFieldIcon DEPEND %Control DEPEND %ControlField DEFAULT TIMES 0
+
+%ConditionalIcons DEPEND %Control DEPEND %ControlField MULTI LONG TIMES 0
+
+%IconCondition DEPEND %ConditionalIcons DEFAULT TIMES 0
+
+%ConditionalControlFieldIcon DEPEND %ConditionalIcons DEFAULT TIMES 0
+
+%BrowseTotals MULTI LONG  ()
+%BrowseTotalTarget DEPEND %BrowseTotals FIELD TIMES 0
+
+%BrowseTotalType DEPEND %BrowseTotals DEFAULT TIMES 0
+
+%BrowseTotalField DEPEND %BrowseTotals FIELD TIMES 0
+
+%BrowseTotalBasedOn DEPEND %BrowseTotals DEFAULT TIMES 0
+
+%BrowseTotalCondition DEPEND %BrowseTotals DEFAULT TIMES 0
+
+%GlobalObject DEPEND %ClassItem DEFAULT TIMES 3
+WHEN  ('Default') ('NO')
+WHEN  ('Locator0') ('NO')
+WHEN  ('Step0') ('NO')
+
+%ControlFieldStyle DEPEND %Control DEPEND %ControlField DEFAULT TIMES 0
+
+%ConditionalStyles DEPEND %Control DEPEND %ControlField MULTI LONG TIMES 0
+
+%StyleCondition DEPEND %ConditionalStyles DEFAULT TIMES 0
+
+%ConditionalControlFieldStyle DEPEND %ConditionalStyles DEFAULT TIMES 0
+
+%ControlFieldIconIsNumber DEPEND %Control DEPEND %ControlField LONG TIMES 0
+
+%ConditionalControlFieldIconIsNumber DEPEND %ConditionalIcons LONG TIMES 0
+
+%ControlFieldTipField DEPEND %Control DEPEND %ControlField FIELD TIMES 0
+
+[ADDITION]
+NAME ABC CloseCurrentWindow
+[INSTANCE]
+INSTANCE 3
+[INSTANCE]
+INSTANCE 6
+[WINDOW]
+Window WINDOW('Report Options'),AT(,,423,172),FONT('MS Sans Serif',8,,FONT:regular),CENTER,IMM,SYSTEM, |
+         GRAY,DOUBLE
+       SHEET,AT(3,3,417,146),USE(?Sheet1),WIZARD,#ORIG(?Sheet1)
+         TAB('Tab 1'),USE(?Tab1),#ORIG(?Tab1)
+           PROMPT('Output to:'),AT(175,7),USE(?L:Preview:Prompt),#ORIG(?L:Preview:Prompt),#LINK(?L:Preview)
+           LIST,AT(211,7,61,12),USE(L:Preview),DROP(10),FROM('Preview|Printer|RTF|Html|PDF|MHTML|XML|XLS|Text|EMF'), |
+               #ORIG(L:Preview),#LINK(?L:Preview:Prompt)
+           REGION,AT(13,26,124,117),USE(?Region1),#ORIG(?Region1)
+         END
+       END
+       CHECK('Printer options before starting report'),AT(285,9),USE(L:PrinterOptions),TIP('If ticked, a printer selection screen is displayed before printing'), |
+           #ORIG(L:PrinterOptions)
+       LIST,AT(153,24,260,120),USE(?List),IMM,HVSCROLL,MSG('Browsing Records'),ALRT(MouseLeft2),VCR,FORMAT('215L(2)|M~Report Layout~@s60@20L(2)|M~Type~@s5@'), |
+           FROM(Queue:Browse),#SEQ(2),#ORIG(?List),#FIELDS(LLL_:Description,LLL_:Type)
+       IMAGE,AT(12,52),USE(?Image1),CENTERED,#ORIG(?Image1)
+       BUTTON('Select'),AT(327,153,45,15),USE(?OkButton),DEFAULT
+       BUTTON('Cancel'),AT(375,153,45,15),USE(?CancelButton)
+     END
+
+[PROCEDURE]
+NAME UpdateRepArea
+[COMMON]
+DESCRIPTION 'Update the LL_RepArea File'
+FROM ABC Window
+CATEGORY 'Layout Manager'
+MODIFIED '2003/04/18' '12:10:07'
+[DATA]
+[SCREENCONTROLS]
+! ENTRY(@s80),USE(CurrentTab)
+[REPORTCONTROLS]
+! STRING(@s80),USE(CurrentTab)
+CurrentTab               STRING(80)
+!!> IDENT(4294967272),PICTURE(@s80)
+[SCREENCONTROLS]
+! PROMPT('Files Opened:'),USE(?FilesOpened:Prompt)
+! ENTRY(@n3),USE(FilesOpened)
+[REPORTCONTROLS]
+! STRING(@n3),USE(FilesOpened)
+FilesOpened              BYTE
+!!> IDENT(4294967271),PROMPT('Files Opened:'),HEADER('Files Opened'),PICTURE(@n3)
+[SCREENCONTROLS]
+! PROMPT('Action Message:'),USE(?ActionMessage:Prompt)
+! ENTRY(@s39),USE(ActionMessage)
+[REPORTCONTROLS]
+! STRING(@s39),USE(ActionMessage)
+ActionMessage            CSTRING(40)
+!!> IDENT(4294967270),PROMPT('Action Message:'),HEADER('Action Message'),PICTURE(@s39)
+[FILES]
+[PRIMARY]
+LL_RepArea
+[INSTANCE]
+2
+[PROMPTS]
+%ButtonAction DEPEND %Control DEFAULT TIMES 5
+WHEN  ('?Cancel') ('No Special Action')
+WHEN  ('?CurrentTab') ('No Special Action')
+WHEN  ('?Help') ('No Special Action')
+WHEN  ('?LLA_:ReportType') ('No Special Action')
+WHEN  ('?OK') ('No Special Action')
+
+%ButtonRunName DEPEND %Control DEFAULT TIMES 0
+
+%ButtonRunParameters DEPEND %Control DEFAULT TIMES 0
+
+%ButtonProcedure DEPEND %Control PROCEDURE TIMES 0
+
+%ButtonThread DEPEND %Control LONG TIMES 0
+
+%ButtonThreadStack DEPEND %Control DEFAULT TIMES 5
+WHEN  ('?Cancel') ('25000')
+WHEN  ('?CurrentTab') ('25000')
+WHEN  ('?Help') ('25000')
+WHEN  ('?LLA_:ReportType') ('25000')
+WHEN  ('?OK') ('25000')
+
+%ButtonParameters DEPEND %Control DEFAULT TIMES 0
+
+%ButtonRequest DEPEND %Control DEFAULT TIMES 5
+WHEN  ('?Cancel') ('None')
+WHEN  ('?CurrentTab') ('None')
+WHEN  ('?Help') ('None')
+WHEN  ('?LLA_:ReportType') ('None')
+WHEN  ('?OK') ('None')
+
+%PreLookupKey DEPEND %Control KEY TIMES 0
+
+%PreLookupField DEPEND %Control COMPONENT TIMES 1
+WHEN  ('?LLA_:ReportType') ()
+
+%PreLookupProcedure DEPEND %Control PROCEDURE TIMES 1
+WHEN  ('?LLA_:ReportType') ()
+
+%PostLookupKey DEPEND %Control KEY TIMES 0
+
+%PostLookupField DEPEND %Control COMPONENT TIMES 1
+WHEN  ('?LLA_:ReportType') ()
+
+%PostLookupProcedure DEPEND %Control PROCEDURE TIMES 1
+WHEN  ('?LLA_:ReportType') ()
+
+%ForceWindowRefresh DEPEND %Control LONG TIMES 0
+
+%ClassItem UNIQUE DEFAULT  ('Default', |
+  'WindowToolbar')
+%DefaultBaseClassType DEPEND %ClassItem DEFAULT TIMES 2
+WHEN  ('Default') ('WindowManager')
+WHEN  ('WindowToolbar') ('ToolbarClass')
+
+%ActualDefaultBaseClassType DEPEND %ClassItem DEFAULT TIMES 2
+WHEN  ('Default') ('')
+WHEN  ('WindowToolbar') ('')
+
+%ClassLines DEPEND %ClassItem MULTI DEFAULT TIMES 0
+
+%Parameters DEFAULT  ('')
+%ReturnValue FIELD  ()
+%WindowOperationMode DEFAULT  ('Use WINDOW setting')
+%INISaveWindow LONG  (1)
+%ThisObjectName DEPEND %ClassItem DEFAULT TIMES 2
+WHEN  ('Default') ('ThisWindow')
+WHEN  ('WindowToolbar') ('Toolbar')
+
+%UseDefaultABCBaseClass DEPEND %ClassItem LONG TIMES 2
+WHEN  ('Default') (1)
+WHEN  ('WindowToolbar') (1)
+
+%UseABCBaseClass DEPEND %ClassItem LONG TIMES 2
+WHEN  ('Default') (1)
+WHEN  ('WindowToolbar') (1)
+
+%ABCBaseClass DEPEND %ClassItem DEFAULT TIMES 2
+WHEN  ('Default') ('AsciiFileClass')
+WHEN  ('WindowToolbar') ('AsciiFileClass')
+
+%ExtBaseClass DEPEND %ClassItem DEFAULT TIMES 0
+
+%BaseClassIncludeFile DEPEND %ClassItem DEFAULT TIMES 0
+
+%DeriveFromBaseClass DEPEND %ClassItem LONG TIMES 2
+WHEN  ('Default') (0)
+WHEN  ('WindowToolbar') (0)
+
+%NewMethods DEPEND %ClassItem MULTI LONG TIMES 0
+
+%NewMethodName DEPEND %NewMethods DEFAULT TIMES 0
+
+%NewMethodPrototype DEPEND %NewMethods DEFAULT TIMES 0
+
+%NewClassPropertyItems DEPEND %ClassItem MULTI LONG TIMES 0
+
+%NewClassProperty DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataType DEPEND %NewClassPropertyItems DEFAULT TIMES 1
+WHEN  ('WindowToolbar')TIMES 0
+
+%NewClassOtherType DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataIsRef DEPEND %NewClassPropertyItems LONG TIMES 0
+
+%NewClassDataSize DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim1 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim2 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim3 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim4 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%ClassMethods DEPEND %ClassItem MULTI LONG TIMES 0
+
+%ClassMethodName DEPEND %ClassMethods DEFAULT TIMES 0
+
+%ClassMethodPrototype DEPEND %ClassMethods DEFAULT TIMES 0
+
+%ClassPropertyItems DEPEND %ClassItem MULTI LONG TIMES 0
+
+%ClassProperty DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataType DEPEND %ClassPropertyItems DEFAULT TIMES 1
+WHEN  ('WindowToolbar')TIMES 0
+
+%ClassOtherType DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataIsRef DEPEND %ClassPropertyItems LONG TIMES 0
+
+%ClassDataSize DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim1 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim2 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim3 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim4 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ButtonReturnValueAssignment DEPEND %Control FIELD TIMES 0
+
+%ButtonReturnValueReferenceAssign DEPEND %Control LONG TIMES 0
+
+%ButtonThreadParameters DEPEND %Control DEFAULT TIMES 0
+
+%ButtonThreadReturnValueAssignment DEPEND %Control FIELD TIMES 0
+
+%PostLookupDuringValidate DEPEND %Control LONG TIMES 3
+WHEN  ('?CurrentTab') (1)
+WHEN  ('?Help') (1)
+WHEN  ('?LLA_:ReportType') (1)
+
+%LookupAssign DEPEND %Control MULTI LONG TIMES 0
+
+%MoreField DEPEND %LookupAssign DEFAULT TIMES 0
+
+%MoreTarget DEPEND %LookupAssign FIELD TIMES 0
+
+%CheckedAssigns DEPEND %Control MULTI LONG TIMES 0
+
+%CheckedAssignVariable DEPEND %CheckedAssigns FIELD TIMES 0
+
+%CheckedAssignValue DEPEND %CheckedAssigns DEFAULT TIMES 0
+
+%CheckedHides DEPEND %Control MULTI LONG TIMES 0
+
+%CheckedControl DEPEND %CheckedHides DEFAULT TIMES 0
+
+%CheckedControlAction DEPEND %CheckedHides DEFAULT TIMES 3
+WHEN  ('?CurrentTab')TIMES 0
+WHEN  ('?Help')TIMES 0
+WHEN  ('?LLA_:ReportType')TIMES 0
+
+%CheckedEnables DEPEND %Control MULTI LONG TIMES 0
+
+%CheckedControl1 DEPEND %CheckedEnables DEFAULT TIMES 0
+
+%CheckedControl1Action DEPEND %CheckedEnables DEFAULT TIMES 3
+WHEN  ('?CurrentTab')TIMES 0
+WHEN  ('?Help')TIMES 0
+WHEN  ('?LLA_:ReportType')TIMES 0
+
+%UncheckedAssigns DEPEND %Control MULTI LONG TIMES 0
+
+%UncheckedAssignVariable DEPEND %UncheckedAssigns FIELD TIMES 0
+
+%UncheckedAssignValue DEPEND %UncheckedAssigns DEFAULT TIMES 0
+
+%UnCheckedHides DEPEND %Control MULTI LONG TIMES 0
+
+%UnCheckedControl DEPEND %UnCheckedHides DEFAULT TIMES 0
+
+%UnCheckedControlAction DEPEND %UnCheckedHides DEFAULT TIMES 3
+WHEN  ('?CurrentTab')TIMES 0
+WHEN  ('?Help')TIMES 0
+WHEN  ('?LLA_:ReportType')TIMES 0
+
+%UnCheckedEnables DEPEND %Control MULTI LONG TIMES 0
+
+%UnCheckedControl1 DEPEND %UnCheckedEnables DEFAULT TIMES 0
+
+%UnCheckedControl1Action DEPEND %UnCheckedEnables DEFAULT TIMES 3
+WHEN  ('?CurrentTab')TIMES 0
+WHEN  ('?Help')TIMES 0
+WHEN  ('?LLA_:ReportType')TIMES 0
+
+%GlobalObject DEPEND %ClassItem DEFAULT TIMES 2
+WHEN  ('Default') ('NO')
+WHEN  ('WindowToolbar') ('NO')
+
+[ADDITION]
+NAME ABC RecordValidation
+[INSTANCE]
+INSTANCE 1
+PROCPROP
+[PROMPTS]
+%ValidateOnAccept LONG  (1)
+%ValidateOnNonStopSelect LONG  (1)
+%ControlsExcluded MULTI LONG  ()
+%ControlToExclude DEPEND %ControlsExcluded DEFAULT TIMES 0
+
+%ValidateUsingColoration LONG  (0)
+%InvalidFieldColor LONG  (255)
+%InvalidPromptColor LONG  (255)
+%UseValidateMessage LONG  (0)
+%ValidationMessage DEFAULT  ('The values of Colored Fields are invalid, Please correct this information.')
+%MessageControl FIELD  ()
+[ADDITION]
+NAME ABC SaveButton
+[INSTANCE]
+INSTANCE 2
+PROCPROP
+[PROMPTS]
+%InsertAllowed LONG  (1)
+%InsertMessage DEFAULT  ('Report Area Will be Added')
+%ChangeAllowed LONG  (1)
+%ChangeMessage DEFAULT  ('Report Area Will Be Changed')
+%DeleteAllowed LONG  (1)
+%DeleteMessage DEFAULT  ('Report Area Will Be Deleted')
+%MessageHeader LONG  (0)
+%ActionOnDelete DEFAULT  ('Standard Warning')
+%PrimingFields MULTI LONG  ()
+%PrimedField DEPEND %PrimingFields FIELD TIMES 0
+
+%PrimedValue DEPEND %PrimingFields DEFAULT TIMES 0
+
+%ActionOnCancel DEFAULT  ('Offer to save changes')
+%MessageLocation DEFAULT  ('Title Bar')
+%MessageStatusSection DEFAULT  ('0')
+%HistoryKey DEFAULT  ('734')
+%AppendToTitle LONG  (0)
+%AppendToTitleID DEFAULT  ('')
+%AfterGoodInsert DEFAULT  ('Return to caller')
+%AskAfterAdd LONG  (0)
+%ViewMessage DEFAULT  ('View Record')
+[ADDITION]
+NAME ABC CancelButton
+[INSTANCE]
+INSTANCE 3
+[ADDITION]
+NAME ABC WindowResize
+[INSTANCE]
+INSTANCE 5
+[PROMPTS]
+%UseAppStrategy DEFAULT  ('1')
+%AppStrategy DEFAULT  ('Surface')
+%RestrictMinSize LONG  (1)
+%WindowMinWidth DEFAULT  ('0')
+%WindowMaxWidth DEFAULT  ('0')
+%ClassItem UNIQUE DEFAULT  ('Default')
+%DefaultBaseClassType DEPEND %ClassItem DEFAULT TIMES 1
+WHEN  ('Default') ('WindowResizeClass')
+
+%ActualDefaultBaseClassType DEPEND %ClassItem DEFAULT TIMES 1
+WHEN  ('Default') ('')
+
+%ClassLines DEPEND %ClassItem MULTI DEFAULT TIMES 0
+
+%WindowMinHeight DEFAULT  ('')
+%RestrictMaxSize LONG  (0)
+%WindowMaxHeight DEFAULT  ('')
+%OverrideControls MULTI LONG  ()
+%OverrideControl DEPEND %OverrideControls DEFAULT TIMES 0
+
+%HorizResize DEPEND %OverrideControls DEFAULT TIMES 0
+
+%VertResize DEPEND %OverrideControls DEFAULT TIMES 0
+
+%HorizPositional DEPEND %OverrideControls DEFAULT TIMES 0
+
+%VertPositional DEPEND %OverrideControls DEFAULT TIMES 0
+
+%AutoFindParents DEFAULT  ('Default')
+%DeferMoves DEFAULT  ('Default')
+%AutoTransparent DEFAULT  ('Default')
+%ThisObjectName DEPEND %ClassItem DEFAULT TIMES 1
+WHEN  ('Default') ('Resizer')
+
+%UseDefaultABCBaseClass DEPEND %ClassItem LONG TIMES 1
+WHEN  ('Default') (1)
+
+%UseABCBaseClass DEPEND %ClassItem LONG TIMES 1
+WHEN  ('Default') (1)
+
+%ABCBaseClass DEPEND %ClassItem DEFAULT TIMES 1
+WHEN  ('Default') ('AsciiFileClass')
+
+%ExtBaseClass DEPEND %ClassItem DEFAULT TIMES 0
+
+%BaseClassIncludeFile DEPEND %ClassItem DEFAULT TIMES 0
+
+%DeriveFromBaseClass DEPEND %ClassItem LONG TIMES 1
+WHEN  ('Default') (0)
+
+%NewMethods DEPEND %ClassItem MULTI LONG TIMES 0
+
+%NewMethodName DEPEND %NewMethods DEFAULT TIMES 0
+
+%NewMethodPrototype DEPEND %NewMethods DEFAULT TIMES 0
+
+%NewClassPropertyItems DEPEND %ClassItem MULTI LONG TIMES 0
+
+%NewClassProperty DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataType DEPEND %NewClassPropertyItems DEFAULT TIMES 1
+WHEN  ('Default')TIMES 0
+
+%NewClassOtherType DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataIsRef DEPEND %NewClassPropertyItems LONG TIMES 0
+
+%NewClassDataSize DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim1 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim2 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim3 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim4 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%ClassMethods DEPEND %ClassItem MULTI LONG TIMES 0
+
+%ClassMethodName DEPEND %ClassMethods DEFAULT TIMES 0
+
+%ClassMethodPrototype DEPEND %ClassMethods DEFAULT TIMES 0
+
+%ClassPropertyItems DEPEND %ClassItem MULTI LONG TIMES 0
+
+%ClassProperty DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataType DEPEND %ClassPropertyItems DEFAULT TIMES 1
+WHEN  ('Default')TIMES 0
+
+%ClassOtherType DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataIsRef DEPEND %ClassPropertyItems LONG TIMES 0
+
+%ClassDataSize DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim1 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim2 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim3 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim4 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%DisableResize DEPEND %OverrideControls LONG TIMES 0
+
+%GlobalObject DEPEND %ClassItem DEFAULT TIMES 1
+WHEN  ('Default') ('NO')
+
+[WINDOW]
+QuickWindow WINDOW('Update the LL_RepArea File'),AT(,,281,67),FONT('MS Sans Serif',8,,),CENTER,IMM,HLP('UpdateRepArea'), |
+         SYSTEM,GRAY,RESIZE,MDI
+       SHEET,AT(4,4,272,38),USE(?CurrentTab),WIZARD,#ORIG(CurrentTab)
+         TAB('General'),USE(?Tab:1)
+           PROMPT('&Report Area:'),AT(12,16),USE(?LLA_:ReportType:Prompt),#ORIG(?LLA_:ReportType:Prompt), |
+               #LINK(?LLA_:ReportType)
+           ENTRY(@s50),AT(60,16,204,12),USE(LLA_:ReportType),REQ,CAP,#ORIG(LLA_:ReportType),#LINK(?LLA_:ReportType:Prompt)
+         END
+       END
+       BUTTON('OK'),AT(136,48,45,14),USE(?OK),DEFAULT,#SEQ(2),#ORIG(?OK)
+       BUTTON('Cancel'),AT(184,48,45,14),USE(?Cancel),#SEQ(3),#ORIG(?Cancel)
+       BUTTON('Help'),AT(232,48,45,14),USE(?Help),STD(STD:Help)
+     END
+
+[PROCEDURE]
+NAME SolaceLLPreview
+PROTOTYPE '(String)'
+[COMMON]
+FROM ABC Window
+CATEGORY 'Layout Manager'
+MODIFIED '2003/04/18' '12:10:01'
+[DATA]
+[SCREENCONTROLS]
+! PROMPT('Files Opened:'),USE(?FilesOpened:Prompt)
+! ENTRY(@n3),USE(FilesOpened)
+[REPORTCONTROLS]
+! STRING(@n3),USE(FilesOpened)
+FilesOpened              BYTE
+!!> IDENT(4294967269),PROMPT('Files Opened:'),HEADER('Files Opened'),PICTURE(@n3)
+[PROMPTS]
+%ClassItem UNIQUE DEFAULT  ('Default', |
+  'WindowToolbar')
+%DefaultBaseClassType DEPEND %ClassItem DEFAULT TIMES 2
+WHEN  ('Default') ('WindowManager')
+WHEN  ('WindowToolbar') ('ToolbarClass')
+
+%ActualDefaultBaseClassType DEPEND %ClassItem DEFAULT TIMES 2
+WHEN  ('Default') ('')
+WHEN  ('WindowToolbar') ('')
+
+%ClassLines DEPEND %ClassItem MULTI DEFAULT TIMES 0
+
+%Parameters DEFAULT  ('(P:FileName)')
+%ReturnValue FIELD  ()
+%WindowOperationMode DEFAULT  ('Use WINDOW setting')
+%INISaveWindow LONG  (1)
+%ThisObjectName DEPEND %ClassItem DEFAULT TIMES 2
+WHEN  ('Default') ('ThisWindow')
+WHEN  ('WindowToolbar') ('Toolbar')
+
+%UseDefaultABCBaseClass DEPEND %ClassItem LONG TIMES 2
+WHEN  ('Default') (1)
+WHEN  ('WindowToolbar') (1)
+
+%UseABCBaseClass DEPEND %ClassItem LONG TIMES 2
+WHEN  ('Default') (1)
+WHEN  ('WindowToolbar') (1)
+
+%ABCBaseClass DEPEND %ClassItem DEFAULT TIMES 2
+WHEN  ('Default') ('AsciiFileClass')
+WHEN  ('WindowToolbar') ('AsciiFileClass')
+
+%ExtBaseClass DEPEND %ClassItem DEFAULT TIMES 0
+
+%BaseClassIncludeFile DEPEND %ClassItem DEFAULT TIMES 0
+
+%DeriveFromBaseClass DEPEND %ClassItem LONG TIMES 2
+WHEN  ('Default') (0)
+WHEN  ('WindowToolbar') (0)
+
+%NewMethods DEPEND %ClassItem MULTI LONG TIMES 0
+
+%NewMethodName DEPEND %NewMethods DEFAULT TIMES 0
+
+%NewMethodPrototype DEPEND %NewMethods DEFAULT TIMES 0
+
+%NewClassPropertyItems DEPEND %ClassItem MULTI LONG TIMES 0
+
+%NewClassProperty DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataType DEPEND %NewClassPropertyItems DEFAULT TIMES 1
+WHEN  ('WindowToolbar')TIMES 0
+
+%NewClassOtherType DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataIsRef DEPEND %NewClassPropertyItems LONG TIMES 0
+
+%NewClassDataSize DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim1 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim2 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim3 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%NewClassDataDim4 DEPEND %NewClassPropertyItems DEFAULT TIMES 0
+
+%ClassMethods DEPEND %ClassItem MULTI LONG TIMES 0
+
+%ClassMethodName DEPEND %ClassMethods DEFAULT TIMES 0
+
+%ClassMethodPrototype DEPEND %ClassMethods DEFAULT TIMES 0
+
+%ClassPropertyItems DEPEND %ClassItem MULTI LONG TIMES 0
+
+%ClassProperty DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataType DEPEND %ClassPropertyItems DEFAULT TIMES 1
+WHEN  ('WindowToolbar')TIMES 0
+
+%ClassOtherType DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataIsRef DEPEND %ClassPropertyItems LONG TIMES 0
+
+%ClassDataSize DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim1 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim2 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim3 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ClassDataDim4 DEPEND %ClassPropertyItems DEFAULT TIMES 0
+
+%ButtonAction DEPEND %Control DEFAULT TIMES 18
+WHEN  ('') ('No Special Action')
+WHEN  ('?Button1') ('No Special Action')
+WHEN  ('?Button1:3') ('No Special Action')
+WHEN  ('?Button3') ('No Special Action')
+WHEN  ('?File') ('No Special Action')
+WHEN  ('?FileExit') ('No Special Action')
+WHEN  ('?FilePrintCurrentPage') ('No Special Action')
+WHEN  ('?FilePrintPage') ('No Special Action')
+WHEN  ('?Item23') ('No Special Action')
+WHEN  ('?LLRegion') ('No Special Action')
+WHEN  ('?LLViewer') ('No Special Action')
+WHEN  ('?MenuView') ('No Special Action')
+WHEN  ('?ViewItem16') ('No Special Action')
+WHEN  ('?ViewItem22') ('No Special Action')
+WHEN  ('?ViewLastPage') ('No Special Action')
+WHEN  ('?ViewNextPage') ('No Special Action')
+WHEN  ('?ViewPreviousPage') ('No Special Action')
+WHEN  ('?ViewZoomIN') ('No Special Action')
+
+%ButtonRunName DEPEND %Control DEFAULT TIMES 12
+WHEN  ('?Button1') ('')
+WHEN  ('?Button1:3') ('')
+WHEN  ('?Button3') ('')
+WHEN  ('?FileExit') ('')
+WHEN  ('?FilePrintCurrentPage') ('')
+WHEN  ('?FilePrintPage') ('')
+WHEN  ('?ViewItem16') ('')
+WHEN  ('?ViewItem22') ('')
+WHEN  ('?ViewLastPage') ('')
+WHEN  ('?ViewNextPage') ('')
+WHEN  ('?ViewPreviousPage') ('')
+WHEN  ('?ViewZoomIN') ('')
+
+%ButtonRunParameters DEPEND %Control DEFAULT TIMES 12
+WHEN  ('?Button1') ('')
+WHEN  ('?Button1:3') ('')
+WHEN  ('?Button3') ('')
+WHEN  ('?FileExit') ('')
+WHEN  ('?FilePrintCurrentPage') ('')
+WHEN  ('?FilePrintPage') ('')
+WHEN  ('?ViewItem16') ('')
+WHEN  ('?ViewItem22') ('')
+WHEN  ('?ViewLastPage') ('')
+WHEN  ('?ViewNextPage') ('')
+WHEN  ('?ViewPreviousPage') ('')
+WHEN  ('?ViewZoomIN') ('')
+
+%ButtonProcedure DEPEND %Control PROCEDURE TIMES 12
+WHEN  ('?Button1') ()
+WHEN  ('?Button1:3') ()
+WHEN  ('?Button3') ()
+WHEN  ('?FileExit') ()
+WHEN  ('?FilePrintCurrentPage') ()
+WHEN  ('?FilePrintPage') ()
+WHEN  ('?ViewItem16') ()
+WHEN  ('?ViewItem22') ()
+WHEN  ('?ViewLastPage') ()
+WHEN  ('?ViewNextPage') ()
+WHEN  ('?ViewPreviousPage') ()
+WHEN  ('?ViewZoomIN') ()
+
+%ButtonThread DEPEND %Control LONG TIMES 12
+WHEN  ('?Button1') (0)
+WHEN  ('?Button1:3') (0)
+WHEN  ('?Button3') (0)
+WHEN  ('?FileExit') (0)
+WHEN  ('?FilePrintCurrentPage') (0)
+WHEN  ('?FilePrintPage') (0)
+WHEN  ('?ViewItem16') (0)
+WHEN  ('?ViewItem22') (0)
+WHEN  ('?ViewLastPage') (0)
+WHEN  ('?ViewNextPage') (0)
+WHEN  ('?ViewPreviousPage') (0)
+WHEN  ('?ViewZoomIN') (0)
+
+%ButtonThreadStack DEPEND %Control DEFAULT TIMES 18
+WHEN  ('') ('25000')
+WHEN  ('?Button1') ('25000')
+WHEN  ('?Button1:3') ('25000')
+WHEN  ('?Button3') ('25000')
+WHEN  ('?File') ('25000')
+WHEN  ('?FileExit') ('25000')
+WHEN  ('?FilePrintCurrentPage') ('25000')
+WHEN  ('?FilePrintPage') ('25000')
+WHEN  ('?Item23') ('25000')
+WHEN  ('?LLRegion') ('25000')
+WHEN  ('?LLViewer') ('25000')
+WHEN  ('?MenuView') ('25000')
+WHEN  ('?ViewItem16') ('25000')
+WHEN  ('?ViewItem22') ('25000')
+WHEN  ('?ViewLastPage') ('25000')
+WHEN  ('?ViewNextPage') ('25000')
+WHEN  ('?ViewPreviousPage') ('25000')
+WHEN  ('?ViewZoomIN') ('25000')
+
+%ButtonParameters DEPEND %Control DEFAULT TIMES 12
+WHEN  ('?Button1') ('')
+WHEN  ('?Button1:3') ('')
+WHEN  ('?Button3') ('')
+WHEN  ('?FileExit') ('')
+WHEN  ('?FilePrintCurrentPage') ('')
+WHEN  ('?FilePrintPage') ('')
+WHEN  ('?ViewItem16') ('')
+WHEN  ('?ViewItem22') ('')
+WHEN  ('?ViewLastPage') ('')
+WHEN  ('?ViewNextPage') ('')
+WHEN  ('?ViewPreviousPage') ('')
+WHEN  ('?ViewZoomIN') ('')
+
+%ButtonReturnValueAssignment DEPEND %Control FIELD TIMES 12
+WHEN  ('?Button1') ()
+WHEN  ('?Button1:3') ()
+WHEN  ('?Button3') ()
+WHEN  ('?FileExit') ()
+WHEN  ('?FilePrintCurrentPage') ()
+WHEN  ('?FilePrintPage') ()
+WHEN  ('?ViewItem16') ()
+WHEN  ('?ViewItem22') ()
+WHEN  ('?ViewLastPage') ()
+WHEN  ('?ViewNextPage') ()
+WHEN  ('?ViewPreviousPage') ()
+WHEN  ('?ViewZoomIN') ()
+
+%ButtonReturnValueReferenceAssign DEPEND %Control LONG TIMES 12
+WHEN  ('?Button1') (0)
+WHEN  ('?Button1:3') (0)
+WHEN  ('?Button3') (0)
+WHEN  ('?FileExit') (0)
+WHEN  ('?FilePrintCurrentPage') (0)
+WHEN  ('?FilePrintPage') (0)
+WHEN  ('?ViewItem16') (0)
+WHEN  ('?ViewItem22') (0)
+WHEN  ('?ViewLastPage') (0)
+WHEN  ('?ViewNextPage') (0)
+WHEN  ('?ViewPreviousPage') (0)
+WHEN  ('?ViewZoomIN') (0)
+
+%ButtonRequest DEPEND %Control DEFAULT TIMES 18
+WHEN  ('') ('None')
+WHEN  ('?Button1') ('None')
+WHEN  ('?Button1:3') ('None')
+WHEN  ('?Button3') ('None')
+WHEN  ('?File') ('None')
+WHEN  ('?FileExit') ('None')
+WHEN  ('?FilePrintCurrentPage') ('None')
+WHEN  ('?FilePrintPage') ('None')
+WHEN  ('?Item23') ('None')
+WHEN  ('?LLRegion') ('None')
+WHEN  ('?LLViewer') ('None')
+WHEN  ('?MenuView') ('None')
+WHEN  ('?ViewItem16') ('None')
+WHEN  ('?ViewItem22') ('None')
+WHEN  ('?ViewLastPage') ('None')
+WHEN  ('?ViewNextPage') ('None')
+WHEN  ('?ViewPreviousPage') ('None')
+WHEN  ('?ViewZoomIN') ('None')
+
+%ButtonThreadParameters DEPEND %Control DEFAULT TIMES 12
+WHEN  ('?Button1') ('')
+WHEN  ('?Button1:3') ('')
+WHEN  ('?Button3') ('')
+WHEN  ('?FileExit') ('')
+WHEN  ('?FilePrintCurrentPage') ('')
+WHEN  ('?FilePrintPage') ('')
+WHEN  ('?ViewItem16') ('')
+WHEN  ('?ViewItem22') ('')
+WHEN  ('?ViewLastPage') ('')
+WHEN  ('?ViewNextPage') ('')
+WHEN  ('?ViewPreviousPage') ('')
+WHEN  ('?ViewZoomIN') ('')
+
+%ButtonThreadReturnValueAssignment DEPEND %Control FIELD TIMES 12
+WHEN  ('?Button1') ()
+WHEN  ('?Button1:3') ()
+WHEN  ('?Button3') ()
+WHEN  ('?FileExit') ()
+WHEN  ('?FilePrintCurrentPage') ()
+WHEN  ('?FilePrintPage') ()
+WHEN  ('?ViewItem16') ()
+WHEN  ('?ViewItem22') ()
+WHEN  ('?ViewLastPage') ()
+WHEN  ('?ViewNextPage') ()
+WHEN  ('?ViewPreviousPage') ()
+WHEN  ('?ViewZoomIN') ()
+
+%PreLookupKey DEPEND %Control KEY TIMES 0
+
+%PreLookupField DEPEND %Control COMPONENT TIMES 0
+
+%PreLookupProcedure DEPEND %Control PROCEDURE TIMES 0
+
+%PostLookupKey DEPEND %Control KEY TIMES 0
+
+%PostLookupField DEPEND %Control COMPONENT TIMES 0
+
+%PostLookupProcedure DEPEND %Control PROCEDURE TIMES 0
+
+%PostLookupDuringValidate DEPEND %Control LONG TIMES 17
+WHEN  ('') (1)
+WHEN  ('?Button1') (1)
+WHEN  ('?Button1:3') (1)
+WHEN  ('?Button3') (1)
+WHEN  ('?File') (1)
+WHEN  ('?FileExit') (1)
+WHEN  ('?FilePrintCurrentPage') (1)
+WHEN  ('?FilePrintPage') (1)
+WHEN  ('?LLRegion') (1)
+WHEN  ('?LLViewer') (1)
+WHEN  ('?MenuView') (1)
+WHEN  ('?ViewItem16') (1)
+WHEN  ('?ViewItem22') (1)
+WHEN  ('?ViewLastPage') (1)
+WHEN  ('?ViewNextPage') (1)
+WHEN  ('?ViewPreviousPage') (1)
+WHEN  ('?ViewZoomIN') (1)
+
+%ForceWindowRefresh DEPEND %Control LONG TIMES 0
+
+%LookupAssign DEPEND %Control MULTI LONG TIMES 0
+
+%MoreField DEPEND %LookupAssign DEFAULT TIMES 0
+
+%MoreTarget DEPEND %LookupAssign FIELD TIMES 0
+
+%CheckedAssigns DEPEND %Control MULTI LONG TIMES 0
+
+%CheckedAssignVariable DEPEND %CheckedAssigns FIELD TIMES 0
+
+%CheckedAssignValue DEPEND %CheckedAssigns DEFAULT TIMES 0
+
+%CheckedHides DEPEND %Control MULTI LONG TIMES 0
+
+%CheckedControl DEPEND %CheckedHides DEFAULT TIMES 0
+
+%CheckedControlAction DEPEND %CheckedHides DEFAULT TIMES 17
+WHEN  ('')TIMES 0
+WHEN  ('?Button1')TIMES 0
+WHEN  ('?Button1:3')TIMES 0
+WHEN  ('?Button3')TIMES 0
+WHEN  ('?File')TIMES 0
+WHEN  ('?FileExit')TIMES 0
+WHEN  ('?FilePrintCurrentPage')TIMES 0
+WHEN  ('?FilePrintPage')TIMES 0
+WHEN  ('?LLRegion')TIMES 0
+WHEN  ('?LLViewer')TIMES 0
+WHEN  ('?MenuView')TIMES 0
+WHEN  ('?ViewItem16')TIMES 0
+WHEN  ('?ViewItem22')TIMES 0
+WHEN  ('?ViewLastPage')TIMES 0
+WHEN  ('?ViewNextPage')TIMES 0
+WHEN  ('?ViewPreviousPage')TIMES 0
+WHEN  ('?ViewZoomIN')TIMES 0
+
+%CheckedEnables DEPEND %Control MULTI LONG TIMES 0
+
+%CheckedControl1 DEPEND %CheckedEnables DEFAULT TIMES 0
+
+%CheckedControl1Action DEPEND %CheckedEnables DEFAULT TIMES 17
+WHEN  ('')TIMES 0
+WHEN  ('?Button1')TIMES 0
+WHEN  ('?Button1:3')TIMES 0
+WHEN  ('?Button3')TIMES 0
+WHEN  ('?File')TIMES 0
+WHEN  ('?FileExit')TIMES 0
+WHEN  ('?FilePrintCurrentPage')TIMES 0
+WHEN  ('?FilePrintPage')TIMES 0
+WHEN  ('?LLRegion')TIMES 0
+WHEN  ('?LLViewer')TIMES 0
+WHEN  ('?MenuView')TIMES 0
+WHEN  ('?ViewItem16')TIMES 0
+WHEN  ('?ViewItem22')TIMES 0
+WHEN  ('?ViewLastPage')TIMES 0
+WHEN  ('?ViewNextPage')TIMES 0
+WHEN  ('?ViewPreviousPage')TIMES 0
+WHEN  ('?ViewZoomIN')TIMES 0
+
+%UncheckedAssigns DEPEND %Control MULTI LONG TIMES 0
+
+%UncheckedAssignVariable DEPEND %UncheckedAssigns FIELD TIMES 0
+
+%UncheckedAssignValue DEPEND %UncheckedAssigns DEFAULT TIMES 0
+
+%UnCheckedHides DEPEND %Control MULTI LONG TIMES 0
+
+%UnCheckedControl DEPEND %UnCheckedHides DEFAULT TIMES 0
+
+%UnCheckedControlAction DEPEND %UnCheckedHides DEFAULT TIMES 17
+WHEN  ('')TIMES 0
+WHEN  ('?Button1')TIMES 0
+WHEN  ('?Button1:3')TIMES 0
+WHEN  ('?Button3')TIMES 0
+WHEN  ('?File')TIMES 0
+WHEN  ('?FileExit')TIMES 0
+WHEN  ('?FilePrintCurrentPage')TIMES 0
+WHEN  ('?FilePrintPage')TIMES 0
+WHEN  ('?LLRegion')TIMES 0
+WHEN  ('?LLViewer')TIMES 0
+WHEN  ('?MenuView')TIMES 0
+WHEN  ('?ViewItem16')TIMES 0
+WHEN  ('?ViewItem22')TIMES 0
+WHEN  ('?ViewLastPage')TIMES 0
+WHEN  ('?ViewNextPage')TIMES 0
+WHEN  ('?ViewPreviousPage')TIMES 0
+WHEN  ('?ViewZoomIN')TIMES 0
+
+%UnCheckedEnables DEPEND %Control MULTI LONG TIMES 0
+
+%UnCheckedControl1 DEPEND %UnCheckedEnables DEFAULT TIMES 0
+
+%UnCheckedControl1Action DEPEND %UnCheckedEnables DEFAULT TIMES 17
+WHEN  ('')TIMES 0
+WHEN  ('?Button1')TIMES 0
+WHEN  ('?Button1:3')TIMES 0
+WHEN  ('?Button3')TIMES 0
+WHEN  ('?File')TIMES 0
+WHEN  ('?FileExit')TIMES 0
+WHEN  ('?FilePrintCurrentPage')TIMES 0
+WHEN  ('?FilePrintPage')TIMES 0
+WHEN  ('?LLRegion')TIMES 0
+WHEN  ('?LLViewer')TIMES 0
+WHEN  ('?MenuView')TIMES 0
+WHEN  ('?ViewItem16')TIMES 0
+WHEN  ('?ViewItem22')TIMES 0
+WHEN  ('?ViewLastPage')TIMES 0
+WHEN  ('?ViewNextPage')TIMES 0
+WHEN  ('?ViewPreviousPage')TIMES 0
+WHEN  ('?ViewZoomIN')TIMES 0
+
+%GlobalObject DEPEND %ClassItem DEFAULT TIMES 2
+WHEN  ('Default') ('NO')
+WHEN  ('WindowToolbar') ('NO')
+
+[EMBED]
+EMBED %WindowManagerMethodCodeSection
+[INSTANCES]
+WHEN 'Init'
+[INSTANCES]
+WHEN '(),BYTE'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 8125
+PROPERTY:END
+IF Not Exists(Clip(P:FileName))                                 !Cheat for NOW
+ if Exists(clip(P:FileName))                     !This is where I put my LL's
+   ?LLViewer{'FileURL'} = clip(P:FileName)
+ END
+Else
+ ?LLViewer{'FileURL'} = P:FileName
+End                                                          !This looks better than a full page (i think)
+!?LLViewer{'ZoomReset'}
+
+
+?LLViewer{Prop:AT} = ?LLRegion{Prop:at}
+?LLViewer{Prop:Clip}= '-1'
+
+?LLViewer{'SendEnabled'}= '0'
+?LLViewer{'ExitEnabled'}= '0'
+!    ?LLViewer{'ExitEnabled'}= '-1'           ! no good as it does nothing but post an event Unless we want to do some work
+
+!    ?LLViewer{'PrintEnabled'}= '-1'
+?LLViewer{'PrintEnabled'}= '0'                ! or Use our Own?
+
+Window{Prop:text} = Window{Prop:text} & '(' & clip(P:FileName) & ')'
+Window{Prop:Maximize}=True
+
+?LLViewer{Prop:AT,1}= '0'
+?LLViewer{Prop:AT,2}= '0'
+?LLViewer{Prop:AT,3}= 0{Prop:width}
+?LLViewer{Prop:AT,4}= 0{Prop:Height} -32
+?LLViewer{Prop:Clip}= '-1'
+
+[END]
+[END]
+WHEN 'TakeWindowEvent'
+[INSTANCES]
+WHEN '(),BYTE'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 7530
+PROPERTY:END
+ of EVENT:Sized
+    ?LLViewer{Prop:AT,1} = '0'
+    ?LLViewer{Prop:AT,2} = '0'
+    ?LLViewer{Prop:AT,3} = Window{Prop:width}
+    ?LLViewer{Prop:AT,4} = Window{Prop:Height} -32
+    ?LLViewer{Prop:Clip} = '-1'
+    DISPLAY
+
+[END]
+[END]
+[END]
+EMBED %ControlEventHandling
+[INSTANCES]
+WHEN '?ViewItem16'
+[INSTANCES]
+WHEN 'Accepted'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 5000
+PROPERTY:END
+?LLViewer{'GotoFirst'}
+[END]
+[END]
+WHEN '?ViewLastPage'
+[INSTANCES]
+WHEN 'Accepted'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 4999
+PROPERTY:END
+?LLViewer{'GotoLast'}
+[END]
+[END]
+WHEN '?ViewItem22'
+[INSTANCES]
+WHEN 'Accepted'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 5000
+PROPERTY:END
+?LLViewer{'ZoomRevert'}
+[END]
+[END]
+WHEN '?ViewZoomIN'
+[INSTANCES]
+WHEN 'Accepted'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 5000
+PROPERTY:END
+?LLViewer{'ZoomTimes2'}
+[END]
+[END]
+WHEN '?ViewPreviousPage'
+[INSTANCES]
+WHEN 'Accepted'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 4999
+PROPERTY:END
+?LLViewer{'GotoPrev'}
+[END]
+[END]
+WHEN '?ViewNextPage'
+[INSTANCES]
+WHEN 'Accepted'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 4999
+PROPERTY:END
+?LLViewer{'GotoNext'}
+[END]
+[END]
+WHEN '?LLViewer'
+[INSTANCES]
+WHEN 'AlertKey'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 5000
+PROPERTY:END
+!?LLViewer{'GotoNext'}
+[END]
+WHEN 'Accepted'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 4499
+PROPERTY:END
+if Keycode() = MouseLeft then
+  ?LLViewer{'ZoomTimes2'}
+end
+[END]
+[END]
+WHEN '?Item23'
+[INSTANCES]
+WHEN 'Accepted'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 5000
+PROPERTY:END
+?LLViewer{'GotoNext'}
+[END]
+[END]
+WHEN '?FilePrint'
+[INSTANCES]
+WHEN 'Accepted'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 5000
+PROPERTY:END
+?LLViewer{'PrintMultiplePages'}
+[END]
+[END]
+WHEN '?FilePrintCurrentPage'
+[INSTANCES]
+WHEN 'Accepted'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 5000
+PROPERTY:END
+?LLViewer{'PrintCurrentPage'}
+[END]
+[END]
+WHEN '?FilePrintPage'
+[INSTANCES]
+WHEN 'Accepted'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 5000
+PROPERTY:END
+?LLViewer{'PrintPage'}
+[END]
+[END]
+WHEN '?Button1'
+[INSTANCES]
+WHEN 'Accepted'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 5000
+PROPERTY:END
+?LLViewer{'PrintMultiplePages'}
+[END]
+[END]
+WHEN '?Button1:3'
+[INSTANCES]
+WHEN 'Accepted'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 4499
+PROPERTY:END
+?LLViewer{'PrintCurrentPage'}
+[END]
+[END]
+WHEN '?Button3'
+[INSTANCES]
+WHEN 'Accepted'
+[DEFINITION]
+[GROUP]
+PRIORITY 4499
+INSTANCE 1
+[END]
+[END]
+WHEN '?LLRegion'
+[INSTANCES]
+WHEN 'Accepted'
+[DEFINITION]
+[SOURCE]
+PROPERTY:BEGIN
+PRIORITY 4499
+PROPERTY:END
+?LLViewer{'ZoomTimes2'}
+[END]
+[END]
+WHEN '?FileExit'
+[INSTANCES]
+WHEN 'Accepted'
+[DEFINITION]
+[GROUP]
+PRIORITY 4499
+INSTANCE 3
+[END]
+[END]
+[END]
+[END]
+[ADDITION]
+NAME ABC OLEControl
+[INSTANCE]
+INSTANCE 2
+[PROMPTS]
+%GenerateEventCallback LONG  (1)
+%GenerateChangeCallback LONG  (1)
+%GenerateEditCallback LONG  (1)
+%IncludeOCXMap LONG  (1)
+%IncludeOCXEvent LONG  (1)
+%OLEBlobField FIELD  ()
+[ADDITION]
+NAME ABC CloseCurrentWindow
+[INSTANCE]
+INSTANCE 1
+[INSTANCE]
+INSTANCE 3
+[WINDOW]
+Window WINDOW('Preview'),FONT('MS Sans Serif',8,,FONT:regular),CENTER,IMM,ALRT(PgDnKey),ALRT(PgUpKey), |
+         ALRT(PlusKey),ALRT(MinusKey),ALRT(HomeKey),ALRT(EndKey),ALRT(F11Key),SYSTEM,GRAY,MAX,RESIZE, |
+         AUTO
+       MENUBAR
+         MENU('&File'),USE(?File)
+           ITEM('Print Page'),USE(?FilePrintPage),FIRST
+           ITEM('Print Current Page'),USE(?FilePrintCurrentPage),FIRST
+           ITEM,FIRST,SEPARATOR
+           ITEM('E&xit'),USE(?FileExit)
+         END
+         MENU('&View'),USE(?MenuView)
+           ITEM('&FirstPage<9>Home'),USE(?ViewItem16),KEY(HomeKey)
+           ITEM('&Last Page<9>End'),USE(?ViewLastPage),KEY(EndKey)
+           ITEM('&Next Page<9>PgDn'),USE(?ViewNextPage),KEY(PgDnKey)
+           ITEM('&Previous Page<9>PgUp'),USE(?ViewPreviousPage),KEY(PgUpKey)
+           ITEM,SEPARATOR
+           ITEM('&Zoom IN<9>Grey "+" Key'),USE(?ViewZoomIN),KEY(PlusKey)
+           ITEM('&Zoom Fit<9>Grey "-" Key'),USE(?ViewItem22),KEY(MinusKey)
+         END
+       END
+       TOOLBAR,AT(0,0,,17)
+         BUTTON,AT(28,0,27,17),USE(?Button1),LEFT,MSG('Print Button'),TIP('Prints all, one or a range of pages.  A printer Dialog will be shown'), |
+             ICON(ICON:Print1),#ORIG(?Button1)
+         BUTTON,AT(56,0,27,17),USE(?Button3),ICON('EXIT.ICO'),#ORIG(?Button3)
+         BUTTON,AT(0,0,27,17),USE(?Button1:3),LEFT,MSG('Cancel'),TIP('Print Current Page'),ICON('print1.ico'), |
+             REQ,#ORIG(?Button1:2)
+       END
+       OLE,AT(4,2,348,185),USE(?LLViewer),KEY(F6Key),ALRT(F5Key),ALRT(MouseLeft),CREATE('cm32vw9.cm32vw9.1'), |
+           COMPATIBILITY(021H),ZOOM,#SEQ(2),#ORIG(?OLE)
+         MENUBAR
+           MENU('&View'),USE(?View2)
+             ITEM('My Down'),USE(?Item23)
+           END
+         END
+       END
+       REGION,AT(0,-1,356,193),USE(?LLRegion),IMM,CURSOR(CURSOR:Zoom),#ORIG(?Region1)
+     END
+

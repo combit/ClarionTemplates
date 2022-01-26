@@ -1,0 +1,165 @@
+#!==================================================================================================
+#!                  Hand Code Extension
+#!==================================================================================================
+#EXTENSION(LLHandCode, 'List and Label Hand Code Extension'),PROCEDURE,REQ(GlobalListLabel),HLP('List & Label Hand Code Extension')
+#PREPARE
+  #CALL(%ReadABCFiles(ABC))
+  #CALL(%SetClassDefaults(ABC), 'Default', 'ListLabelMgr', 'LLClass')
+#ENDPREPARE
+#ATSTART
+  #CALL(%ReadABCFiles(ABC))
+  #CALL(%SetClassDefaults(ABC), 'Default', 'ListLabelMgr', 'LLClass')
+#ENDAT
+#INSERT(%RADFusionLogo)
+#BOXED('Hand code options')
+  #BUTTON('&Hand Code Class'),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+    #BOXED('Hand Code Class'),AT(0,0),WHERE(%False),HIDE
+      #INSERT(%OOPHiddenPrompts(ABC))
+    #ENDBOXED
+    #WITH(%ClassItem,'Default')
+      #INSERT(%ClassPrompts(ABC))
+    #ENDWITH
+  #ENDBUTTON
+  #INSERT(%StandardTabs)
+#ENDBOXED
+#!==================================================================================================
+#AT(%LocalDataClasses),WHERE(%ActiveTemplateType = 'EXTENSION')
+  #PURGE(%NewMethods)
+  #CALL(%AddMethods,'Send' & %File & 'ToLL', '()')
+  #FOR(%Secondary),WHERE(%SecondaryTo = %File AND %SecondaryType = 'MANY:1')
+    #FIX(%File,%Secondary)
+    #CALL(%AddMethods,'Send' & %File & 'ToLL', '()')
+  #ENDFOR
+  #CALL(%SetClassItem(ABC),'Default')
+  #INSERT(%GenerateClass(ABC), 'Default', 'Local instance and definition'),NOINDENT
+#ENDAT
+#!==================================================================================================
+#AT(%ProcedureRoutines)
+  #CALL(%GenerateVirtuals(ABC),'Default','Local Objects|Abc Objects|List & Label hand code extension','%EmbedVirtuals(RFIListLabel)')
+#ENDAT
+#!==================================================================================================
+#AT(%NewMethodCodeSection),PRIORITY(5000),DESCRIPTION('Parent Call'),WHERE(%ParentCallValid())
+  #CALL(%GenerateVirtuals(ABC))
+#ENDAT
+#!==================================================================================================
+#AT(%GatherObjects)                                                             #!Ensure objects are known and loaded in memory
+  #CALL(%ReadABCFiles(ABC))                                                     #!Read ABC class headers if needed
+  #CALL(%AddObjectList(ABC),'ListLabelMgr')                                     #!Add the template object to object list 
+  #ADD(%ObjectList,%ThisObjectName)                                             #!Add the object to the list of all objects
+  #SET(%ObjectListType,'LLClass')                                               #!Set the base class name
+#ENDAT                                                                          #! end #AT(%GatherObjects)
+#!==================================================================================================
+#IF(%BaseClassToUse())
+  #CALL(%FixClassName(ABC),%BaseClassToUse())
+  #FOR(%pClassMethod)
+    #FOR(%pClassMethodPrototype),WHERE(%MethodEmbedPointValid())
+      #CALL(%SetupMethodCheck(ABC))
+      #EMBED(%NewMethodDataSection,'Local List & Label Method Data Section'),%ActiveTemplateInstance,%pClassMethod,%pClassMethodPrototype,LABEL,DATA,PREPARE(,%FixClassName(%FixBaseClassToUse('LLClass'))),TREE(%GetEmbedTreeDesc('DEFAULT','DATA'))
+  #?CODE
+      #EMBED(%NewMethodCodeSection,'Local List & Label Method Code Section'),%ActiveTemplateInstance,%pClassMethod,%pClassMethodPrototype,PREPARE(,%FixClassName(%FixBaseClassToUse('LLClass'))),TREE(%GetEmbedTreeDesc('DEFAULT','CODE'))
+      #CALL(%CheckAddMethodPrototype(ABC),%ClassLines)
+    #ENDFOR
+  #ENDFOR
+  #CALL(%GenerateNewLocalMethods(ABC),'DEFAULT',%True)
+#ENDIF
+#!==================================================================================================
+#AT(%NewMethodCodeSection)
+  #INSERT(%FieldGen,%RepFiles,%True,%True),NOINDENT
+#ENDAT
+#!==================================================================================================
+#LOCALDATA
+LLExportFilesQ      QUEUE,PRE(LLEXPF)               !Hand code extension
+Filename              CSTRING(255)
+                    END
+#ENDLOCALDATA
+#!==================================================================================================
+#AT(%LocalDataClassData)
+  #INSERT(%LLDATA),NOINDENT
+  #IF(%InvoiceStyle=%TRUE)
+LLInvoiceBreak         LIKE(%BreakField)
+  #ENDIF
+  #FOR(%LLOtherBreakFields)
+    #SET(%LLDeclareLocBreakField,'LLBreak' & %LLOtherBreakField)
+%LLDeclareLocBreakField    LIKE(%LLOtherBreakField)
+  #ENDFOR
+LLLastSep            LONG
+LLNextSep            LONG
+#ENDAT
+#!==================================================================================================
+#AT( %WindowManagerMethodCodeSection, 'Init', '(),BYTE'),LAST
+  #IF(%RunDirect <> 'Use Variable to Determine Default')
+GlobalRequest = SelectRecord                   
+IF %ThisObjectName.LayoutSelection(%ThisObjectName.LLAction,%ThisObjectName.LLReportName,%ThisObjectName.LLReportTitle,%ThisObjectName.LLReportType,%ThisObjectName.LLPrinterOptions,%ThisObjectName.LLOutputFile,%ThisObjectName.LLOutPutDir) = False 
+    #EMBED(%LLCancelSelectLayout,'LL Cancel selecting Layout')
+  POST(EVENT:CloseWindow)
+  RETURN(LEVEL:Fatal)
+ELSE
+  %ThisObjectName.LLReportName = CLIP(%ThisObjectName.LLReportName)
+  %ThisObjectName.LLNameNoPath = %ThisObjectName.LLReportName
+    #EMBED(%LLAfterSelectLayout,'LL After selecting Layout')
+  %ThisObjectName.InitReport(%ThisObjectName.LLhJob)
+  IF %ThisObjectName.LLPrinterOptions = True 
+    %ThisObjectName.LLResult = LL.PrintOptionsDialog(%ThisObjectName.LLhJob,%ThisObjectName.LLHWind,%ThisObjectName.LLReportTitle)
+    IF %ThisObjectName.LLResult <> 0 
+    #EMBED(%LLAfterPrinterOptions,'LL After Displaying printer options')
+      %ThisObjectName.LLResult = LL.PrintEnd(%ThisObjectName.LLhJob,0)
+      LL.CloseJob(%ThisObjectName.LLhJob)
+      POST(EVENT:CloseWindow)
+      RETURN(LEVEL:Fatal)
+    END
+  END
+  %ThisObjectName.LLResult = LL.PrintGetOption(%ThisObjectName.LLhJob,LL_Option_Copies_Supported)
+END
+  #ELSE
+LLL_:Ref = %PrimaryValue
+Access:LL_RepLay.TryFetch(LLL_:RefKey)
+%ThisObjectName.LLReportName = CLIP(LLL_:FileName)
+%ThisObjectName.LLReportTitle = LLL_:Description
+CASE 'X'  !CLIP(LLL_:Type)                                #<!BE SURE TO FIX THIS - COMMENTED for TESTING PURPOSES====================================
+OF 'Label'
+  %ThisObjectName.LLReportType = 1
+OF 'List'
+  %ThisObjectName.LLReportType = 2
+OF 'Card'
+  %ThisObjectName.LLReportType = 3
+END
+%ThisObjectName.LLAction = %PreviewOpt
+%ThisObjectName.LLPrinterOptions = %PrinterOpt
+RFIPages = LLL_:Pages
+  #EMBED(%LLAfterSelectLayout,'LL After selecting Layout')
+DO LLInitReport
+IF %ThisObjectName.LLPrinterOptions = True 
+  %ThisObjectName.LLResult = LL.PrintOptionsDialog(%ThisObjectName.LLhJob,%ThisObjectName.LLHWind,%ThisObjectName.LLReportTitle)    #<! Call List and Label procedure
+  IF %ThisObjectName.LLResult <> 0 
+  #EMBED(%LLAfterPrinterOptions,'LL After Displaying printer options')
+    POST(EVENT:CloseWindow)
+    RETURN(LEVEL:Fatal)           #<!Legacy
+  END
+END
+%ThisObjectName.LLResult = LL.PrintGetOption(%ThisObjectName.LLhJob,LLOptionCopiesSupported)
+  #ENDIF
+#ENDAT
+#!==================================================================================================
+#AT( %ProcessManagerMethodCodeSection, 'TakeRecord', '(),BYTE'),PRIORITY(5500)
+DO PrintOutToLL
+  #IF(%ProgressType <> 'Clarion Progress Bar' AND %ProgressType <> 'No Progress Window')
+    #IF(%ProgressTextType='Static Text')
+%ThisObjectName.LLPrintText = '%PrintText'
+    #ELSE
+%ThisObjectName.LLPrintText = %DynamicText
+    #ENDIF
+%ThisObjectName.LLResult = LL.PrintSetBoxText(SELF.LLhJob, LLPrintText, Progress:Thermometer)
+  #ENDIF
+IF %ThisObjectName.LLResult = LLErrUserAborted 
+  %ThisObjectName.LLAbort = True
+  RETURN LEVEL:Fatal                #<!Legacy
+END
+RETURN ReturnValue
+#ENDAT
+#!==================================================================================================
+#AT(%WindowManagerMethodCodeSection,'Run','(),BYTE'),PRIORITY(1000)
+  #INSERT(%LLWindowRun),NOINDENT
+#ENDAT
+#AT(%WindowManagerMethodCodeSection,'Kill','(),BYTE'),PRIORITY(1000)
+  #INSERT(%LLKillWindow),NOINDENT
+#ENDAT

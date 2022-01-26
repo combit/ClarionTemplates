@@ -1,0 +1,248 @@
+#!================================================================================
+#!                  Designer button Control Template
+#!================================================================================
+#CONTROL(DesignerButton,'Button to call List Label designer on window'),WINDOW,SINGLE,REQ(GlobalListLabel),HLP('Layout Manager Button'),PRIMARY('Primary file to send to List and Label',OPTKEY)
+#BOXED('Default prompts'),AT(0,0),WHERE(%False),HIDE
+  #INSERT(%OOPHiddenPrompts(ABC))
+#ENDBOXED
+#!======================================================================
+#PREPARE
+  #CALL(%ReadABCFiles(ABC))
+  #CALL(%SetClassDefaults(ABC), 'LL'&%ActiveTemplateInstance, 'LL'&%ActiveTemplateInstance, 'LLClass')
+#ENDPREPARE
+#!======================================================================
+#ATSTART 
+  #CALL(%ReadABCFiles(ABC))
+  #CALL(%SetClassDefaults(ABC), 'LL'&%ActiveTemplateInstance, 'LL'&%ActiveTemplateInstance, 'LLClass')
+  #DECLARE(%LLInstance)
+  #FIX(%ClassItem,'LL'&%ActiveTemplateInstance)
+  #SET(%LLInstance,%ThisObjectName)
+#ENDAT
+#!======================================================================
+#AT(%GatherObjects)                                         #!Ensure objects are known and loaded in memory
+  #CALL(%ReadABCFiles(ABC))                                 #!Read ABC class headers if needed
+  #CALL(%AddObjectList(ABC),'LL'&%ActiveTemplateInstance)   #!Add the template object to object list 
+  #ADD(%ObjectList,%ThisObjectName)                         #!Add the object to the list of all objects
+  #SET(%ObjectListType,'LLClass')                           #!Set the base class name - can be a derived class
+#ENDAT                                                      #! end #AT(%GatherObjects)
+#!======================================================================
+#AT(%LocalDataClasses)
+  #CALL(%SetClassItem(ABC),'LL'&%ActiveTemplateInstance)
+  #INSERT(%GenerateClass(ABC),'LL'&%ActiveTemplateInstance,'Local instance and definition'),NOINDENT
+#ENDAT
+#!======================================================================
+#IF(%BaseClassToUse())                                      #!If there is a base class
+  #CALL(%FixClassName(ABC),%BaseClassToUse())               #!Assign the base class, cleaning up any errors
+  #FOR(%pClassMethod)                                       #!For every method in this class
+    #FOR(%pClassMethodPrototype),WHERE(%MethodEmbedPointValid()) #!and the prototype is not private  
+      #CALL(%SetupMethodCheck(ABC))                         #!ensure the proper instance, any overrides, etc are generated
+      #EMBED(%LLClassMethodDataSection,'LLClass Method Data Section'),%pClassMethod,%pClassMethodPrototype,LABEL,DATA,PREPARE(,%FixClassName(%FixBaseClassToUse('LLClass'))),TREE(%GetEmbedTreeDesc('RFI','DATA'))
+      #?CODE                                                #<!Add CODE statement for method
+      #EMBED(%LLClassMethodCodeSection,'LLClass Method Code Section'),%pClassMethod,%pClassMethodPrototype,PREPARE(,%FixClassName(%FixBaseClassToUse('LLClass'))),TREE(%GetEmbedTreeDesc('RFI','CODE'))
+      #CALL(%CheckAddMethodPrototype(ABC),%ClassLines)      #!Generate the prototype and structure for each method
+    #ENDFOR                                                 #! end #FOR(%pClassMethodPrototype),WHERE(%MethodEmbedPointValid())
+  #ENDFOR                                                   #! end #FOR(%pClassMethod)
+  #CALL(%GenerateVirtuals(ABC),'LL'&%ActiveTemplateInstance,'Local Objects|Abc Objects|List and Label','%EmbedVirtuals(RFIListLabel)')
+#ENDIF                                                      #! end #IF(%BaseClassToUse())
+#!====================================================================
+#INSERT(%RADFusionLogo)
+#BUTTON('&Files'),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400),AT(,,,15)
+  #INSERT(%RADFusionLogo)
+  #BOXED('NOTE:-'),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+    #DISPLAY('Add NO_LL=1 to User Option for each field in Dictionary'),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+    #DISPLAY('which is not to be sent to List and Label. (inactive)'),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+  #ENDBOXED
+  #BOXED('')
+    #PROMPT('&Send Demo Data',CHECK),%DemoData,AT(10),DEFAULT(%False),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400),PROP(PROP:Tip,'If checked, this uses example data in preview')
+    #PROMPT('Allow User to Modify/Delete &Factory Default Layouts',CHECK),%ModifyFactory,AT(10),DEFAULT(%True),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+    #ENABLE(%ModifyFactory=%False)
+      #DISPLAY('Message if user trys to change Factory default.'),AT(10),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+      #DISPLAY('(Text must be enclosed in quotes)'),AT(10),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+      #PROMPT('&Message',@s255),%FactoryMessage,AT(60,,120),DEFAULT('''You may not alter or delete factory default layouts'''),REQ,PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+    #ENDENABLE
+    #PROMPT('Enter dialog title text ', @s60),%DefDialogText,DEFAULT('Select a report...'),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400),PROP(PROP:Tip,'Enter text that appears in the title bar of the file open dialog')
+  #ENDBOXED
+  #BOXED('Conditional Report Fields'),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+    #PROMPT('C&onditional Use of Files?',CHECK),%CondUse,AT(10,225),DEFAULT(%True),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+    #BOXED(''),WHERE(%CondUse=%True),SECTION,AT(,235)
+      #PROMPT('Generate &STOP(ERROR()) if expression is invalid',CHECK),%StopEval,DEFAULT(%True),AT(10),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+      #BUTTON('Files to &Conditionally Send to List && Label'),MULTI(%RepFiles,%Condition & ' - ' & %RepNote),INLINE,PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+        #DISPLAY('Enter the condition that you wish to evaluate.'),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+        #DISPLAY('Normally this condition will be the value of a field:'),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+        #DISPLAY('e.g.   CUS:Address2 <> ''''     !Only include this field'),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+        #DISPLAY('                                            !when data is in field'),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+        #DISPLAY('')
+        #PROMPT('C&ondition: ',@S255),%Condition,REQ,AT(50,,140),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+        #DISPLAY('You may enter a note to remind you what this condition is for! This note does not serve any other purpose than a reminder.'),AT(10,,170,25)
+        #PROMPT('&Note:',@s20),%RepNote,AT(50,,140),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+        #DISPLAY('Then select the files that may be used with that condition'),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+        #BUTTON('Files to &include'),MULTI(%FileCond,%RepFileName & '  -  ' & %RepUsage),REQ,INLINE,PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+          #PROMPT('&File:',FILE),%RepFileName,REQ,PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+          #PROMPT('&Usage:',DROP('Variables|Fields|Both')),%RepUsage,DEFAULT('Both'),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+        #ENDBUTTON
+      #ENDBUTTON
+    #ENDBOXED
+    #BOXED(''),WHERE(%CondUse=%False),SECTION,AT(,235)
+      #DISPLAY('All files in your OTHER FILES section of the File'),AT(10),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+      #DISPLAY('Schematic will be sent to List && Label'),AT(10),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+    #ENDBOXED
+  #ENDBOXED
+#ENDBUTTON
+#BUTTON('&Related Files'),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400),AT(,,,15)
+  #INSERT(%RADFusionLogo)
+  #BUTTON('R&elated Files'),MULTI(%AllRelatedFiles,%LLRelateParent & ' <->> ' & %LLRelateChild),INLINE,PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+    #PROMPT('&Parent File:',File),%LLRelateParent,REQ,PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+    #PROMPT('&Child File:',File),%LLRelateChild,REQ,PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+    #PROMPT('&Name of Relationship:',@s40),%LLRelateName,REQ,PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+  #ENDBUTTON
+#ENDBUTTON
+#BUTTON('Define &Manual Fields'),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400),AT(,,,15)
+  #INSERT(%RADFusionLogo)
+  #DISPLAY('In this section you may define a variable which you wish to include in List && Label.  These fields may be functions such as TODAY() or CLOCK() or any valid Clarion expression'),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400),AT(,,180,40)
+  #BUTTON('Manual &fields'),MULTI(%RepManFields,%RepManFieldName & ' (' & %RepManFieldType & ') - ' & %RepManFileField),INLINE,PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+    #PROMPT('Field &name:',@S60),%RepManFieldName,REQ,PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+    #PROMPT('Field &type:',DROP('String|Numeric|Boolean|Date|TIME|RTF|HTML|Drawing|Barcode')),%RepManFieldType,PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+    #PROMPT('&Expression/Field:',EXPR),%RepManFileField,PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+    #PROMPT('Field &format:',@S60),%RepManFieldFormat,PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+    #DISPLAY('You may also add a condition under which the manual'),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+    #DISPLAY('fields will be available to your end user in the designer.'),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+    #DISPLAY('Normally this condition will be the value of a field:'),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+    #DISPLAY('e.g.   CUS:Address2 <> ''''     !Only include this field'),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+    #DISPLAY('                                            !when data is in field'),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+    #DISPLAY('')
+    #PROMPT('Condition (Opt): ',@S255),%ManCondition,PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+  #ENDBUTTON
+#ENDBUTTON
+#BUTTON('&Binding Fields'),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400),AT(,,,15)
+  #INSERT(%RADFusionLogo)
+  #DISPLAY('Any fields that are used in Clarion expressions must be BINDed.  You can do this yourself in embeded points or add the fields here'),AT(,,180,30),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+  #BUTTON('Fields/&Procs to BIND'),MULTI(%Binds,%Binder),INLINE,PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+    #PROMPT('Fields/Procs to BIND',@s30),%Binder,REQ,PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+  #ENDBUTTON
+#ENDBUTTON
+#BUTTON('&Error Handling'),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400),AT(,,,15)
+  #INSERT(%RADFusionLogo)
+  #PROMPT('&Process Errors from List && Label on open ',CHECK),%OpenError,AT(10),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+  #DISPLAY('Beta testers: These options may be redundant since the ABC ErrorClass should process all errors.'),AT(,,180,20),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+  #ENABLE(%OpenError = %True),CLEAR
+    #PROMPT('P&rocessing the List && Label error',OPTION),%ProcessError,PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+    #PROMPT('Call a pr&ocedure ',RADIO),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+    #PROMPT('Display &message',RADIO),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+    #DISPLAY('Please note:-  The local variable LLResult holds any'),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+    #DISPLAY('error codes generated by List && Label'),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+    #ENABLE(%ProcessError = 'Call a procedure'),CLEAR
+      #PROMPT('Procedure &to call:',PROCEDURE),%ErrorProc,REQ,PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+      #PROMPT('Pa&rameters:',@S80),%ErrorParams,PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+    #ENDENABLE
+    #ENABLE(%ProcessError = 'Display message')
+      #DISPLAY('Please remember to enclose text in quotes'),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+      #PROMPT('Te&xt for Error: ',@S255),%ErrorText,REQ,DEFAULT('LLResult'),AT(60,,125),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+    #ENDENABLE
+  #ENDENABLE
+#ENDBUTTON
+#BUTTON('&Options'),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400),AT(,,,15)
+  #INSERT(%RADFusionLogo)
+  #BOXED('General'),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+    #INSERT(%OptionOverrides)
+  #ENDBOXED
+  #BOXED('Menu Options'),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+    #PROMPT('Remove "&New" option',CHECK),%DesignNew,DEFAULT(%True),AT(10),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+    #PROMPT('Remove "O&pen" option ',CHECK),%DesignOpen,DEFAULT(%True),AT(10),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+    #PROMPT('Remove "&Save As" option',CHECK),%DesignSaveAs,DEFAULT(%True),AT(10),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+    #PROMPT('Remove Re&cent files list ',CHECK),%DesignRecentFiles,DEFAULT(%True),AT(10),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+    #PROMPT('Do not allow ma&ximize',CHECK),%DesignMax,DEFAULT(%True),AT(10),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+    #PROMPT('Do not allow m&inimize',CHECK),%DesignMin,DEFAULT(%True),AT(10),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+  #ENDBOXED
+  #BOXED('Debug')
+    #PROMPT('List && Label &Debug',CHECK),%DebugMode,AT(10),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400)
+  #ENDBOXED
+#ENDBUTTON
+#BUTTON('&List and Label Class'),PROP(PROP:FontColor,7B0012H),PROP(PROP:FontStyle,400),AT(,,,15)  #!Display a button
+  #INSERT(%RADFusionLogo)
+  #WITH(%ClassItem,'LL'&%ActiveTemplateInstance)        #!Show the local instance name
+    #INSERT(%ClassPrompts(ABC))                         #!Add the local class prompt dialog.
+  #ENDWITH                                              #! end #WITH(%ClassItem,'LL'&%ActiveTemplateInstance)
+#ENDBUTTON
+#!======================================================================
+ CONTROLS
+   BUTTON('Layout Designer'),AT(,,101,34),USE(?LLLayoutButton),LEFT,ICON('REPDES.ICO'),#ORIG(?LLLayoutButton)
+ END
+#!======================================================================
+#AT(%WindowManagerMethodCodeSection, 'Init', '(),BYTE'),PRIORITY(5300)
+  #IF(%ABCErrorsPresent = %False)
+GlobalErrors.AddErrors(ListLabelErrors)                   #<!Place here by the designer control template
+    #SET(%ABCErrorsPresent,%True)
+  #ENDIF
+  #IF(%DebugMode = %TRUE)
+%LLInstance.SetDebug(LL_DEBUG_CMBTLL)                     #<!Set LL debug mode on
+  #ENDIF
+#ENDAT
+#!======================================================================
+#AT(%WindowManagerMethodCodeSection, 'Init', '(),BYTE'),PRIORITY(9101)
+  #FOR(%Binds)
+BIND('%Binder',%Binder)
+  #ENDFOR
+%LLInstance.Init(,GlobalErrors)                             #<!Init L&L class with ABC error handler
+#ENDAT
+#!======================================================================
+#AT(%WindowManagerMethodCodeSection,'Kill','(),BYTE'),PRIORITY(1000)
+  #FOR(%Binds)
+UNBIND('%Binder')
+  #ENDFOR
+  #IF(%ABCErrorsPresent = %True)
+    #SET(%ABCErrorsPresent,%False)
+  #ENDIF
+#ENDAT
+#!======================================================================
+#AT(%WindowManagerMethodCodeSection, 'Kill', '(),BYTE'),PRIORITY(8500)
+  #FOR(%Binds)
+UNBIND('%Binder')
+  #ENDFOR
+GlobalErrors.RemoveErrors(ListLabelErrors)
+#ENDAT
+#!======================================================================
+#AT(%LocalProcedures)
+  #CALL(%GenerateVirtuals(ABC),'LL'&%ActiveTemplateInstance,'Local Objects|Abc Objects|List and Label ' & %LLInstance & ' Designer Control','%EmbedVirtuals(RFIListLabel)')
+#ENDAT
+#!======================================================================
+#AT (%LocalDataAfterClasses,)
+LOC:DesignerTitle     CSTRING(256)        #<!Placed by Designer button control template
+LOC:LayoutName        CSTRING(256)        #<!Placed by Designer button control template
+#ENDAT
+#!======================================================================
+#AT (%ControlEventHandling,'?LLLayoutButton','Accepted'),PRIORITY(6000)
+#!%LLInstance.Job = %LLInstance.OpenJob(CMBTLANG_DEFAULT)           #<!Open the correct job
+LOC:DesignerTitle = '%DefDialogText'
+LOC:LayoutName = ''                                                 #<! Default to blank to allow new report files as well as editing existing report files.
+#EMBED(%BeforeFileSelect,'LISTLABEL - Before opening LL File Selection Dialog'),%ActiveTemplateInstance,MAP(%ActiveTemplateInstance,%ActiveTemplateInstanceDescription)
+%LLInstance.RetVal = %LLInstance.SelectFileDlgTitleEx(%LLInstance.Job,0{PROP:Handle},LOC:DesignerTitle,0+LL_FILE_ALSONEW,LOC:LayoutName,SIZE(LOC:LayoutName),0)
+#EMBED(%AfterFileSelect,'LISTLABEL - After closing LL File Selection Dialog'),%ActiveTemplateInstance,MAP(%ActiveTemplateInstance,%ActiveTemplateInstanceDescription)
+IF %LLInstance.RetVal = -99                                         #<! User pressed cancel on the L&L file dialog
+  %LLInstance.CloseJob(%LLInstance.Job)                             #<! Close current job in preparation for restart
+  %LLInstance.Init(,GlobalErrors)                                   #<!Restart L&L class with ABC error handler
+  RETURN ReturnValue
+END
+  #IF(~%AllRelatedFiles)                                            #!If no related files, use the table schematic, primary file only.
+%LLInstance.SendFileServer(%Primary)                                #<!Pass the primary file from table schematic and all fields to the designer if no relations.
+  #ENDIF
+#ENDAT
+#!======================================================================
+#AT (%ControlEventHandling,'?LLLayoutButton','Accepted'),PRIORITY(6100)
+#EMBED(%BeforeRelatedFiles,'LISTLABEL - Before adding relationships'),%ActiveTemplateInstance,MAP(%ActiveTemplateInstance,%ActiveTemplateInstanceDescription)
+  #FOR(%AllRelatedFiles)
+%LLInstance.LLRelateName = '%LLRelateName'                  #<!Name of relationship
+%LLInstance.LLRelateParent = '%LLRelateParent'              #<!Parent table name
+%LLInstance.LLRelateChild = '%LLRelateChild'                #<!Child table name
+%LLInstance.SendFileServer(%LLRelateParent)                 #<!Ensure the parent table and its fields are added
+%LLInstance.SendFileServer(%LLRelateChild)                  #<!Ensure the child table and its fields are added
+%LLInstance.LLResult = %LLInstance.DbAddTableRelation(%LLInstance.Job,%LLInstance.LLRelateChild,%LLInstance.LLRelateParent,%LLInstance.LLRelateName,%LLInstance.LLRelateName)
+  #ENDFOR
+#EMBED(%BeforeDesigner,'LISTLABEL - Before opening LL Designer'),%ActiveTemplateInstance,MAP(%ActiveTemplateInstance,%ActiveTemplateInstanceDescription)
+%LLInstance.RetVal = %LLInstance.DefineLayout(%LLInstance.Job,0{PROP:Handle},LOC:DesignerTitle,%LLInstance.ReportType,LOC:LayoutName)
+#EMBED(%AfterDesigner,'LISTLABEL - After closing LL Designer'),%ActiveTemplateInstance,MAP(%ActiveTemplateInstance,%ActiveTemplateInstanceDescription)
+#ENDAT
+#!======================================================================
+#AT (%ControlEventHandling,'?LLLayoutButton','Accepted'),LAST
+%LLInstance.CloseJob(%LLInstance.Job)
+#ENDAT
+

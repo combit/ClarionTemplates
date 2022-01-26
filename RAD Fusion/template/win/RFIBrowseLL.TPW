@@ -1,0 +1,210 @@
+#!================================================================================
+#!                  Browse List Extension
+#!================================================================================
+#CONTROL(LLPrintButton,'List and Label Print button to call layout selection or print from View'),MULTI,WINDOW,REQ(GlobalListLabel),HLP('List & Label Print Button'),REQ(BrowseBox(ABC))
+#BUTTON('List && Label Print Browse Options'),at(10,,175,15)
+  #PROMPT('Print View, Queue or Call a procedure?',OPTION),%ViewProcedure
+  #PROMPT('Print View',RADIO)
+  #PROMPT('Call Procedure',RADIO)
+  #ENABLE(%ViewProcedure='Call Procedure'),CLEAR
+    #PROMPT('Procedure to Call: ',PROCEDURE),%CallProc,REQ                     #!Prompt for procedure name
+  #ENDENABLE
+  #SHEET,HSCROLL,ADJUST
+    #TAB('General'),WHERE(%ActiveTemplateParentInstance=0 and %ViewProcedure = 'Print View')                   #!For backward compatibility
+      #BOXED('')
+        #DISPLAY('This tab is for backward compatibility only.  If you can see this tab, the extension template is not properly linked to a parent browse template.  Ideally, delete this template and add it back, at which time it will ask you for the parent browse to attach it to.'),at(,,175,45)
+        #DISPLAY('As the template is not attached to a browse, you will need to call any validate or filtering methods yourself.  This is done automatically when the template is attached to a browse'),at(,,175,35)
+        #DISPLAY('Once this tab is property attached to a browse, this tab will disappear'),at(,,175,17)
+        #PROMPT('View to Print: ',@S30),%PrintView                                  #!Prompt for view name
+      #ENDBOXED
+    #ENDTAB
+    #INSERT(%StandardTabs)
+  #ENDSHEET
+#ENDBUTTON
+#DISPLAY('')
+  CONTROLS
+  BUTTON('Print'),AT(,,64,14),USE(?LLPrintBtn),#ORIG(?LLPrintBtn)
+ END
+#ATSTART
+  #DECLARE(%PrintControlButton)
+  #FOR(%Control), WHERE(%ControlInstance = %ActiveTemplateInstance)
+    #SET(%PrintControlButton, %Control)
+  #ENDFOR
+#ENDAT
+
+#LOCALDATA
+LLExportFilesQ      QUEUE,PRE(LLExpf)               !Browse list extension
+Filename              CSTRING(255)
+                    END
+#ENDLOCALDATA
+#AT(%LocalDataClassData)
+  #INSERT(%LLDATA),NOINDENT
+  #IF(%InvoiceStyle=%TRUE)
+LLInvoiceBreak         LIKE(%BreakField)
+  #ENDIF
+  #FOR(%LLOtherBreakFields)
+    #SET(%LLDeclareLocBreakField,'LLBreak' & %LLOtherBreakField)
+%LLDeclareLocBreakField    LIKE(%LLOtherBreakField)
+  #ENDFOR
+LLViewPercentage       LONG
+LLTotalRecordsInView   LONG
+LLRecordPrinted        LONG
+#ENDAT
+#AT(%ProcedureRoutines)
+#!********************* Start Print from view only ***********
+  #IF(%ViewProcedure <> 'Call Procedure')
+    #INSERT(%LLRoutines,''),NOINDENT
+    #INSERT(%Printing,%False),NOINDENT
+    #IF(%LLVersion <> 'Version 6')
+      #INSERT(%ExportFunctions),NOINDENT
+    #ENDIF
+    #INSERT(%SendVarsLL,%False),NOINDENT
+    #INSERT(%FieldGen,%RepFiles,%True,%TRUE),NOINDENT
+    #INSERT(%ManualVariables),NOINDENT
+    #INSERT(%Flags)
+    #INSERT(%LLDefineVars),NOINDENT
+    #INSERT(%PrintOutToLL),NOINDENT
+  #ENDIF
+#!********************* End Print from view only ***********
+#ENDAT
+#AT( %ControlEventHandling, %PrintControlButton, 'Accepted'),PRIORITY(4499)
+  #IF(%ViewProcedure <> 'Call Procedure')
+    #DECLARE(%ReturnVals,String)
+    #DECLARE(%VaribleQty,String)
+    #DECLARE(%TotalToPrint)
+    #DECLARE(%IsQtyVariable)
+    #IF(%ActiveTemplateParentInstance=0)
+      #DECLARE(%ManagerName)
+    #ENDIF
+    #SET(%ReturnVals,'(' & %Params)
+    #IF(%RunDirect <> 'Use Variable to Determine Default')
+  GlobalRequest = SelectRecord                   
+  IF %RepLayProc%ReturnVals,LLAction,LLReportName,LLReportTitle,LLReportType,LLPrinterOptions,LLOutputFile,LLOutPutDir) = False 
+     #EMBED(%LLCancelSelectLayout,'LL Cancel selecting Layout')
+    CYCLE
+  ELSE
+    LLReportName = CLIP(LLReportName)
+    LLNameNoPath = LLReportName
+     #EMBED(%LLAfterSelectLayout,'LL After selecting Layout')
+    DO LLInitReport
+    IF LLPrinterOptions = True
+      LLResult = LL.PrintOptionsDialog(LLhJob,LLHWind,LLReportTitle)
+      IF LLResult <> 0 
+         #EMBED(%LLAfterPrinterOptions,'LL After Displaying printer options')
+        LLResult = LL.PrintEnd(LLhJob,0)
+        LL.CloseJob(LLhJob)
+        POST(EVENT:CloseWindow)
+        RETURN(LEVEL:Fatal)                             #<!Legacy
+      END
+    END
+    LLResult = LL.PrintGetOption(LLhJob,LLOptionCopiesSupported)
+  END
+  #ELSE
+  LLL_:Ref = %PrimaryValue
+  Access:LL_RepLay.TryFetch(LLL_:RefKey)
+  LLReportName = CLIP(LLL_:FileName)
+  LLReportTitle = LLL_:Description
+  CASE CLIP(LLL_:Type)
+  OF 'Label'
+    LLReportType = 1
+  OF 'List'
+    LLReportType = 2
+  OF 'Card'
+    LLReportType = 3
+  END
+  LLAction = %PreviewOpt
+  LLPrinterOptions = %PrinterOpt
+  RFIPages = LLL_:Pages
+    #EMBED(%LLAfterSelectLayout,'LL After selecting Layout')
+  DO LLInitReport
+  IF LLPrinterOptions = True 
+    LLResult = LL.PrintOptionsDialog(LLhJob,LLHWind,LLReportTitle)
+    IF LLResult <> 0
+    #EMBED(%LLAfterPrinterOptions,'LL After Displaying printer options')
+      POST(EVENT:CloseWindow)
+      RETURN(LEVEL:Fatal)
+    END
+  END
+  LLResult = LL.PrintGetOption(LLhJob,LLOptionCopiesSupported)
+  #ENDIF
+  #IF(%ViewProcedure='Print View')
+    SetCursor(CURSOR:Wait)
+   #IF(%ActiveTemplateParentInstance>0)
+     #SET(%PrintView,%ManagerName & '::View:Browse')
+   #ENDIF
+   #IF(SUB(%ApproxToPrint,1,1) ='!')
+     #SET(%IsQtyVariable,%True)
+   #ELSE
+     #SET(%IsQtyVariable,%False)
+   #ENDIF
+   #IF(%IsQtyVariable=%False AND %ApproxToPrint=0)
+     #INSERT(%FindQtyToPrint)
+   #ENDIF
+   #IF(%IsQtyVariable = %True)
+     #SET(%VaribleQty,SUB(%ApproxToPrint,2,LEN(%ApproxToPrint)-1))
+    LLTotalRecordsInView = %VaribleQty
+   #ENDIF
+   #IF(%IsQtyVariable=%False AND %ApproxToPrint>0)
+    LLTotalRecordsInView = %ApproxToPrint
+   #ENDIF
+   #EMBED(%LLAfterSetView,'L&L After Set View')
+   #EMBED(%LLAfterCalcTotRecords,'L&L After Setting LLTotalRecordsInView')
+    SET(%PrintView)
+    LLRecordPrinted = 0
+    LOOP
+      NEXT(%PrintView)
+      IF ERROR()
+        BREAK
+      END
+    #IF(%ActiveTemplateParentInstance>0)
+      IF %ManagerName.ValidateRecord() = Record:Filtered
+        CYCLE
+      END
+    #ENDIF
+    #EMBED(%LLBeforeSendintoToPrint,'Before Sending Print to List & Label')
+      DO PrintoutToLL
+    #EMBED(%LLAfterPrint,'After Sending Print to List & Label')
+    #IF(%ProgressType <> 'Clarion Progress Bar' AND %ProgressType <> 'No Progress Window')
+      LLRecordPrinted += 1
+      #EMBED(%LLFreshProgress,'Before Refresh Progress Window')
+      LLViewPercentage = (LLRecordPrinted / LLTotalRecordsInView) * 100
+      #IF(%ProgressTextType='Static Text')
+      LLPrintText = '%PrintText'
+      #ELSE
+      LLPrintText = %DynamicText
+      #ENDIF
+      LLResult = LL.PrintSetBoxText(LLhJob, LLPrintText, LLViewPercentage)
+    #ENDIF
+    END
+    SetCursor(CURSOR:Arrow)
+  #ENDIF
+    CASE LLReportType
+    OF LL_Project_List
+      LLResult = LL.PrintFieldsEnd(LLhJob)
+    END
+    LLResult = LL.PrintEnd(LLhJob,0)
+    LLSavePath = PATH()
+    IF LLAction = 2 AND LLRecordPrinted > 0 AND LLAbort = False              #<!Preview
+      #EMBED(%LLBeforePreviewDisplay,'LL Before Preview Call')
+  #IF(%NotUseLLPreviewer = %True)
+      %LLPreviewProcedure(CLIP(LLPath) & CLIP(LLNameNoPath) & '.ll')
+  #ELSE
+    #INSERT(%PreviewOptions)
+      LLReportName = CLIP(LLReportName)
+    #IF(%LLNonMDI=%False)
+      UNLOCKTHREAD
+    #ENDIF
+      LLResult = LL.PreviewDisplay(LLhJob,LLReportName,LLPath,LLHWind)
+  #ENDIF
+      LLReportName = CLIP(LLReportName)
+      LLResult = LL.PreviewDeleteFiles(LLhJob,LLReportName,LLPath)
+      #EMBED(%AfterDeletePreviewFiles,'LL After deleting preview files')
+    END
+    #EMBED(%BeforeCloseLLJob,'LL Before Closing LL Print job')
+  #INSERT(%PopulateExportedFiles)
+    LL.CloseJob(LLhJob)
+    SetPath(LLSavePath)
+  #ELSE         
+    %CallProc                                                                     
+  #ENDIF
+#ENDAT
