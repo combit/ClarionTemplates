@@ -2,11 +2,12 @@ This template is a modification of the Solace template by Solace Software. This 
 
 This modified template is provided as is and you choose to use it at your own risk.  
 
-Latest update for List & Label 26.
+Latest update for List & Label 27.
 
 We recommend that you fully test this before you deploy it as part of your solutions. 
-The template has had high level testing with Clarion 10 and Clarion 11 up to version 11.0.13630 (ABC). 
+The template has had high level testing with Clarion 10 and Clarion 11 up to version 11.1.13744 (ABC). 
 
+01st Oct 2021; David Swindon
 23th Oct 2020; David Swindon
 11th Oct 2019; David Swindon
 30th Nov 2018; David Swindon
