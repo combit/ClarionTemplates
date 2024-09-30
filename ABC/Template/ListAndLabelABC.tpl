@@ -1,5 +1,5 @@
 #! This template extends a Report or Process template with the functionality to print
-#! via combit List & Label Modified by David Swindon 07/10/2022 (dd/mm/ccyy)
+#! via combit List & Label Modified by David Swindon 04/10/2023 (dd/mm/ccyy)
 #TEMPLATE(ListAndLabel,'List & Label Templates'),FAMILY('ABC')
 #HELP('LL.HLP')
 #!*****************************************************************************
