@@ -1,5 +1,5 @@
 #! This template extends a Report or Process template with the functionality to print
-#! via combit List & Label Modified by David Swindon 08/10/2026 (dd/mm/ccyy)
+#! via combit List & Label Modified by David Swindon 30/10/2026 (dd/mm/ccyy)
 #! Version 32 provisions added 08/10/2026.
 #! Requires SDK CMLL32.clw (Equates/Prototypes) and CMLL32.LIB, confirmed by owner.
 #! Version 32 x86 inventory reconciled to the complete owner-supplied filename list.
@@ -12,6 +12,7 @@
 #! Retained existing language selection, Unicode and export behavior.
 #! No version 32 API additions or SDK declaration/library files are supplied here.
 #! Static checks performed; Clarion generation, compilation and runtime tests required.
+#! Czech language selector, language code 11 and LL32 language shipping branch added 30/10/2026.
 #TEMPLATE(ListAndLabel,'List & Label Templates'),FAMILY('ABC')
 #HELP('LL.HLP')
 #!*****************************************************************************
@@ -27,7 +28,7 @@
   #DISPLAY('and prototypes.')
   #DISPLAY('')
   #DISPLAY('Version 32.00')
-  #DISPLAY('Template update:- 08th October 2026')
+  #DISPLAY('Template update:- 30th October 2026')
   #DISPLAY('(c) Copyright  Software.  2000 - 2026')
   #DISPLAY('')
   #DISPLAY('Which version of List && Label are you using?')
@@ -173,7 +174,7 @@
   #DISPLAY('language kit to your end-user.  This will be added into')
   #DISPLAY('your .shp file')
   #DISPLAY('')
-  #PROMPT('Language to Use: ',DROP('Catalan|Danish|Dutch|English|French|German|Greek|Hungarian|Italian|Norwegian|Portuguese|Russian|Spanish|Swedish')),%Language,Default('English')
+  #PROMPT('Language to Use: ',DROP('Catalan|Czech|Danish|Dutch|English|French|German|Greek|Hungarian|Italian|Norwegian|Portuguese|Russian|Spanish|Swedish')),%Language,Default('English')
   #PROMPT('Dialog Design: ',DROP('Standard Windows Style|Win95 Button Style|Flat Buttons')),%ButtonStyle,Default('Win95 Button Style')
   #PROMPT('Button Text has 3D style', Check),%ButtonThreeDee,at(10)
   #PROMPT('Enable 98 Style Tooltips', Check),%ToolTips,at(10)
@@ -2953,6 +2954,11 @@
      CMLS3209.LNG
      CMLL3201.LTPL (contains label formats; has to be in the same path of CMLL32.DLL)
      CMLL3201.CHM (Designer help; has to be in the same path of CMLL32.DLL)
+   #OF('Czech')
+     CMLL320B.LNG       !Czech language file
+     CMLS320B.LNG
+     CMLL3201.LTPL (contains label formats; has to be in the same path of CMLL32.DLL)
+     CMLL3201.CHM (Designer help; has to be in the same path of CMLL32.DLL)
    #OF('Dutch')
      CMLL320D.LNG       !Dutch language file
      CMLS320D.LNG
@@ -2990,9 +2996,6 @@
      CMLL3201.CHM (Designer help; has to be in the same path of CMLL32.DLL)
    #ENDCASE
 
-   Other x86 language resources present in the supplied inventory:-
-     CMLL320B.LNG
-     CMLS320B.LNG
    If the selected language has no matching section above, verify its language pack.
 
    Additional x86 helper executables present; verify feature-specific requirements:-
@@ -3009,7 +3012,6 @@
      combit.ListLabel32.Export.x86.Managed.dll
      combit.ListLabel32.Export.x86.Managed.runtimeconfig.json
      llview32.exe
-     combit.ListLabel32.txt
 
    Java integration file present; needed only for a corresponding integration:-
      ListLabel32JNI_x86.dll
@@ -5870,6 +5872,8 @@ End
 
 #Group(%SetLanguage)
   #CASE(%Language)
+  #OF('Czech')
+    #SET(%WhichLanguage,11)
   #OF('English')
     #SET(%WhichLanguage,1)
   #OF('German')
